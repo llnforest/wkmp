@@ -16,6 +16,7 @@ use common\dict\DictUtil;
 use think\App;
 use think\Controller;
 use think\facade\Cache;
+use think\facade\Hook;
 
 class Test extends Controller
 {
@@ -39,6 +40,7 @@ class Test extends Controller
     }
 
     function login(){
+//        Hook::listen('smsSend',135);
         return json(['code'=>1,'msg'=>'ok,sucess']);
     }
 

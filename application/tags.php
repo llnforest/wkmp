@@ -9,6 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+//\think\facade\Hook::add('app_init',['app\admin\behavior\Test']);
 // 应用行为扩展定义文件
 return [
     // 应用初始化
@@ -25,4 +26,5 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    'smsSend'      => ['app\admin\behavior\Test']
 ];
