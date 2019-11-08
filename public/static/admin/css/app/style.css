@@ -1,0 +1,158 @@
+/**绯荤粺鏍峰紡 **/
+body{overflow-y: scroll;}
+
+
+/*****************************鏁版嵁鍒楄〃table*********************************/
+/**鍒楄〃鏌ヨ鍖哄煙鏍峰紡**/
+.plat-list-query{
+	margin-bottom: 5px;
+	padding:10px 0 5px 0;
+	border-width: 0 0 1px 0;
+	border-color:#e6e6e6;
+	border-bottom:1px solid #e6e6e6;
+}
+
+/**鍒楄〃鏌ヨ鍖哄煙鎸夐挳鏍峰紡**/
+.plat-list-query-button{
+	margin-bottom: 5px;
+	float: right;
+	padding:0px 15px;
+}
+
+
+/*****************************琛ㄥ崟form*********************************/
+
+/**琛ㄥ崟瀹瑰櫒鏍峰紡**/
+.layui-form-plat{
+	padding: 10px;
+}
+
+
+/*****************************閫夐」鍗ab*********************************/
+
+/**tab閫夐」鍗″灞傛牱寮�*/
+.layui-tab-plat{
+	margin:0 0;
+	height:100%;
+}
+
+.layui-tab-plat .layui-icon{
+	position: relative;
+}
+
+/**tab涓嬬殑iframe璁剧疆瀹介珮**/
+.layui-tab-plat .layui-tab-item iframe{
+	width: 100%;
+	border: 0;
+	height: 100%;
+}
+
+/**璁剧疆tab鏍囬**/
+.layui-tab-title-plat{
+	padding: 5px 5px 0 5px;
+}
+/**璁剧疆tab鍐呭鍖哄煙鏍峰紡**/
+.layui-tab-content-plat{
+	min-height: 300px; 
+	padding:0 0 5px 0;
+}
+
+
+
+
+/*****************************鏍戝舰缁撴瀯tree*********************************/
+
+/**鏍戝舰鏍峰紡**/
+.layui-col-tree{
+	border-bottom:1px solid #e6e6e6; 
+	border-left:1px solid #e6e6e6; 
+	border-right:1px solid #e6e6e6; 
+	margin-right: 10px;
+}
+
+/**************************列表中的复选框修改(layui样式调整)*******************************/
+.laytable-cell-checkbox{
+	height:18px;
+}
+.laytable-cell-checkbox .layui-form-checkbox[lay-skin=primary]{
+	top:0;
+}
+.laytable-cell-radio .layui-icon{
+    position: absolute;
+	top: 14px;
+    left: 0;
+    right: 0;
+}
+
+/*时间框图标*/
+input.laydate-icon{
+	background:#fff url(../../images/app/layui_date.png) no-repeat right;
+}
+
+/*************************列表查询区域样式改写**************************************/
+.plat-list-query .layui-form-label{
+	width:auto;
+	padding:5px 8px;
+}
+.plat-list-query .layui-input{
+	height:30px;
+}
+.plat-list-query .layui-inline{
+	margin-right:0;
+	margin-left:10px;
+}
+.plat-list-query .layui-input-inline{
+	width:170px;
+}
+
+/*************************详情表中一行多框样式************************************/
+.detail-input-short{
+	width:120px;
+	float:left;
+}
+.detail-input-text{
+	float:left;
+	padding:0 20px;
+	line-height:38px;
+}
+.detail-input-middle{
+	width:280px;
+	float: left;
+    margin-right: 12px;
+}
+/*****************************添加多ip样式***********************************/
+.detail-input-list{
+	height:38px;
+	margin-bottom:8px;
+}
+.detail-btn{
+	height: 38px;
+    padding: 0 20px;
+    line-height: 38px;
+}
+/*******************字体颜色**************************/
+.layui-border-color-green{
+	border-color:#009688;
+}
+.layui-tx-blue{
+	color:#1E9FFF;
+}
+.layui-tx-green{
+	color:#009688;
+}
+.layui-tx-red{
+	color:#FF5722;
+}
+.layui-tx-orange{
+	color:#FFB800;
+}
+.cursor{
+	cursor:pointer;
+}
+
+#console{
+	padding:30px;
+}
+#console .console-item{
+	margin-bottom:10px;
+}

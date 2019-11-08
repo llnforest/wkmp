@@ -1,0 +1,23 @@
+body {
+    background-color: #c3cdda;
+    background: url(../../images/app/login_bg.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow:hidden;
+}
+.m-login { width: 400px;height: 200px;padding: 30px;position: absolute;left: 0;margin: auto;top: 0;bottom: 0;right: 0;border-radius: 5px;border: 2px solid #009688;}
+.m-login .login-head { height:40px;line-height:40px; padding-left:10px; font-size:24px;  text-align:center; color:#009688;margin-bottom:10px; font-weight: 700;}
+.layui-btn{background:#009688d4;}
+.layui-form-item input:focus{
+    border-style:solid;
+    border-color: #009688;
+    box-shadow: 0 0 30px #009688;
+    outline: #009688;
+}
+.m-login .logo{margin-right:10px;display:none;}
+canvas{width:100%;}
+.ivu-col.ivu-col-span-24{display: none;}
+.layui-layer-content{background-color:#009688d4;color: #fff;}
+.power{color:#ffffff;position:fixed; bottom:0;}
