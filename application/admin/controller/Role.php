@@ -24,26 +24,20 @@ class Role extends BaseController
 
     //分页渲染处理
     protected function renderPage(){
-        $this->pageUtil->setToolbarId("listBarTool");
-        $this->pageUtil->setDataDictArr([3=>'status']);
-        $this->pageUtil->setColEdit(1);
-        $this->pageUtil->setColsWidthArr([1=>100,3=>95,5=>210]);
-        $this->pageUtil->setColsMinWidthArr([2=>160]);
-
-
-    }
-
-    //显示分页列表页面
-    public function pageData(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,角色名称,角色状态,备注说明');
+            $this->pageUtil->setToolbarId("listBarTool");
+            $this->pageUtil->setDataDictArr([3=>'status']);
+            $this->pageUtil->setColEdit(1);
+            $this->pageUtil->setColsWidthArr([1=>100,3=>95,5=>210]);
+            $this->pageUtil->setColsMinWidthArr([2=>160]);
         }else{
             $where  = getWhereParam(['name'=>'like'],$this->param);
             $pageData = $this->model::field('id,sort,name,status,remark')
                 ->where($where)
                 ->order('sort asc')
                 ->paginate($this->param['limit']?:"");
-            return $pageData;
+            $this->page->setData($pageData);
         }
 
     }

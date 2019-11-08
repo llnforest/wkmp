@@ -12,16 +12,6 @@ class Page
 {
 
 	/**
-	 * 当前页码，默认为1
-	 */
-//	protected $page = 1;
-
-	/**
-	 * 每页显示数据条数，默认为10
-	 */
-//	protected $limit = 10;
-
-	/**
 	 * 列表查询数据总行数
 	 */
 	protected $rowSize = 0;
@@ -30,11 +20,6 @@ class Page
 	 * 列表查询数据总页数
 	 */
 	protected $allPage = 0;
-
-	/**
-	 * sql/hql查询返回的列表集合
-	 */
-//	protected <!-- data = Collections.emptyList();-->
 
 	/**
 	 * sql/hql查询返回的表头数组
@@ -64,11 +49,6 @@ class Page
 
 	protected $data = [];
 
-//	public function Page($page = 1,$limit = 10){
-//		$this->setPage($page);
-//		$this->setLimit($limit);
-//	}
-
 	public function setData($list){
 	    $this->data = $list->items();
 	    $this->rowSize = $list->total();
@@ -81,35 +61,6 @@ class Page
     public function getRowSize(){
 	    return $this->rowSize;
     }
-
-	/**
-	 * 设置当前页码，小于1时自动调整为1，大于最大页码时自动调整为最大页
-	 * 2017年6月21日
-	 * @return
-	 * author:wangzhen
-	 */
-//	public function getPage() {
-//		if ($this->page == 0)
-//            $this->page = 1;
-//		if ($this->page > $this->getRowSize())
-//            $this->page = $this->getRowSize();
-//		return $this->page;
-//	}
-//
-//	public function setPage($page) {
-//        $this->page = $page;
-//	}
-
-//	public function getLimit() {
-//		return $this->limit;
-//	}
-//
-//	public function setLimit($limit) {
-//		$this->limit = $limit;
-//	}
-
-
-
 
 	public function getHeader() {
 		return $this->header;

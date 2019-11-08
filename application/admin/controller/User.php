@@ -23,16 +23,12 @@ class User extends BaseController
 
     //分页渲染处理
     protected function renderPage(){
-        $this->pageUtil->setColsMinWidthArr([1=>120,2=>120,4=>120]);
-        $this->pageUtil->setColsWidthArr([3=>95,5=>100,6=>120,7=>120,8=>140,9=>140,10=>240]);
-        $this->pageUtil->setColTemplet(3,"#statusTpl");
-    }
-
-    //显示分页列表页面
-    public function pageData(){
         if($this->request->isGet()){
             $this->data['id'] = 1;
             $this->page->setHeader('ID,用户名称,登录账号,状态,所属角色,手机号码,电子邮箱,最近登录IP,最近登录时间,注册时间');
+            $this->pageUtil->setColsMinWidthArr([1=>120,2=>120,4=>120]);
+            $this->pageUtil->setColsWidthArr([3=>95,5=>100,6=>120,7=>120,8=>140,9=>140,10=>240]);
+            $this->pageUtil->setColTemplet(3,"#statusTpl");
         }else{
             $where  = getWhereParam(['a.nickname'=>'like','a.name'=>'like','a.phone','a.status'],$this->param);
             $pageData = $this->model::alias('a')
@@ -47,9 +43,8 @@ class User extends BaseController
                         ->column('b.name');
                     if(!empty($nameArr)) $item->role_name = implode(',',$nameArr);
                 });
-            return $pageData;
+            $this->page->setData($pageData);
         }
-
     }
 
     //重置密码

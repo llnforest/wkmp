@@ -23,22 +23,18 @@ class Dict extends BaseController
 
     //分页渲染处理
     protected function renderPage(){
-        $this->pageUtil->setColsMinWidthArr([2=>200,3=>200]);
-        $this->pageUtil->setColsWidthArr([1=>100,5=>250]);
-        $this->pageUtil->setColEdit(1);
-    }
-
-    //显示分页列表页面
-    public function pageData(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,字典名称,字典编码,备注说明');
+            $this->pageUtil->setColsMinWidthArr([2=>200,3=>200]);
+            $this->pageUtil->setColsWidthArr([1=>100,5=>250]);
+            $this->pageUtil->setColEdit(1);
         }else{
             $where  = getWhereParam(['dict_name'=>'like','dict_code'=>'like'],$this->param);
             $pageData = $this->model::field('id,sort,dict_name,dict_code,remark')
                 ->where($where)
                 ->order('sort asc')
                 ->paginate($this->param['limit']?:"");
-            return $pageData;
+            $this->page->setData($pageData);
         }
     }
 

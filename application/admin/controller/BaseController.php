@@ -41,15 +41,12 @@ class BaseController extends  AuthController
     public function index(){
         $this->initPage();
         if($this->request->isGet()){
-            if(method_exists($this,"pageData")) $this->pageData();
             $this->data['page'] = PageDataTrans::transPageCols($this->page,$this->pageUtil);
             $this->data['listButs'] = AuthUtil::getAuthChildMenu(Session::get('auth'),$this->data['auth']['url'],'B',1);
             $this->data['barButs'] = AuthUtil::getAuthChildMenu(Session::get('auth'),$this->data['auth']['url'],'B',2);
             $this->data['listTabs'] = AuthUtil::getAuthChildMenu(Session::get('auth'),$this->data['auth']['url'],'T');
             return view('index',$this->data);
         }else{
-            if(method_exists($this,"pageData")) $pageData = $this->pageData();
-            $this->page->setData(isset($pageData)?$pageData:[]);
             return PageDataTrans::transData($this->page,$this->pageUtil);
         }
 

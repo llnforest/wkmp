@@ -22,17 +22,13 @@ class Dictvalue extends BaseController
 
     //分页渲染处理
     protected function renderPage(){
-        $this->pageUtil->setShowCheckbox(true);
-        $this->pageUtil->setColsMinWidthArr([2=>120,3=>120,4=>90,5=>90]);
-        $this->pageUtil->setColsWidthArr([1=>100,7=>150]);
-        $this->pageUtil->setColEdit(1);
-    }
-
-    //显示分页列表页面
-    public function pageData(){
         if($this->request->isGet()){
             $this->data['id'] = 1;
             $this->page->setHeader('ID,排序,字典名称,参数名称,参数编码,字体颜色,备注说明');
+            $this->pageUtil->setShowCheckbox(true);
+            $this->pageUtil->setColsMinWidthArr([2=>120,3=>120,4=>90,5=>90]);
+            $this->pageUtil->setColsWidthArr([1=>100,7=>150]);
+            $this->pageUtil->setColEdit(1);
         }else{
             $where  = getWhereParam(['a.dict_name'=>'like','a.dict_id'],$this->param);
             $pageData = $this->model::alias('a')
@@ -44,9 +40,8 @@ class Dictvalue extends BaseController
                 ->each(function($item,$key){
                     if(!empty($item->val_color)) $item->val_color = '<span style="color:'.$item->val_color.'">'.$item->val_name.'</span>';
                 });
-            return $pageData;
+            $this->page->setData($pageData);
         }
-
     }
 
     //公用操作方法
