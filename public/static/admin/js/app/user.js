@@ -138,7 +138,7 @@ layui.define(['element','colorpicker'],function(exports){
         	return;
         } 
         $.ajax({
-            url: path+'/admin/index/changePassword',
+            url: path+'admin/index/changePassword',
             type: 'POST',
             data: {"password":hex_md5(hex_md5(newPass))},
             dataType: "json",
@@ -170,7 +170,7 @@ layui.define(['element','colorpicker'],function(exports){
 	    	type: 2,
 	    	area: ['900px', '600px'],
 	        shade: 0.5,
-	        content:that.config.path+'/admin/index/selfInfo?readonly=true&id='+that.config.userId
+	        content:that.config.path+'admin/index/selfInfo?readonly=true&id='+that.config.userId
 	    });
     }
 	
@@ -368,7 +368,7 @@ layui.define(['element','colorpicker'],function(exports){
 		}
 		
         $.ajax({
-            url: path+'/admin/index/setSkin',
+            url: path+'admin/index/setSkin',
             type: 'POST',
             data: {"top_color":topColor,"left_color":leftColor},
             dataType: "json",

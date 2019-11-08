@@ -28,7 +28,7 @@ layui.define(['element','tab'],function(exports){
 	 */
 	  Navbar.prototype.loadNav = function(path){
 		 var that = this;
-		 $.get(path+"/admin/index/topMenu", function(data) {
+		 $.get(path+"admin/index/topMenu", function(data) {
 			$.each(data.data,function(index,obj){
 				var ulHtml = '';
 				ulHtml += '<li name="topNav" id="menuTop'+obj.id+'" class="layui-nav-item">'

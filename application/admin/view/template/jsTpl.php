@@ -135,6 +135,7 @@
 
     //通用的修改方法
     function edit(obj){
+        console.log(obj.menu_url);
         obj.menu_url += '/id/'+obj.data.col0;
         commonOpen(obj);
     }

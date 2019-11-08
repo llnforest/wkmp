@@ -58,7 +58,7 @@ layui.define('element',function(exports){
 	      //判断标签是否打开
 	      var tabIndex = that.exists(data.menuId);
 	      if (tabIndex === -1) {
-	    	  var content = '<iframe  src="' + path+'/'+data.href + '" data-id="' + data.menuId + '"></iframe>';
+	    	  var content = '<iframe  src="' + path + data.href + '" data-id="' + data.menuId + '"></iframe>';
 			  var titleStr = '';
 	          if (data.icon !== undefined) {
 	              titleStr +=  data.icon ;

@@ -34,9 +34,9 @@ return [
     'taglib_end'   => '}',
     //标签模板替换
     'tpl_replace_string'  =>  [
-        '__ADMINSTATIC__'=>'/gaosu/public/static/admin',
-        '__ADMINPATH__'=>'/gaosu/public/',
-        '__ADMINAPP__'=>'后台管理系统',
+        '__ADMINSTATIC__'=>'/static/admin',
+        '__ADMINPATH__'=>'/',
+        '__ADMINAPP__'=>'悟空名品后台管理系统',
     ],
     //自定义标签
     'taglib_pre_load' => 'app\Tag',
