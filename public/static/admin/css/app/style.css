@@ -208,7 +208,10 @@ input.laydate-icon{
 	color:#009688;
 	font-size:20px;
 }
-
+.list-mini-image{
+	height:28px;
+	max-width:80px;
+}
 /*悬停图片样式*/
 #tooltip{
 	position:absolute;
@@ -218,7 +221,6 @@ input.laydate-icon{
 	display:none;
 	color:#fff;
 }
-
 .hidden{
 	display:none;
 }
@@ -226,4 +228,10 @@ input.laydate-icon{
 	display: block;
 	margin-top: 5px;
 	margin-left: 130px;
+}
+/**必填项**/
+.layui-form-label.require-mark:after{
+	content:"*";
+	color:#FF5722;
+	position:absolute;
 }

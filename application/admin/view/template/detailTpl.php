@@ -42,6 +42,9 @@
         form.on('switch(status)', function(obj){
             $(this).val(obj.elem.checked?1:0);
         });
+
+        //增加必填项
+        $("input[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark")
     });
 
 

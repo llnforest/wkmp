@@ -22,15 +22,16 @@ class Siteshop extends BaseController
     //分页渲染处理
     protected function renderPage(){
         if($this->request->isGet()){
-            $this->page->setHeader('ID,排序,商家名称,联系方式,商家地址,添加时间');
+            $this->page->setHeader('ID,排序,商家封面,商家名称,联系方式,商家地址,创建时间');
             $this->pageUtil->setColEdit(1);
-            $this->pageUtil->setColsWidthArr([1=>100,7=>150,8=>150]);
-            $this->pageUtil->setColsMinWidthArr([2=>200,3=>150,4=>300]);
+            $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>120,6=>180,7=>150]);
+            $this->pageUtil->setColsMinWidthArr([3=>200,5=>300]);
+            $this->pageUtil->setColTemplet(2,"#imgTpl");
         }else{
             $where  = getWhereParam(['shop_name'=>'like','phone'=>'like'],$this->param);
-            $pageData = $this->model::field('id,sort,shop_name,phone,address,create_time')
+            $pageData = $this->model::field('id,sort,img,shop_name,phone,address,create_time')
                 ->where($where)
-                ->order('sort asc')
+                ->order('sort asc,create_time desc')
                 ->paginate($this->param['limit']?:"");
             $this->page->setData($pageData);
         }

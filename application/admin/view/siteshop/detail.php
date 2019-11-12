@@ -3,12 +3,6 @@
 {extend name="template/detailTpl" /}
 {block name="formBody"}
     <div class="layui-form-item">
-        <label class="layui-form-label">商家名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="shop_name" value="{$info.shop_name??''}" autocomplete="off" lay-verify="required" placeholder="请输入商家名称" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
         <label class="layui-form-label">商家封面</label>
         <div>
             <button name="image" type="button" class="layui-btn upload" lay-data="{'url': '{:url('admin/upload/image',['type'=>'shop'])}'}">
@@ -19,6 +13,13 @@
             <span class="layui-tx-red block">(图片建议大小 252*234)</span>
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商家名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="shop_name" value="{$info.shop_name??''}" autocomplete="off" lay-verify="required" placeholder="请输入商家名称" class="layui-input">
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label" >联系方式</label>
         <div class="layui-input-block">

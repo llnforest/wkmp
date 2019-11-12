@@ -18,6 +18,9 @@
 </div>
 {/block}
 {block name="jsBody"}
+<script type="text/html" id="imgTpl">
+    <img class="list-mini-image" src="{{ d.col2 != "" ?  '__ImagePath__'+d.col2 : '' }}">
+</script>
 <script>
 
 
