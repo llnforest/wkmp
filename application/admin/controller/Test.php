@@ -1,7 +1,7 @@
 <?php
 /**
  * 菜单管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,25 +9,26 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\DictModel;
-use app\admin\model\MenuModel;
+use app\admin\model\SysDictModel;
+use app\admin\model\SysMenuModel;
 use chromephp\chromephp;
 use common\dict\DictUtil;
 use think\App;
 use think\Controller;
 use think\facade\Cache;
 use think\facade\Hook;
+use think\facade\Session;
 
 class Test extends Controller
 {
     function test1(){
-        $value = DictModel::where(['id'=>1])->value('dict_name');
-        $value = DictModel::order('sort desc')->value('dict_name');
+        $value = SysDictModel::where(['id'=>1])->value('dict_name');
+        $value = SysDictModel::order('sort desc')->value('dict_name');
 //        echo $value;
 
-        $value = DictModel::where(['id'=>1])->column('dict_name','id');
+        $value = SysDictModel::where(['id'=>1])->column('dict_name','id');
         chromephp::info($value);
-        $value = DictModel::column('dict_name');
+        $value = SysDictModel::column('dict_name');
         chromephp::info($value);
 
     }
@@ -39,6 +40,9 @@ class Test extends Controller
 //        chromephp::info(Cache::tag('a')->get('one'));
     }
 
+    function clearSession(){
+        Session::clear();
+    }
     function login(){
 //        Hook::listen('smsSend',135);
         return json(['code'=>1,'msg'=>'ok,sucess']);

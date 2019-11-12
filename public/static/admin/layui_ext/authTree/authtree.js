@@ -141,7 +141,7 @@ layui.define(['jquery', 'form'], function(exports){
 			// 		/*查找child的前边一个元素，并将里边的checkbox选中状态改为true。*/
 			// 		$(data.elem).parents('.auth-child').prev().find('input[type="checkbox"]').prop('checked', true);
 			// 	}
-			// 	/*console.log(childs);*/
+			// 	/*console.syslog(childs);*/
 			// 	form.render('checkbox');
 			// });
 
@@ -566,7 +566,7 @@ layui.define(['jquery', 'form'], function(exports){
 			this.checkedNode[dst] = currentChecked;
 			this.notCheckedNode[dst] = currentNotChecked;
 
-			// console.log('保存节点信息', this.checkedNode[dst], this.notCheckedNode[dst], this.lastCheckedNode[dst], this.lastNotCheckedNode[dst]);
+			// console.syslog('保存节点信息', this.checkedNode[dst], this.notCheckedNode[dst], this.lastCheckedNode[dst], this.lastNotCheckedNode[dst]);
 		},
 		// 判断某一层是否显示
 		_shownDept: function(dst, dept) {
@@ -609,10 +609,10 @@ layui.define(['jquery', 'form'], function(exports){
 			var leafs = $(dst).find('.auth-leaf').parent().find('.authtree-checkitem:checked');
 			var data = [];
 			leafs.each(function(index, item){
-				// console.log(item);
+				// console.syslog(item);
 				data.push(item.value);
 			});
-			// console.log(data);
+			// console.syslog(data);
 			return data;
 		},
 		// 获取所有节点数据
@@ -622,7 +622,7 @@ layui.define(['jquery', 'form'], function(exports){
 			inputs.each(function(index, item){
 				data.push(item.value);
 			});
-			// console.log(data);
+			// console.syslog(data);
 			return data;
 		},
 		// 获取最新选中（之前取消-现在选中）
@@ -673,7 +673,7 @@ layui.define(['jquery', 'form'], function(exports){
 			inputs.each(function(index, item){
 				data.push(item.value);
 			});
-			// console.log(data);
+			// console.syslog(data);
 			return data;
 		}
 	};

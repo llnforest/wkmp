@@ -1,7 +1,7 @@
 <?php
 /**
  * 配置管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/26
  * Time: 10:38
  */
@@ -9,16 +9,16 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\ConfigModel;
-use app\admin\model\DictValueModel;
+use app\admin\model\SysConfigModel;
+use app\admin\model\SysDictValueModel;
 use think\App;
 use think\facade\Cache;
 
-class Config extends BaseController
+class Sysconfig extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,ConfigModel::class);
+        parent::__construct($app,SysConfigModel::class);
     }
 
     //分页渲染处理

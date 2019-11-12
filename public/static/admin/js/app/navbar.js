@@ -17,7 +17,7 @@ layui.define(['element','tab'],function(exports){
 	 */
     Navbar.prototype.set = function (options) {
         var that = this;
-        //that.config.data = undefined;
+        //that.sysconfig.data = undefined;
         $.extend(true, that.config, options);
         return that;
     };

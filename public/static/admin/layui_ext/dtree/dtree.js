@@ -1119,19 +1119,19 @@ layui.define(['jquery','layer','form'], function(exports) {
 		var gg = "";
 		switch (menu) {
 			case defaultMenu.moveDown:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveDown+"' title='展开节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DOWN+"'></i></button>";
+				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.moveDown+"' title='展开节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DOWN+"'></i></button>";
 				break;
 			case defaultMenu.moveUp:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveUp+"' title='收缩节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_UP+"'></i></button>";
+				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.moveUp+"' title='收缩节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_UP+"'></i></button>";
 				break;
 			case defaultMenu.refresh:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.refresh+"' title='刷新'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_REFRESH+"'></i></button>";
+				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.refresh+"' title='刷新'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_REFRESH+"'></i></button>";
 				break;
 			case defaultMenu.remove:
-				gg = (_this.checkbar) ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.remove+"' title='删除选中节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DELETE+"'></i></button>" : "";
+				gg = (_this.checkbar) ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.remove+"' title='删除选中节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DELETE+"'></i></button>" : "";
 				break;
 			case defaultMenu.searchNode:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.searchNode+"' title='查询节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_SEARCH+"'></i></button>";
+				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.searchNode+"' title='查询节点'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_SEARCH+"'></i></button>";
 				break;
 		}
 		return gg;
@@ -1140,7 +1140,7 @@ layui.define(['jquery','layer','form'], function(exports) {
 	// 获取扩展菜单栏
 	DTree.prototype.getExtMenubarDom = function(menu){
 		var _this = this;
-		return "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+_this.obj[0].id+"' d-menu='"+menu.menubarId+"' title='"+menu.title+"'><i class='"+DTREEFONT+" "+menu.icon+"'></i></button>";
+		return "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+_this.obj[0].id+"' d-sysmenu='"+menu.menubarId+"' title='"+menu.title+"'><i class='"+DTREEFONT+" "+menu.icon+"'></i></button>";
 	};
 
 	// 获取依附在工具栏的菜单栏
@@ -1149,20 +1149,20 @@ layui.define(['jquery','layer','form'], function(exports) {
 		var rootId = _this.obj[0].id;
 		switch (menu) {
 			case defaultMenu.moveDown:
-				_this.toolbarMenu[defaultMenu.moveDown] = "<dd><a dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveDown+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DOWN+"'></i>&nbsp;展开"+_this.toolbarStyle.title+"</a></dd>";
+				_this.toolbarMenu[defaultMenu.moveDown] = "<dd><a dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.moveDown+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DOWN+"'></i>&nbsp;展开"+_this.toolbarStyle.title+"</a></dd>";
 				break;
 			case defaultMenu.moveUp:
-				_this.toolbarMenu[defaultMenu.moveUp] = "<dd><a dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveUp+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_UP+"'></i>&nbsp;收缩"+_this.toolbarStyle.title+"</a></dd>";
+				_this.toolbarMenu[defaultMenu.moveUp] = "<dd><a dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.moveUp+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_UP+"'></i>&nbsp;收缩"+_this.toolbarStyle.title+"</a></dd>";
 				break;
 			case defaultMenu.refresh:
-				_this.toolbarMenu[defaultMenu.refresh] = "<dd><a dtree-id='"+rootId+"' d-menu='"+defaultMenu.refresh+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_REFRESH+"'></i>&nbsp;刷新</a></dd>";
+				_this.toolbarMenu[defaultMenu.refresh] = "<dd><a dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.refresh+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_REFRESH+"'></i>&nbsp;刷新</a></dd>";
 				break;
 			case defaultMenu.remove:
 				if(_this.checkbar)
-					_this.toolbarMenu[defaultMenu.remove] = "<dd><a dtree-id='"+rootId+"' d-menu='"+defaultMenu.remove+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DELETE+"'></i>&nbsp;删除选中"+_this.toolbarStyle.title+"</a></dd>";
+					_this.toolbarMenu[defaultMenu.remove] = "<dd><a dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.remove+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_DELETE+"'></i>&nbsp;删除选中"+_this.toolbarStyle.title+"</a></dd>";
 				break;
 			case defaultMenu.searchNode:
-				_this.toolbarMenu[defaultMenu.searchNode] = "<dd><a dtree-id='"+rootId+"' d-menu='"+defaultMenu.searchNode+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_SEARCH+"'></i>&nbsp;查询"+_this.toolbarStyle.title+"</a></dd>";
+				_this.toolbarMenu[defaultMenu.searchNode] = "<dd><a dtree-id='"+rootId+"' d-sysmenu='"+defaultMenu.searchNode+"'><i class='"+DTREEFONT+" "+LI_DIV_MENUBAR_SEARCH+"'></i>&nbsp;查询"+_this.toolbarStyle.title+"</a></dd>";
 				break;
 		}
 	};
@@ -1170,7 +1170,7 @@ layui.define(['jquery','layer','form'], function(exports) {
 	// 获取依附在工具栏的扩展菜单栏
 	DTree.prototype.getExtMenubarToolDom = function(menu){
 		var _this = this;
-		_this.toolbarMenu[menu.menubarId] = "<dd><a dtree-id='"+_this.obj[0].id+"' d-menu='"+menu.menubarId+"'><i class='"+DTREEFONT+" "+menu.icon+"'></i>&nbsp;"+menu.title+"</a></dd>";
+		_this.toolbarMenu[menu.menubarId] = "<dd><a dtree-id='"+_this.obj[0].id+"' d-sysmenu='"+menu.menubarId+"'><i class='"+DTREEFONT+" "+menu.icon+"'></i>&nbsp;"+menu.title+"</a></dd>";
 	};
 
 
@@ -2589,27 +2589,27 @@ layui.define(['jquery','layer','form'], function(exports) {
 		});
 		
 		// 绑定menubar的点击事件
-		_this.obj.prevAll('div#dtree_menubar_'+_this.obj[0].id).on("click", "button[d-menu]", function(event) {
+		_this.obj.prevAll('div#dtree_menubar_'+_this.obj[0].id).on("click", "button[d-sysmenu]", function(event) {
 			event.stopPropagation();
 			var $toolBarDiv = _this.obj.prevAll('div#dtree_toolbar_'+_this.obj[0].id);
 			$toolBarDiv.find(".layui-nav-child").removeClass('layui-anim-fadein layui-show');
-			_this.menubarListener($(this).attr("d-menu"), "group");
+			_this.menubarListener($(this).attr("d-sysmenu"), "group");
 		});
 		
 		// 绑定menubar的点击事件
-		_this.obj.prevAll('div#dtree_toolbar_'+_this.obj[0].id).on("click", "a[d-menu]", function(event) {
+		_this.obj.prevAll('div#dtree_toolbar_'+_this.obj[0].id).on("click", "a[d-sysmenu]", function(event) {
 			event.stopPropagation();
 			var $toolBarDiv = _this.obj.prevAll('div#dtree_toolbar_'+_this.obj[0].id);
 			$toolBarDiv.find(".layui-nav-child").removeClass('layui-anim-fadein layui-show');
-			_this.menubarListener($(this).attr("d-menu"), "toolbar");
+			_this.menubarListener($(this).attr("d-sysmenu"), "toolbar");
 		});
 		
 		// 绑定menubar的点击按钮事件
-		_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-menu]").on("click", function(event) {
+		_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-sysmenu]").on("click", function(event) {
 			event.stopPropagation();
 			var $toolBarDiv = _this.obj.prevAll('div#dtree_toolbar_'+_this.obj[0].id);
 			$toolBarDiv.find(".layui-nav-child").removeClass('layui-anim-fadein layui-show');
-			_this.menubarListener($(this).attr("dtree-menu"), "freedom");
+			_this.menubarListener($(this).attr("dtree-sysmenu"), "freedom");
 		});
 
 		// 绑定cheboxbar的节点复选框
@@ -2641,8 +2641,8 @@ layui.define(['jquery','layer','form'], function(exports) {
 		// 菜单栏解绑
 		if(_this.menubar){
 			_this.obj.prevAll('div#dtree_menubar_'+_this.obj[0].id).unbind();
-			if(_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-menu]").length > 0){
-				_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-menu]").unbind();
+			if(_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-sysmenu]").length > 0){
+				_this.obj.closest('body').find("*[dtree-id='"+_this.obj[0].id+"'][dtree-sysmenu]").unbind();
 			}
 		}
 

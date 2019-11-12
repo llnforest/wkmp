@@ -1,6 +1,6 @@
 <?php
 /**
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/8
  * Time: 12:01
  */
@@ -8,7 +8,7 @@
 namespace common\dict;
 
 
-use app\admin\model\DictModel;
+use app\admin\model\SysDictModel;
 use \think\facade\Cache;
 
 class DictUtil
@@ -20,7 +20,7 @@ class DictUtil
      * 不管是否加载到，只要记录到缓存表中，则直接从缓存中获取编码，获取不到则返回空
      */
     public static function loadDict($dictCode){
-        $dictList = DictModel::alias('a')
+        $dictList = SysDictModel::alias('a')
                 ->join('sys_dict_value b','a.id = b.dict_id','left')
                 ->where(['a.dict_code'=>$dictCode])
                 ->order('b.sort asc')
@@ -28,11 +28,11 @@ class DictUtil
                 ->select();
         if(count($dictList) > 0){
             foreach($dictList as $v){
-                Cache::tag('dict')->set($v['dict_code'].'-'.$v['val_code'],$v['val_name']);
+                Cache::tag('sysdict')->set($v['dict_code'].'-'.$v['val_code'],$v['val_name']);
             }
         }
-        Cache::tag('dict')->set($dictCode,true);
-        Cache::tag('dict')->set($dictCode.'-value',$dictList);
+        Cache::tag('sysdict')->set($dictCode,true);
+        Cache::tag('sysdict')->set($dictCode.'-value',$dictList);
     }
 
     /**
@@ -40,7 +40,7 @@ class DictUtil
      * 不管是否加载到，只要记录到缓存表中，则直接从缓存中获取编码，获取不到则返回空
      */
     public static function loadDictColor($dictCode){
-        $dictList = DictModel::alias('a')
+        $dictList = SysDictModel::alias('a')
             ->join('sys_dict_value b','a.id = b.dict_id','left')
             ->where(['a.dict_code'=>$dictCode])
             ->select();
@@ -63,10 +63,10 @@ class DictUtil
      * @return String
      */
     public static function getDictName($dictCode,$valCode){
-        if(empty(Cache::tag('dict')->get($dictCode))){
+        if(empty(Cache::tag('sysdict')->get($dictCode))){
             self::loadDict($dictCode);
         }
-        $dictName = Cache::tag('dict')->get($dictCode.'-'.$valCode);
+        $dictName = Cache::tag('sysdict')->get($dictCode.'-'.$valCode);
         if(!empty($dictName)) return $dictName;
         else return $valCode;
     }
@@ -88,10 +88,10 @@ class DictUtil
 
     //获取字典编码对应的参数值
     public static function getDictValue($dictCode){
-        if(empty(Cache::tag('dict')->get($dictCode))){
+        if(empty(Cache::tag('sysdict')->get($dictCode))){
             self::loadDict($dictCode);
         }
-        $valueList = Cache::tag('dict')->get($dictCode.'-value');
+        $valueList = Cache::tag('sysdict')->get($dictCode.'-value');
         return $valueList;
     }
 
@@ -99,7 +99,7 @@ class DictUtil
      * 清除字典缓存
      */
     public static function clearDict(){
-        Cache::clear('dict');
+        Cache::clear('sysdict');
         Cache::clear('dictColor');
     }
 

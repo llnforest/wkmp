@@ -1,6 +1,6 @@
 <?php
 /**
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/9
  * Time: 10:27
  */
@@ -8,11 +8,11 @@
 namespace common\auth;
 
 
-use app\admin\model\LogModel;
-use app\admin\model\MenuModel;
-use app\admin\model\RoleMenuModel;
-use app\admin\model\RoleModel;
-use app\admin\model\UserRoleModel;
+use app\admin\model\SysLogModel;
+use app\admin\model\SysMenuModel;
+use app\admin\model\SysRoleMenuModel;
+use app\admin\model\SysRoleModel;
+use app\admin\model\SysUserRoleModel;
 use chromephp\chromephp;
 
 class AuthUtil
@@ -30,14 +30,14 @@ class AuthUtil
      */
     public static function getAuthChildMenu($auth,$url,$menu_type = 'B',$btn_type = null){
         if($menu_type == 'T'){
-            $parent_id = MenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('parent_id');
+            $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('parent_id');
         }else{
-            $parent_id = MenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('id');
-            if(empty($parent_id)) $parent_id = MenuModel::where(['menu_url'=>$url,'menu_type'=>'M'])->value('id');
+            $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('id');
+            if(empty($parent_id)) $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'M'])->value('id');
         }
         $where = ['parent_id'=>$parent_id,'menu_type'=>$menu_type,'status'=>1];
         if($btn_type) $where['btn_type'] = $btn_type;
-        $btnList = MenuModel::where($where)->order('sort asc')->select();
+        $btnList = SysMenuModel::where($where)->order('sort asc')->select();
         //判断权限
         foreach($btnList as $k=>$v){
             if(!self::checkAuth($v,$auth)) unset($btnList[$k]);
@@ -51,7 +51,7 @@ class AuthUtil
      * @return array|boolean
      */
     public static function getUrlAuth($auth,$url,$userInfo,$request){
-        $menu = MenuModel::where(['menu_url'=>$url])->find();
+        $menu = SysMenuModel::where(['menu_url'=>$url])->find();
         if(self::checkAuth($menu,$auth,$userInfo,$request)) return ['name'=>$menu['menu_name'],'url'=>$url];
         else return false;
     }
@@ -63,11 +63,11 @@ class AuthUtil
      */
     public static function getAuth($user_id){
         $menuArr = [];
-        $roleArr = UserRoleModel::alias('a')
+        $roleArr = SysUserRoleModel::alias('a')
             ->join('sys_role b','a.role_id = b.id','left')
             ->where(['a.user_id'=>$user_id,'b.status'=>1])
             ->column('a.role_id');
-        $roleArr &&  $menuArr = RoleMenuModel::where('role_id','in',$roleArr)->column('menu_id');
+        $roleArr &&  $menuArr = SysRoleMenuModel::where('role_id','in',$roleArr)->column('menu_id');
         return ['roleArr'=>$roleArr,'menuArr'=>$menuArr];
     }
 
@@ -83,15 +83,15 @@ class AuthUtil
         if(empty($menuInfo)) return true;
         if(in_array($menuInfo['id'],$auth['menuArr']) || in_array(1,$auth['roleArr'])){//有权限
             if($request && $userInfo && $menuInfo['log_level']){//纪录到日志中
-                $parentMenuName = MenuModel::where(['id'=>$menuInfo['parent_id']])->value('menu_name');
+                $parentMenuName = SysMenuModel::where(['id'=>$menuInfo['parent_id']])->value('menu_name');
                 $logData = ['user_id'=>$userInfo['id'],'nickname'=>$userInfo['nickname'],'operate_menu'=>$parentMenuName,'operate_name'=>$menuInfo['menu_name'],'ip'=>$request->ip(),'url'=>$request->path()];
                 if($request->isPost()){
                     $param = $request->param();
                     $command = preg_replace('/\{(\w*?)\}/', '{$param[\'\\1\']}', $menuInfo['log_rule']);
-                    @(eval( '$logData[\'log\'] ="'.$command.'";' ));
+                    @(eval( '$logData[\'syslog\'] ="'.$command.'";' ));
 //                    @(eval('$condition=("' . $command . '");'));;
                 }
-                LogModel::create($logData);
+                SysLogModel::create($logData);
             }
 
             return true;

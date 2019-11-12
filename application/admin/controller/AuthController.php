@@ -1,6 +1,6 @@
 <?php
 /**
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 16:04
  */
@@ -8,7 +8,7 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\UserModel;
+use app\admin\model\SysUserModel;
 use chromephp\chromephp;
 use common\auth\AuthUtil;
 use common\request\RequestUtil;
@@ -31,7 +31,8 @@ class AuthController extends  Controller
         $this->param = $this->request->param();
         $this->id = isset($this->param['id'])?intval($this->param['id']):0;
         $userSession = Session::get('userInfo');
-//        $userSession = UserModel::get(1);//测试
+//        $userSession = null;
+//        $userSession = SysUserModel::get(1);//测试
         $login_url = 'admin/index/login';
         $action_url = RequestUtil::getUrlPath($this->request);
         if(empty($userSession) && $action_url != $login_url){

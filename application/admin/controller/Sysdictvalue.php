@@ -1,7 +1,7 @@
 <?php
 /**
  * 字典参数管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,15 +9,15 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\DictValueModel;
+use app\admin\model\SysDictValueModel;
 use common\dict\DictUtil;
 use think\App;
 
-class Dictvalue extends BaseController
+class Sysdictvalue extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,DictValueModel::class);
+        parent::__construct($app,SysDictValueModel::class);
     }
 
     //分页渲染处理

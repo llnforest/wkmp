@@ -38,7 +38,7 @@
         var menuList = [];
 
         $.ajax({
-            url:"__ADMINPATH__admin/role/getAuth",
+            url:"__ADMINPATH__admin/sysrole/getAuth",
             type:'POST',
             data: {id:{$info.id}},//表单数据
             beforeSend:function(){

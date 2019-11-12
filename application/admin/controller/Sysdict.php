@@ -1,7 +1,7 @@
 <?php
 /**
  * 字典管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,16 +9,16 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\DictModel;
-use app\admin\model\DictValueModel;
+use app\admin\model\SysDictModel;
+use app\admin\model\SysDictValueModel;
 use common\dict\DictUtil;
 use think\App;
 
-class Dict extends BaseController
+class Sysdict extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,DictModel::class);
+        parent::__construct($app,SysDictModel::class);
     }
 
     //分页渲染处理
@@ -72,7 +72,7 @@ class Dict extends BaseController
     //删除前判断
     function beforeDel($data){
         if($this->request->isPost()){
-            $dict = DictValueModel::where(['dict_id'=>$this->id])->find();
+            $dict = SysDictValueModel::where(['dict_id'=>$this->id])->find();
             if(!empty($dict)){
                 $result = operateResult(false,'del');
                 $result['msg'] .= '：该字典下存在字典参数，请先删除！';

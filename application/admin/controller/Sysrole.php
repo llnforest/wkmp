@@ -1,7 +1,7 @@
 <?php
 /**
  * 菜单管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,17 +9,17 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\MenuModel;
-use app\admin\model\RoleMenuModel;
-use app\admin\model\RoleModel;
-use app\admin\model\UserRoleModel;
+use app\admin\model\SysMenuModel;
+use app\admin\model\SysRoleMenuModel;
+use app\admin\model\SysRoleModel;
+use app\admin\model\SysUserRoleModel;
 use think\App;
 
-class Role extends BaseController
+class Sysrole extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,RoleModel::class);
+        parent::__construct($app,SysRoleModel::class);
     }
 
     //分页渲染处理
@@ -76,7 +76,7 @@ class Role extends BaseController
     //删除前判断
     function beforeDel($data){
         if($this->request->isPost()){
-            $dict = UserRoleModel::where(['role_id'=>$this->id])->find();
+            $dict = SysUserRoleModel::where(['role_id'=>$this->id])->find();
             if(!empty($dict)){
                 $result = operateResult(false,'del');
                 $result['msg'] .= '：该角色已被用户绑定，请先解绑！';
@@ -88,27 +88,27 @@ class Role extends BaseController
     //权限操作和页面
     function auth(){
         if($this->request->isPost()){
-            RoleMenuModel::where(['role_id'=>$this->id])->delete();
+            SysRoleMenuModel::where(['role_id'=>$this->id])->delete();
             if(!empty($this->param['new_menus'])){
                 $new_menus = explode(',',$this->param['new_menus']);
                 $role_menu = [];
                 foreach($new_menus as $v){
                     $role_menu[] = ['role_id' => $this->id,'menu_id' => $v];
                 }
-                $roleMenu = new RoleMenuModel();
+                $roleMenu = new SysRoleMenuModel();
                 $roleMenu->saveAll($role_menu);
             }
             return operateResult(true,'do');
         }else{
-            $this->data['info'] = RoleModel::get($this->id);
+            $this->data['info'] = SysRoleModel::get($this->id);
             return view('auth',$this->data);
         }
     }
 
     //获取表单树
     function getAuth(){
-        $menu_arr = RoleMenuModel::where(['role_id'=>$this->id])->column('menu_id');
-        $menuList = MenuModel::getMenuTreeByChecked(0,$menu_arr);
+        $menu_arr = SysRoleMenuModel::where(['role_id'=>$this->id])->column('menu_id');
+        $menuList = SysMenuModel::getMenuTreeByChecked(0,$menu_arr);
         return sucRes($menuList);
     }
 
@@ -116,7 +116,7 @@ class Role extends BaseController
     function getRoleListByUser(){
         $roleList = $this->model::field('id,name')->where(['status'=>1])->select();
         if(!empty($this->param['user_id'])){
-            $roleArr = UserRoleModel::where(['user_id'=>$this->param['user_id']])->column('role_id');
+            $roleArr = SysUserRoleModel::where(['user_id'=>$this->param['user_id']])->column('role_id');
             foreach($roleList as &$v){
                 if(in_array($v['id'],$roleArr)) $v['selected'] = 1;
             }

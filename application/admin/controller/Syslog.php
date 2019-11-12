@@ -1,7 +1,7 @@
 <?php
 /**
  * 日志管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,15 +9,15 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\LogModel;
+use app\admin\model\SysLogModel;
 use chromephp\chromephp;
 use think\App;
 
-class Log extends BaseController
+class Syslog extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,LogModel::class);
+        parent::__construct($app,SysLogModel::class);
     }
 
     //分页渲染处理

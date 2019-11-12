@@ -1,7 +1,7 @@
 <?php
 /**
  * 菜单管理控制器
- * User: Lynn
+ * Sysuser: Lynn
  * Date: 2019/4/4
  * Time: 10:38
  */
@@ -9,15 +9,15 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\MenuModel;
+use app\admin\model\SysMenuModel;
 use think\App;
 use think\facade\Cache;
 
-class Menu extends BaseController
+class Sysmenu extends BaseController
 {
     function __construct(App $app = null)
     {
-        parent::__construct($app,MenuModel::class);
+        parent::__construct($app,SysMenuModel::class);
     }
 
     //分页渲染处理
