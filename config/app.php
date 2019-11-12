@@ -18,4 +18,8 @@ return [
     'app_debug'              => true,
 
 
+    'upload'        =>[
+        'path'      =>  '../public',
+        'img_url'   => 'http://img.99wukong.test'
+    ]
 ];

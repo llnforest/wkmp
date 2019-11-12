@@ -16,6 +16,8 @@ use common\dict\DictUtil;
 use think\App;
 use think\Controller;
 use think\facade\Cache;
+use think\facade\Config;
+use think\facade\Env;
 use think\facade\Hook;
 use think\facade\Session;
 
@@ -44,8 +46,9 @@ class Test extends Controller
         Session::clear();
     }
     function login(){
-//        Hook::listen('smsSend',135);
-        return json(['code'=>1,'msg'=>'ok,sucess']);
+       var_dump( Config::get('app.upload.path'));
+            echo '---------';
+        var_dump( Env::get('upload'));
     }
 
     public function decryptData()

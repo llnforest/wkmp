@@ -156,3 +156,74 @@ input.laydate-icon{
 #console .console-item{
 	margin-bottom:10px;
 }
+
+/*上传按钮*/
+.layui-btn.upload{
+	position:relative;
+}
+.img-wrap .layui-btn.upload .mini-image{
+	height: 38px;
+	width: 38px;
+	position: absolute;
+	top:0;
+	right: -48px;
+}
+
+.layui-btn.upload .mini-image-fixed{
+	height: 38px;
+	width: 38px;
+	position: absolute;
+	top: 0;
+	right: -48px;
+}
+.layui-btn.upload .mini-image{
+	height: 38px;
+	position: absolute;
+	top: 0;
+	left: 110%;
+}
+.img-block{
+	margin-bottom:8px;
+}
+.img-block .img-delete{
+	height: 35px;
+	position:relative;
+	top:-1.5px;
+	text-align:center;
+}
+.img-block .img-sort{
+	display: inline-block;
+	width: 60px;
+	margin-left: 50px;
+	height: 36px;
+}
+.add-img-btn{
+	border:1px dashed #009688;
+	width: 270px;
+	line-height: 32px;
+	text-align: center;
+	cursor:pointer;
+}
+.add-img-btn .layui-icon{
+	color:#009688;
+	font-size:20px;
+}
+
+/*悬停图片样式*/
+#tooltip{
+	position:absolute;
+	border:1px solid #009688;
+	background:#009688;
+	padding:2px;
+	display:none;
+	color:#fff;
+}
+
+.hidden{
+	display:none;
+}
+.block {
+	display: block;
+	margin-top: 5px;
+	margin-left: 130px;
+}

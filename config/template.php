@@ -37,6 +37,7 @@ return [
         '__ADMINSTATIC__'=>'/static/admin',
         '__ADMINPATH__'=>'/',
         '__ADMINAPP__'=>'悟空名品后台管理系统',
+        '__ImagePath__' =>'http://admin.99wukong.test',
     ],
     //自定义标签
     'taglib_pre_load' => 'app\Tag',
