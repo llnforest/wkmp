@@ -229,6 +229,9 @@ input.laydate-icon{
 	margin-top: 5px;
 	margin-left: 130px;
 }
+.clone{
+	display:none;
+}
 /**必填项**/
 .layui-form-label.require-mark:after{
 	content:"*";

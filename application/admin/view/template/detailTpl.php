@@ -27,6 +27,18 @@
         var $ = layui.jquery;
         //监听提交
         form.on('submit(submitForm)', function(data){
+            //监听多图处理
+            if($(".img-wrap").length > 0){
+                var sublist = [];
+                $(".img-wrap .img-block").each(function(index,item){
+                    var url = $(item).find(".image").val();
+                    if(url == '') return;
+                    var sort = $(item).find(".img-sort").val().trim();
+                    sublist.push({'img':url,sort:sort});
+                })
+                console.log(JSON.stringify(sublist));
+                data.field.img_data = JSON.stringify(sublist);
+            }
             if(data.field.status == undefined && $('[name="status"]').val() == 0) data.field.status = 0;
             submitForm(data);
             return false;
@@ -48,8 +60,6 @@
         $("select[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark");
         $("textarea[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark");
     });
-
-
 
     //提交表单
     function submitForm(data){

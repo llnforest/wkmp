@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">品牌图片</label>
         <div>
-            <button name="image" type="button" class="layui-btn upload" lay-data="{'url': '{:url('admin/upload/image',['type'=>'banner'])}'}">
+            <button name="image" type="button" class="layui-btn upload" lay-data="{'url': '{:url('admin/upload/image',['type'=>'winebrand'])}'}">
                 <i class="layui-icon">&#xe67c;</i>上传图片
                 <input class="image" type="hidden" name="img" value="{$info.img??''}" lay-verify="required">
                 <img class="mini-image {$info.img?'':'hidden'}" data-path="__ImagePath__" src="{$info.img?'__ImagePath__'.$info.img:''}">

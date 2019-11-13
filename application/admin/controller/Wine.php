@@ -9,6 +9,7 @@
 namespace app\admin\controller;
 
 
+use app\admin\model\WineImgsModel;
 use app\admin\model\WineModel;
 use think\App;
 
@@ -25,7 +26,7 @@ class Wine extends BaseController
             $this->page->setHeader('ID,排序,上下架,首页推荐,酒品名称,酒品封面,品牌名称,酒品系列,酒品分类,包装规格,市场价,会员价,添加时间,最后操作时间');
             $this->pageUtil->setColEdit(1);
             $this->pageUtil->setColsWidthArr([1=>70,2=>100,3=>100,5=>100,6=>150,7=>100,8=>100,9=>150,10=>100,11=>100,12=>180,13=>180,14=>250]);
-            $this->pageUtil->setColsMinWidthArr([4=>200]);
+            $this->pageUtil->setColsMinWidthArr([4=>280]);
             $this->pageUtil->setColTemplet(5,"#imgTpl");
             $this->pageUtil->setColTemplet(2,"#statusTpl2");
         }else{
@@ -45,15 +46,24 @@ class Wine extends BaseController
     /**
      * 修改产品图接口和页面
      */
-    public function editcpt(){
+    public function editjpt(){
         if($this->request->isPost()){
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if(method_exists($this,"beforeEdit")) $this->beforeEdit($info);
-            return operateResult($info->save($this->param),'edit');
+            WineImgsModel::where(['wine_id'=>$this->id])->delete();
+            $imgList = json_decode($this->param['img_data'],true);
+            if(count($imgList) > 0){
+                foreach($imgList as &$item){
+                    $item['wine_id'] = $this->id;
+                    $item['type'] = 1;//酒品图
+                }
+                $imgModel = new WineImgsModel();
+                $imgModel->saveAll($imgList);
+            }
+            return operateResult(true,'edit');
         }else{
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
-            if(method_exists($this,"beforeEdit")) $this->beforeEdit($this->data['info']);
-            return view('detailcpt',$this->data);
+            $this->data['imgList'] = WineImgsModel::where(['type'=>1])->order('sort asc,id asc')->select();
+            return view('detailjpt',$this->data);
         }
     }
 
@@ -64,11 +74,20 @@ class Wine extends BaseController
 
         if($this->request->isPost()){
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if(method_exists($this,"beforeEdit")) $this->beforeEdit($info);
-            return operateResult($info->save($this->param),'edit');
+            WineImgsModel::where(['wine_id'=>$this->id])->delete();
+            $imgList = json_decode($this->param['img_data'],true);
+            if(count($imgList) > 0){
+                foreach($imgList as &$item){
+                    $item['wine_id'] = $this->id;
+                    $item['type'] = 2;//酒品图
+                }
+                $imgModel = new WineImgsModel();
+                $imgModel->saveAll($imgList);
+            }
+            return operateResult(true,'edit');
         }else{
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
-            if(method_exists($this,"beforeEdit")) $this->beforeEdit($this->data['info']);
+            $this->data['imgList'] = WineImgsModel::where(['type'=>2])->order('sort asc,id asc')->select();
             return view('detailxqt',$this->data);
         }
     }

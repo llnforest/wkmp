@@ -7,16 +7,16 @@
     <input type="hidden" name="is_recommend" value="0"/>
     {/if}
 
-<div class="layui-form-item">
-    <label class="layui-form-label">酒品名称</label>
-    <div class="layui-input-block">
-        <input type="text" name="wine_name" value="{$info.wine_name??''}" autocomplete="off" lay-verify="required" placeholder="请输入酒品名称" class="layui-input">
+    <div class="layui-form-item">
+        <label class="layui-form-label">酒品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="wine_name" value="{$info.wine_name??''}" autocomplete="off" lay-verify="required" placeholder="请输入酒品名称" class="layui-input">
+        </div>
     </div>
-</div>
     <div class="layui-form-item">
         <label class="layui-form-label">酒品封面</label>
         <div>
-            <button name="image" type="button" class="layui-btn upload" lay-data="{'url': '{:url('admin/upload/image',['type'=>'banner'])}'}">
+            <button name="image" type="button" class="layui-btn upload" lay-data="{'url': '{:url('admin/upload/image',['type'=>'wine'])}'}">
                 <i class="layui-icon">&#xe67c;</i>上传图片
                 <input class="image" type="hidden" name="img" value="{$info.img??''}" lay-verify="required">
                 <img class="mini-image {$info.img?'':'hidden'}" data-path="__ImagePath__" src="{$info.img?'__ImagePath__'.$info.img:''}">

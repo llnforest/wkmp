@@ -26,10 +26,16 @@ class Upload extends AuthController {
             $baseUrl = $DS . 'images' . $DS .'banner';
         else if($type == 'winebrand')
             $baseUrl = $DS . 'images' . $DS .'winebrand';
+        else if($type == 'wine')
+            $baseUrl = $DS . 'images' . $DS .'wine';
+        else if($type == 'winejpt')
+            $baseUrl = $DS . 'images' . $DS .'winejpt';
+        else if($type == 'winexqt')
+            $baseUrl = $DS . 'images' . $DS .'winexqt';
         else if($type == 'other')
             $baseUrl = $DS . 'images' . $DS .'other';
         // 移动到框架应用根目录/public/uploads/ 目录下
-        if(in_array($type,['info','shop','banner','winebrand','other'])){
+        if(in_array($type,['info','shop','banner','winebrand','wine','winejpt','winexqt','other'])){
             $info = $file->validate(['size'=>5*1024*1024,'ext'=>'jpg,png,gif,jpeg'])->move(Config::get('app.upload.path') . $baseUrl);
         }elseif($type == "house"){
             $info = $file->validate(['size'=>5*1024*1024,'ext'=>'jpg,png,gif,jpeg'])->size(200,160)->move(Config::get('app.upload.path') . $baseUrl);
