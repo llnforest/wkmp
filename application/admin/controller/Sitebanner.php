@@ -22,7 +22,7 @@ class Sitebanner extends BaseController
     //分页渲染处理
     protected function renderPage(){
         if($this->request->isGet()){
-            $this->page->setHeader('ID,排序,状态,广告位,广告图,广告标题,链接地址,创建时间,修改时间');
+            $this->page->setHeader('ID,排序,状态,广告位,广告图,广告标题,链接地址,创建时间,最后操作时间');
             $this->pageUtil->setColEdit(1);
             $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>100,7=>180,8=>180,9=>150]);
             $this->pageUtil->setColsMinWidthArr([3=>150,5=>150,6=>200]);

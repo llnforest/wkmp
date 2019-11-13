@@ -6,10 +6,10 @@
     <input type="hidden" name="parent_id" value="{$info.parent_id??0}" />
     <div class="layui-form-item">
         <?php $info['menu_type'] = isset($info['menu_type'])?$info['menu_type']:'M'; ?>
-        {tag:radio label="菜单类型" name="menu_type" code="menuType" value="info.menu_type" /}
+        {tag:radio label="菜单类型" name="menu_type" code="menuType" value="info.menu_type"  verify="required"/}
     </div>
     <div class="layui-form-item">
-        {tag:checkbox label="菜单状态" name="status" skin="switch" value="1" text="正常|隐藏" default="$info.status"/}
+        {tag:checkbox label="菜单状态" name="status" skin="switch" value="1" text="正常|隐藏" default="$info.status"  verify="required"/}
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label" >菜单图标</label>

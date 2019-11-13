@@ -67,21 +67,21 @@ class BaseController extends  AuthController
     /**
      * 添加接口和页面
      */
-    public function add(){
+    public function add($template = null){
         if(method_exists($this,"commonOperate")) $this->commonOperate();
         if($this->request->isPost()){
             if(method_exists($this,"beforeAdd")) $this->beforeAdd();
             return operateResult($this->model::create($this->param),'add');
         }else{
             if(method_exists($this,"beforeAdd")) $this->beforeAdd();
-            return view('detail',$this->data);
+            return view($template?:'detail',$this->data);
         }
     }
 
     /**
      * 修改接口和页面
      */
-    public function edit(){
+    public function edit($template = null){
         if(method_exists($this,"commonOperate")) $this->commonOperate();
         if($this->request->isPost()){
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
@@ -90,7 +90,7 @@ class BaseController extends  AuthController
         }else{
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
             if(method_exists($this,"beforeEdit")) $this->beforeEdit($this->data['info']);
-            return view('detail',$this->data);
+            return view($template?:'detail',$this->data);
         }
     }
 

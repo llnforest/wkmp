@@ -197,9 +197,9 @@ class PageDataTrans
 					for ($k = 0; $k < count($rowList); $k++) {
 						//获取每一列数据
 						$td = $rowList[$k];
-
                         //判断是否映射编码
                         if($pageUtil->getDataDictArr($col)){
+
                             //获取编码对应的数据
                             $td = DictUtil::getDictNameColor($pageUtil->getDataDictArr($col), $td);
                         }

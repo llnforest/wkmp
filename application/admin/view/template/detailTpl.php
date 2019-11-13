@@ -44,7 +44,9 @@
         });
 
         //增加必填项
-        $("input[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark")
+        $("input[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark");
+        $("select[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark");
+        $("textarea[lay-verify='required']").parents(".layui-form-item").find(".layui-form-label").addClass("require-mark");
     });
 
 

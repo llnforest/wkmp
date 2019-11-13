@@ -5,7 +5,7 @@
 {block name="headBody"}{/block}
 {block name="queryBody"}
 <div class="layui-inline">
-    {tag:select label="广告位" name="position_id" inline="inline" sql="select position_name,id from pin_site_banner_position order by sort asc"  default="true" value="$position_id"  search="true"/}
+    {tag:select label="广告位" name="position_id" inline="inline" sql="select position_name,id from pin_site_banner_position order by sort asc,create_time desc"  default="true" value="$position_id"  search="true"/}
 </div>
 <div class="layui-inline">
     <label class="layui-form-label">广告标题</label>

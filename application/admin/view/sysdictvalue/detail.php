@@ -4,7 +4,7 @@
 {block name="formBody"}
     <input type="hidden" name="val_color" value="{$info.val_color??''}"  placeholder="字体颜色" class="layui-input">
     <div class="layui-form-item">
-        {tag:select label="字典名称" name="dict_id" sql="select dict_name,id from sys_dict order by sort asc"  value="$info.dict_id" /}
+        {tag:select label="字典名称" name="dict_id" sql="select dict_name,id from sys_dict order by sort asc"  value="$info.dict_id" verify="required"/}
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label" >参数名称</label>

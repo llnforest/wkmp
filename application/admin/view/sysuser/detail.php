@@ -59,7 +59,7 @@
         layui.use(['jquery', 'formSelects'], function(){
             var formSelects = layui.formSelects;
             layui.formSelects.config('roleIds', {
-                searchUrl: "{:url('admin/role/getRoleListByUser',['user_id'=>isset($info.id)?$info.id:''])}"
+                searchUrl: "{:url('admin/sysrole/getRoleListByUser',['user_id'=>isset($info.id)?$info.id:''])}"
                 ,success: function(id, url, searchVal, result){
                     // var data = result.data;
                     // if(!isEmpty(data)){

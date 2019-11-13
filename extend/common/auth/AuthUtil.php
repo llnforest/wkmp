@@ -33,7 +33,7 @@ class AuthUtil
             $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('parent_id');
         }else{
             $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'T'])->value('id');
-            if(empty($parent_id)) $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'M'])->value('id');
+            if(empty($parent_id)) $parent_id = SysMenuModel::where(['menu_url'=>$url,'menu_type'=>'M'])->where([['parent_id','neq','0']])->value('id');
         }
         $where = ['parent_id'=>$parent_id,'menu_type'=>$menu_type,'status'=>1];
         if($btn_type) $where['btn_type'] = $btn_type;

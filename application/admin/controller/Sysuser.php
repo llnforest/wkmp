@@ -34,7 +34,7 @@ class Sysuser extends BaseController
             $pageData = $this->model::alias('a')
                 ->where($where)
                 ->field('a.id,a.nickname,a.name,a.status,"" as role_name,a.phone,a.email,a.last_login_ip,a.last_login_time,a.create_time')
-                ->order('a.create_time desc')
+                ->order('a.status desc,a.create_time desc')
                 ->paginate($this->param['limit']?:"")
                 ->each(function($item,$key){
                     $nameArr = SysUserRoleModel::alias('a')
@@ -101,7 +101,7 @@ class Sysuser extends BaseController
     /**
      * 添加接口和页面
      */
-    public function add(){
+    public function add($template = null){
         if(method_exists($this,"commonOperate")) $this->commonOperate();
         if($this->request->isPost()){
             if(method_exists($this,"beforeAdd")) $this->beforeAdd();

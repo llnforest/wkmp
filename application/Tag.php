@@ -15,9 +15,9 @@ use think\template\TagLib;
 class Tag extends TagLib
 {
     protected $tags = [
-        'radio' => ['attr'=>'label,name,code,value,inline,sql','close' => 0],
-        'checkbox' => ['attr'=>'label,name,code,default,inline,skin,text,value,sql','close'=>0],
-        'select' => ['attr'=>'label,name,code,default,inline,style,search,sql,value','close'=>0],
+        'radio' => ['attr'=>'label,name,code,value,inline,sql,verify','close' => 0],
+        'checkbox' => ['attr'=>'label,name,code,default,inline,skin,text,value,sql,verify','close'=>0],
+        'select' => ['attr'=>'label,name,code,default,inline,style,search,sql,value,verify','close'=>0],
     ];
 
 
@@ -79,7 +79,8 @@ class Tag extends TagLib
         if(isset($attr['sql'])) $valueList = $this->getSqlValue($attr['sql']);
         if(isset($attr['code'])) $valueList = DictUtil::getDictValue($attr['code']);
         $search = isset($attr['search'])?'lay-search':'';
-        $html = '<select name="'.$attr['name'].'" lay-filter="'.$attr['name'].'" '.$search.'>';
+        $verify = isset($attr['verify'])?'lay-verify="'.$attr['verify'].'"':'';
+        $html = '<select name="'.$attr['name'].'" lay-filter="'.$attr['name'].'" '.$search.' '.$verify.'>';
         if(isset($attr['default']) && $attr['default'] == true){
             $html .= '<option value="">请选择</option>';
         }
@@ -99,7 +100,8 @@ class Tag extends TagLib
      * @return string
      */
     protected function renderCheckboxHtml($attr){
-        $html = '<input type="checkbox" name="'.$attr['name'].'" lay-filter="'.$attr['name'].'"';
+        $verify = isset($attr['verify'])?'lay-verify="'.$attr['verify'].'"':'';
+        $html = '<input type="checkbox" name="'.$attr['name'].'" lay-filter="'.$attr['name'].'" '.$verify;
         if(isset($attr['skin']) && $attr['skin'] != 'switch'){
             $valueList = [];
             if(isset($attr['sql'])) $valueList = $this->getSqlValue($attr['sql']);
@@ -131,6 +133,7 @@ class Tag extends TagLib
      * @return string
      */
     protected function renderRadioHtml($attr){
+        $verify = isset($attr['verify'])?'lay-verify="'.$attr['verify'].'"':'';
         $valueList = [];
         if(isset($attr['sql'])) $valueList = $this->getSqlValue($attr['sql']);
         if(isset($attr['code'])) $valueList = DictUtil::getDictValue($attr['code']);
@@ -138,7 +141,7 @@ class Tag extends TagLib
         $value = isset($attr['value']) ? $this->autoBuildVar($attr['value']): null;
         foreach($valueList as $v){
             $checked = isset($attr['value']) ? '<?php if(isset('.$value.') && '.$value.' == \''.$v['val_code'].'\'): ?>checked<?php endif; ?>':'';
-            $html .= '<input type="radio" name="'.$attr['name'].'" lay-filter="'.$attr['name'].'" value="'.$v['val_code'].'" title="'.$v['val_name'].'" '.$checked.' >';
+            $html .= '<input type="radio" name="'.$attr['name'].'" lay-filter="'.$attr['name'].'" value="'.$v['val_code'].'" title="'.$v['val_name'].'" '.$checked.' '.$verify.'>';
         }
         return $html;
     }

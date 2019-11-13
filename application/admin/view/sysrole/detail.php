@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        {tag:checkbox label="角色状态" name="status" skin="switch" value="1" text="正常|停用" default="$info.status"/}
+        {tag:checkbox label="角色状态" name="status" skin="switch" value="1" text="正常|停用" default="$info.status"  verify="required"/}
     </div>
 
 
