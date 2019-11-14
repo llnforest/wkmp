@@ -23,6 +23,7 @@ use think\facade\Session;
 
 class Test extends Controller
 {
+
     function test1(){
         $value = SysDictModel::where(['id'=>1])->value('dict_name');
         $value = SysDictModel::order('sort desc')->value('dict_name');

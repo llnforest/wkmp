@@ -24,8 +24,8 @@ class Syslog extends BaseController
     protected function renderPage(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,ID,用户名称,操作菜单,操作名称,IP地址,访问URL,日志备注,操作时间');
+            $this->pageUtil->setColsWidthArr([1=>70,2=>130,3=>130,4=>140,5=>145,8=>160]);
             $this->pageUtil->setColsMinWidthArr([6=>200,7=>250]);
-            $this->pageUtil->setColsWidthArr([1=>70,2=>130,3=>130,4=>140,5=>145,8=>170]);
             $this->pageUtil->setShowNumbers(false);
             $this->pageUtil->setToolBar(false);
         }else{

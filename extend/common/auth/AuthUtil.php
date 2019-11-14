@@ -37,7 +37,7 @@ class AuthUtil
         }
         $where = ['parent_id'=>$parent_id,'menu_type'=>$menu_type,'status'=>1];
         if($btn_type) $where['btn_type'] = $btn_type;
-        $btnList = SysMenuModel::where($where)->order('sort asc')->select();
+        $btnList = SysMenuModel::where($where)->order('sort asc,id asc')->select();
         //判断权限
         foreach($btnList as $k=>$v){
             if(!self::checkAuth($v,$auth)) unset($btnList[$k]);

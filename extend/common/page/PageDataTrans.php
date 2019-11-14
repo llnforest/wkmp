@@ -80,7 +80,7 @@ class PageDataTrans
 					}
 				}
 				//设置是否隐藏
-				if($pageUtil->getColsHideArr($i)){
+				if($pageUtil->isInHideArr($i)){
 					$sub['hide'] = true;
 				}
 				//设置是否拖拽列宽，默认是允许的

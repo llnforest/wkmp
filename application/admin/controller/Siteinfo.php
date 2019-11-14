@@ -23,7 +23,7 @@ class Siteinfo extends BaseController
     protected function renderPage(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,主标题,副标题,简介,主图,第一张图,第一张图主标题,第一张图副标题,第二张图,第二张图主标题,第二张图副标题,第三张图,第三张图主标题,第三张图副标题,客服头像,客服名称,客服电话,客服二维码,最后操作时间');
-            $this->pageUtil->setColsWidthArr([1=>200,2=>200,3=>300,4=>100,5=>100,6=>130,7=>130,8=>100,9=>130,10=>130,11=>100,12=>130,13=>130,14=>100,15=>130,16=>130,17=>140,18=>180,19=>200]);
+            $this->pageUtil->setColsWidthArr([1=>200,2=>200,3=>300,4=>100,5=>100,6=>130,7=>130,8=>100,9=>130,10=>130,11=>100,12=>130,13=>130,14=>100,15=>130,16=>130,17=>140,18=>160,19=>200]);
             $this->pageUtil->setColTemplet(4,"#imgTpl4");
             $this->pageUtil->setColTemplet(5,"#imgTpl5");
             $this->pageUtil->setColTemplet(8,"#imgTpl8");

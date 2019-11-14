@@ -25,7 +25,7 @@ class Sitebannerposition extends BaseController
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,广告位名称,备注说明,创建时间,最后操作时间');
             $this->pageUtil->setColEdit(1);
-            $this->pageUtil->setColsWidthArr([1=>100,4=>180,5=>180,6=>150]);
+            $this->pageUtil->setColsWidthArr([1=>100,4=>180,5=>160,6=>150]);
             $this->pageUtil->setColsMinWidthArr([2=>200,3=>300]);
         }else{
             $where  = getWhereParam(['position_name'=>'like'],$this->param);

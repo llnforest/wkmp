@@ -9,4 +9,4 @@
 <script src="__ADMINSTATIC__/js/vue/components/index.js"></script>
 <script src="__ADMINSTATIC__/layui/layui.js"></script>
 <script src="__ADMINSTATIC__/js/app/verify.js"></script>
-<script src="__ADMINSTATIC__/js/app/common.js?2019111201"></script>
+<script src="__ADMINSTATIC__/js/app/common.js?2019111401"></script>

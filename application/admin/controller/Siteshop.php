@@ -24,7 +24,7 @@ class Siteshop extends BaseController
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,商家封面,商家名称,联系方式,商家地址,创建时间');
             $this->pageUtil->setColEdit(1);
-            $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>120,6=>180,7=>150]);
+            $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>120,6=>160,7=>150]);
             $this->pageUtil->setColsMinWidthArr([3=>200,5=>300]);
             $this->pageUtil->setColTemplet(2,"#imgTpl");
         }else{

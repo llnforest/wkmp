@@ -44,6 +44,7 @@
 
 
     <script>
+
         new Vue({
             el: '#app',
             data:{
@@ -93,6 +94,7 @@
                 elem: '#listTable'
                 ,method:'post'
                 ,title:$.trim(title)
+                ,where:$("form").parseForm()
                 ,cols: {$page->getHeaderJson()?:"[]"} //标题栏
                 ,url:'{$Request.url}'
                 {$page->getOptions()?:""}
@@ -130,6 +132,13 @@
                 eval(eventFunc + "(obj);");//执行event函数
             });
 
+            //导出操作
+            $("#exportBut").click(function(){
+                console.log(table);
+                console.log(tableIns.config.data);
+                table.exportFile(tableIns.config.id, table.cache.listTable,'xls')
+            });
+
             //回车搜索
             $('.plat-list-query input').bind('keydown', function (event) {
                 var event = window.event || arguments.callee.caller.arguments[0];
@@ -144,7 +153,7 @@
                 radioData = {};
                 whereField = data.field
                 tableIns.reload({
-                    where: whereField
+                    where: $("form").parseForm()
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }

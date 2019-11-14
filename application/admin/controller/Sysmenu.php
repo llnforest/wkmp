@@ -35,7 +35,7 @@ class Sysmenu extends BaseController
             $pageData = $this->model::field('id,sort,menu_icon,menu_name,menu_type,btn_type,log_level,menu_url,status')
                 ->where($where)
                 ->whereOr($whereOr)
-                ->order('sort asc')
+                ->order('sort asc,id asc')
                 ->paginate($this->param['limit']?:"");
             $this->page->setData($pageData);
         }
@@ -58,6 +58,13 @@ class Sysmenu extends BaseController
         }
     }
 
+    //添加修改前操作
+    public function commonOperate(){
+        if($this->request->isPost()){
+            if(isset($this->param['menu_type']) && $this->param['menu_type'] != 'B') $this->param['btn_type'] = '';
+        }
+    }
+
     //删除前判断
     function beforeDel($data){
         if($this->request->isPost()){
@@ -68,6 +75,29 @@ class Sysmenu extends BaseController
                 die(json_encode($result,JSON_UNESCAPED_UNICODE));
             };
         }
+    }
+
+    //自动创建菜单
+    function createMenu(){
+        $controller_name = $this->param['controller'];
+        $name = $this->param['name'];
+        $sort = $this->param['sort'];
+        $parent_id = $this->param['parent_id'];
+        $pre_url = 'admin/'.$controller_name.'/';
+        //菜单
+        $menuData = ['parent_id'=>$parent_id,'menu_url'=>$pre_url.'index','menu_name'=>$name,'menu_type'=>'M','sort'=>$sort.'00','btn_type'=>1,'status'=>1];
+        if(!empty($this->model::where($menuData)->find())) die('already have this menu');
+        $parent = $this->model::create($menuData);
+        //新增
+        $menuData = ['parent_id'=>$parent->id,'menu_url'=>$pre_url.'add','menu_name'=>'新增','menu_type'=>'B','sort'=>$sort.'09','btn_func'=>'add','btn_type'=>1,'menu_icon'=>"<i class='layui-icon layui-icon-add-circle-fine'></i>",'status'=>1];
+        $this->model::create($menuData);
+        //编辑
+        $menuData = ['parent_id'=>$parent->id,'menu_url'=>$pre_url.'edit','menu_name'=>'编辑','menu_type'=>'B','sort'=>$sort.'02','btn_func'=>'edit','btn_type'=>2,'menu_icon'=>"<i class='layui-icon layui-icon-edit'></i>",'status'=>1];
+        $this->model::create($menuData);
+        //删除
+        $menuData = ['parent_id'=>$parent->id,'menu_url'=>$pre_url.'del','menu_name'=>'删除','menu_type'=>'B','sort'=>$sort.'01','btn_css'=>'#FF5722','btn_func'=>'del','btn_type'=>2,'menu_icon'=>"<i class='layui-icon layui-icon-delete'></i>",'status'=>1];
+        $this->model::create($menuData);
+        echo 'create success';
     }
 
 }

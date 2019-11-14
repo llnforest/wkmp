@@ -40,6 +40,6 @@
 {/block}
 {block name="jsBody"}
 <script>
-    renderDatePicker();//渲染时间
+
 </script>
 {/block}

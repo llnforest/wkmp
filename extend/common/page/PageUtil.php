@@ -288,6 +288,15 @@ class PageUtil
     }
 
     /**
+     * @return mixed
+     */
+    public function isInHideArr($i)
+    {
+        if(in_array($i,$this->colsHideArr)) return true;
+        else return false;
+    }
+
+    /**
      * @param mixed $colsHideArr
      */
     public function setColsHideArr($colsHideArr)

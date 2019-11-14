@@ -25,7 +25,7 @@ class Winebrand extends BaseController
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,品牌图片,品牌名称,状态,创建时间');
             $this->pageUtil->setColEdit(1);
-            $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>150,5=>180,6=>150]);
+            $this->pageUtil->setColsWidthArr([1=>100,2=>100,4=>150,5=>160,6=>150]);
             $this->pageUtil->setColsMinWidthArr([3=>200]);
             $this->pageUtil->setColTemplet(4,"#statusTpl");
             $this->pageUtil->setColTemplet(2,"#imgTpl");

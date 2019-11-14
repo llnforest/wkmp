@@ -28,7 +28,7 @@ class Wine extends BaseController
             $this->pageUtil->setColsWidthArr([1=>70,2=>100,3=>100,5=>100,6=>150,7=>100,8=>100,9=>150,10=>100,11=>100,12=>180,13=>180,14=>250]);
             $this->pageUtil->setColsMinWidthArr([4=>280]);
             $this->pageUtil->setColTemplet(5,"#imgTpl");
-            $this->pageUtil->setColTemplet(2,"#statusTpl2");
+            $this->pageUtil->setColTemplet(2,"#statusTpl");
         }else{
             $this->pageUtil->setDataDictArr([3=>'isTrue',7=>'wineStyle',8=>'wineCate',9=>'wineSize']);
             $where  = getWhereParam(['wine_name'=>'like','brand_id','a.status','is_recommend','wine_style','wine_cate','wine_size'],$this->param);
@@ -49,7 +49,7 @@ class Wine extends BaseController
     public function editjpt(){
         if($this->request->isPost()){
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            WineImgsModel::where(['wine_id'=>$this->id])->delete();
+            WineImgsModel::where(['wine_id'=>$this->id,'type'=>1])->delete();
             $imgList = json_decode($this->param['img_data'],true);
             if(count($imgList) > 0){
                 foreach($imgList as &$item){
@@ -74,7 +74,7 @@ class Wine extends BaseController
 
         if($this->request->isPost()){
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            WineImgsModel::where(['wine_id'=>$this->id])->delete();
+            WineImgsModel::where(['wine_id'=>$this->id,'type'=>2])->delete();
             $imgList = json_decode($this->param['img_data'],true);
             if(count($imgList) > 0){
                 foreach($imgList as &$item){

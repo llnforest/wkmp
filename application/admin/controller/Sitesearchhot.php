@@ -24,7 +24,7 @@ class Sitesearchhot extends BaseController
         if($this->request->isGet()){
             $this->page->setHeader('ID,排序,热搜关键词,创建时间');
             $this->pageUtil->setColEdit(1);
-            $this->pageUtil->setColsWidthArr([1=>100,3=>180,4=>150]);
+            $this->pageUtil->setColsWidthArr([1=>100,3=>160,4=>150]);
             $this->pageUtil->setColsMinWidthArr([2=>200]);
         }else{
             $where  = getWhereParam(['keywords'=>'like'],$this->param);

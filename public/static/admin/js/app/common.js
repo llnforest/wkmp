@@ -7,6 +7,25 @@ function isEmpty(obj){
     }
 }
 
+//form表单数据转成对象格式
+$.fn.parseForm = function(){
+    var serializeObj={};
+    var array=this.serializeArray();
+    // var str=this.serialize();
+    $(array).each(function(){
+        if(serializeObj[this.name]){
+            if($.isArray(serializeObj[this.name])){
+                serializeObj[this.name].push(this.value);
+            }else{
+                serializeObj[this.name]=[serializeObj[this.name],this.value];
+            }
+        }else{
+            serializeObj[this.name]=this.value;
+        }
+    });
+    return serializeObj;
+};
+
 //渲染日历方法
 function renderDatePicker(){
     if($(".date-time").length > 0){

@@ -34,11 +34,8 @@
 <script type="text/html" id="imgTpl">
     <img class="list-mini-image" src="{{ d.col5 != "" ?  '__ImagePath__'+d.col5 : '' }}">
 </script>
-<script type="text/html" id="statusTpl2">
+<script type="text/html" id="statusTpl">
     <input type="checkbox" name="dataFlag" lay-skin="switch" lay-text="上架|下架" lay-filter="dataFlag" {{ d.col2 == '1' ? 'checked' : '' }} value="{{ d.col0 }}">
-</script>
-<script type="text/html" id="statusTpl3">
-    <input type="checkbox" name="dataFlag" lay-skin="switch" lay-text="推荐|否" lay-filter="dataFlag" {{ d.col3 == '1' ? 'checked' : '' }} value="{{ d.col0 }}">
 </script>
 <script>
 

@@ -1,4 +1,6 @@
 <script>
+    renderDatePicker();//渲染时间
+
     //弹框iframe的公用对象
     function getOpenObj(obj,refresh){
         var openObj = {
