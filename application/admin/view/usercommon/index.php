@@ -5,6 +5,12 @@
 {block name="headBody"}{/block}
 {block name="queryBody"}
 <div class="layui-inline">
+    <label class="layui-form-label">用户ID</label>
+    <div class="layui-input-inline">
+        <input name="id" value="{$id??''}" autocomplete="off" class="layui-input" type="text" placeholder="用户ID">
+    </div>
+</div>
+<div class="layui-inline">
     <label class="layui-form-label">用户姓名</label>
     <div class="layui-input-inline">
         <input name="name" value="{$name??''}" autocomplete="off" class="layui-input" type="text" placeholder="用户姓名">

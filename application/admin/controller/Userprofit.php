@@ -32,8 +32,8 @@ class Userprofit extends BaseController
             $this->pageUtil->setColsWidthArr([1=>120,2=>120,3=>100,4=>120,5=>100,6=>180,9=>160]);
             $this->pageUtil->setColsMinWidthArr([8=>300]);
             $this->pageUtil->setColTemplet(6,"#combineTpl");
-            $this->pageUtil->setToolBar(false);
             $this->pageUtil->setColsHideArr([7]);
+            $this->pageUtil->setToolBar(false);
 
         }else{
             $this->pageUtil->setDataDictArr([3=>'userLevel',4=>'profitType']);
