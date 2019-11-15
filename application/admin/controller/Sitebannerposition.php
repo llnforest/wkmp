@@ -28,7 +28,7 @@ class Sitebannerposition extends BaseController
             $this->pageUtil->setColsWidthArr([1=>100,4=>180,5=>160,6=>150]);
             $this->pageUtil->setColsMinWidthArr([2=>200,3=>300]);
         }else{
-            $where  = getWhereParam(['position_name'=>'like'],$this->param);
+            $where  = getWhereParam(['position_name'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,position_name,remark,create_time,update_time')
                 ->where($where)
                 ->order('sort asc')

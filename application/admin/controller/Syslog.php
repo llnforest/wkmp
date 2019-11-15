@@ -29,7 +29,7 @@ class Syslog extends BaseController
             $this->pageUtil->setShowNumbers(false);
             $this->pageUtil->setToolBar(false);
         }else{
-            $where  = getWhereParam(['nickname'=>'like','operate_menu'=>'like','operate_name'=>'like','log'=>'like','create_time'=>['start','end']],$this->param);
+            $where  = getWhereParam(['nickname'=>'like','operate_menu'=>'like','operate_name'=>'like','log'=>'like','create_time'=>['start','end']],$this->post);
             $pageData = $this->model::field('id as id_num,id,nickname,operate_menu,operate_name,ip,url,log,create_time')
             ->where($where)
             ->order('create_time asc')

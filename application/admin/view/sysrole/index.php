@@ -14,7 +14,7 @@
 {block name="jsBody"}
 {assign name="bar" value="$barButs|json_decode=true"}
 <script type="text/html" id="listBarTool">
-    {{# if(d.col0 != 1){ }}
+    {{# if(d.col0 != 2){ }}
     {foreach  $bar as $item}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/foreach}

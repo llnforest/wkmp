@@ -22,17 +22,15 @@
         <input name="contact_phone" value="{$contact_phone??''}" autocomplete="off" class="layui-input" type="text" placeholder="手机号码">
     </div>
 </div>
+
 <div class="layui-inline">
-    <label class="layui-form-label">邀请人姓名</label>
+    <label class="layui-form-label">快递单号</label>
     <div class="layui-input-inline">
-        <input name="name" value="{$name??''}" autocomplete="off" class="layui-input" type="text" placeholder="邀请人姓名">
+        <input name="express" value="{$express??''}" autocomplete="off" class="layui-input" type="text" placeholder="快递单号">
     </div>
 </div>
 <div class="layui-inline">
-    <label class="layui-form-label">邀请人号码</label>
-    <div class="layui-input-inline">
-        <input name="phone" value="{$phone??''}" autocomplete="off" class="layui-input" type="text" placeholder="邀请人号码">
-    </div>
+    {tag:select label="配送类型" name="exress_type" inline="inline" code="expressType"  default="true" search="true"/}
 </div>
 <div class="layui-inline">
     {tag:select label="订单状态" name="status" inline="inline" code="orderStatus"  default="true" search="true"/}
@@ -57,41 +55,44 @@
 </div>
 {/block}
 {block name="jsBody"}
-<script type="text/html" id="combineTpl">
-    {{# if(d.col4 != null){ }}
-    {{ d.col4 }}-{{ d.col5 }}-{{ d.col6}}
-    {{# } }}
-</script>
 {assign name="bar" value="$barButs|json_decode=true"}
 <script type="text/html" id="listBarTool">
-    {{# if(d.col13 == 0){ }}
+    {{# if(d.col4 == 0){ }}
 
     {foreach  $bar as $item}
-    {if in_array($item.id,[113,114])}
+    {if in_array($item.id,[126,129,130])}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/if}
     {/foreach}
 
-    {{# }else if(d.col13 == 1){ }}
+    {{# }else if(d.col4 == 1){ }}
 
     {foreach  $bar as $item}
-    {if in_array($item.id,[111,113])}
+    {if in_array($item.id,[127,129,130])}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/if}
     {/foreach}
 
-    {{# }else if(d.col13 == 2){ }}
+    {{# }else if(d.col4 == 2){ }}
 
     {foreach  $bar as $item}
-    {if in_array($item.id,[112,113])}
+    {if in_array($item.id,[128,129,130])}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/if}
     {/foreach}
 
-    {{# }else if(d.col13 == 3){ }}
+    {{# }else if(d.col4 == 3){ }}
 
     {foreach  $bar as $item}
-    {if in_array($item.id,[110])}
+    {if in_array($item.id,[110,130])}
+    <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
+    {/if}
+    {/foreach}
+
+    {{# }else if(d.col4 == 4){ }}
+
+    {foreach  $bar as $item}
+    {if in_array($item.id,[130])}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/if}
     {/foreach}

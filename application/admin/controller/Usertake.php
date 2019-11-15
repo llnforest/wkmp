@@ -35,7 +35,7 @@ class Usertake extends BaseController
 
         }else{
             $this->pageUtil->setDataDictArr([3=>'userLevel',6=>'takeStatus']);
-            $where  = getWhereParam(['b.name'=>'like','b.phone'=>'like','a.status','a.create_time'=>['create_start','create_end']],$this->param);
+            $where  = getWhereParam(['b.name'=>'like','b.phone'=>'like','a.status','a.create_time'=>['create_start','create_end']],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
                 ->field('a.id,b.name,b.phone,b.level,a.money,a.handle_fee,a.status,a.remark,a.create_time')

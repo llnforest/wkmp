@@ -28,7 +28,7 @@ class Usercommon extends BaseController
             $this->pageUtil->setColTemplet(5,"#statusTpl");
             $this->pageUtil->setColTemplet(1,"#imgTpl");
         }else{
-            $where  = getWhereParam(['id','name'=>'like','phone'=>'like','status','create_time'=>['create_start','create_end']],$this->param);
+            $where  = getWhereParam(['id','name'=>'like','phone'=>'like','status','create_time'=>['create_start','create_end']],$this->post);
             $where[] = ['level','=',0];
             $pageData = $this->model::field('id,headimgurl,nickname,name,phone,status,total_sale_user,xl_sale_user,last_login_time,create_time')
                 ->where($where)

@@ -50,9 +50,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">vip价</label>
+        <label class="layui-form-label">会员价</label>
         <div class="layui-input-block">
-            <input type="text" name="vip_price" value="{$info.vip_price??''}" autocomplete="off" lay-verify="required" placeholder="请输入vip价" class="layui-input">
+            <input type="text" name="vip_price" value="{$info.vip_price??''}" autocomplete="off" lay-verify="required" placeholder="请输入会员价" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">

@@ -28,7 +28,7 @@ class Siteshop extends BaseController
             $this->pageUtil->setColsMinWidthArr([3=>200,5=>300]);
             $this->pageUtil->setColTemplet(2,"#imgTpl");
         }else{
-            $where  = getWhereParam(['shop_name'=>'like','phone'=>'like'],$this->param);
+            $where  = getWhereParam(['shop_name'=>'like','phone'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,img,shop_name,phone,address,create_time')
                 ->where($where)
                 ->order('sort asc,create_time desc')

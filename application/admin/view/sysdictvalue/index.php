@@ -17,7 +17,9 @@
 {block name="jsBody"}
 <script>
     function add(obj){
-        obj.menu_url += '/dict_id/{$Request.param.dict_id}';
+        data = $("form").parseForm();
+        console.log(data);
+        obj.menu_url += '/dict_id/'+data.dict_id;
         commonOpen(obj);
     }
 

@@ -23,14 +23,13 @@ class Sysdictvalue extends BaseController
     //分页渲染处理
     protected function renderPage(){
         if($this->request->isGet()){
-            $this->data['id'] = 1;
             $this->page->setHeader('ID,排序,字典名称,参数名称,参数编码,字体颜色,备注说明');
             $this->pageUtil->setShowCheckbox(true);
             $this->pageUtil->setColsWidthArr([1=>100,2=>120,4=>120,7=>150]);
             $this->pageUtil->setColsMinWidthArr([3=>120,5=>120,6=>300]);
             $this->pageUtil->setColEdit(1);
         }else{
-            $where  = getWhereParam(['a.dict_name'=>'like','a.dict_id'],$this->param);
+            $where  = getWhereParam(['a.dict_name'=>'like','a.dict_id'],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('sys_dict b','a.dict_id = b.id','left')
                 ->where($where)

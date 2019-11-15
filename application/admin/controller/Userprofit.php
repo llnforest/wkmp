@@ -37,7 +37,7 @@ class Userprofit extends BaseController
 
         }else{
             $this->pageUtil->setDataDictArr([3=>'userLevel',4=>'profitType']);
-            $where  = getWhereParam(['b.name'=>'like','b.phone'=>'like','a.type','a.create_time'=>['create_start','create_end']],$this->param);
+            $where  = getWhereParam(['b.name'=>'like','b.phone'=>'like','a.type','a.create_time'=>['create_start','create_end']],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
                 ->join('pin_user c','a.from_id = c.id','left')

@@ -508,9 +508,11 @@ class PageUtil
     /**
      * @param mixed $colsEditArr
      */
-    public function setColsEditArr($colsEditArr)
+    public function setColsEditArr($colsEditArr,$edit = 'text')
     {
-        $this->colsEditArr = $colsEditArr;
+        foreach($colsEditArr as $v){
+            $this->colsEditArr[$v] = $edit;
+        }
     }
 
     /**

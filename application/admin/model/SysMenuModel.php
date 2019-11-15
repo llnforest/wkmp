@@ -49,12 +49,16 @@ class SysMenuModel extends Model
      * @param int $parent_id
      * @param $data
      */
-    public static function getMenuTreeByChecked($parent_id=0,$menuArr){
+    public static function getMenuTreeByChecked($parent_id=0,$menuArr,$user_id,$allMenu){
         $where = ['status'=>1,'parent_id'=>$parent_id];
-        $data = self::where($where)->select();
+        if($user_id == 1){
+            $data = self::where($where)->select();
+        }else{
+            $data = self::where($where)->where('id','in',$allMenu)->select();
+        }
         foreach($data as $item){
             $item['checked'] = in_array($item['id'],$menuArr);
-            $item['sub'] = self::getMenuTreeByChecked($item['id'],$menuArr);
+            $item['sub'] = self::getMenuTreeByChecked($item['id'],$menuArr,$user_id,$allMenu);
         }
         return $data;
     }

@@ -20,13 +20,26 @@
 </div>
 {/block}
 {block name="jsBody"}
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="dataFlag" lay-skin="switch" lay-text="正常|停用" lay-filter="dataFlag" {{ d.col4 == '1' ? 'checked' : '' }} value="{{ d.col0 }}">
+</script>
 <script>
-
+    //修改菜单名称
+    function col3(obj){
+        obj.menu_name = '修改菜单名称';
+        editField(obj,{menu_name:obj.value})
+    }
+    //修改菜单地址
+    function col8(obj){
+        obj.menu_name = '修改菜单地址';
+        editField(obj,{menu_url:obj.value})
+    }
+    //添加下级
     function addDown(obj){
         obj.menu_url += '/parent_id/'+obj.data.col0;
         commonOpen(obj)
     }
-
+    //点击树
     function clickNode(obj){
         var nodeId = obj.param.nodeId;
         whereField.parent_id = nodeId;

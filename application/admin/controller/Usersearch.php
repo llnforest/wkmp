@@ -35,7 +35,7 @@ class Usersearch extends BaseController
 
         }else{
             $this->pageUtil->setDataDictArr([4=>'userLevel']);
-            $where  = getWhereParam(['a.user_id','b.name'=>'like','b.phone'=>'like','a.keywords'=>'like','a.create_time'=>['create_start','create_end']],$this->param);
+            $where  = getWhereParam(['a.user_id','b.name'=>'like','b.phone'=>'like','a.keywords'=>'like','a.create_time'=>['create_start','create_end']],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
                 ->field('a.id,a.user_id,b.name,b.phone,b.level,a.keywords,a.create_time')

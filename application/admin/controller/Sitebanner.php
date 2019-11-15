@@ -29,7 +29,7 @@ class Sitebanner extends BaseController
             $this->pageUtil->setColTemplet(4,"#imgTpl");
             $this->pageUtil->setColTemplet(2,"#statusTpl");
         }else{
-            $where  = getWhereParam(['a.title'=>'like','b.position_id'],$this->param);
+            $where  = getWhereParam(['a.title'=>'like','b.position_id'],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_site_banner_position b','a.position_id = b.id','left')
                 ->field('a.id,a.sort,a.status,b.position_name,a.img,a.title,a.url,a.create_time,a.update_time')

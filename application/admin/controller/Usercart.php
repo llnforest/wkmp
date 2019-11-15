@@ -29,14 +29,14 @@ class Usercart extends BaseController
                 $this->data['phone'] = $userInfo->phone;
                 $this->data['user_id'] = $userInfo->id;
             }
-            $this->page->setHeader('ID,用户ID,会员姓名,手机号码,会员等级,酒品名称,上下架,会员价,vip价,购买数量,加入时间');
+            $this->page->setHeader('ID,用户ID,会员姓名,手机号码,会员等级,酒品名称,上下架,市场价,会员价,购买数量,加入时间');
             $this->pageUtil->setColsWidthArr([1=>80,2=>100,3=>120,4=>100,6=>80,7=>80,8=>80,9=>100,10=>160,11=>90]);
             $this->pageUtil->setColsMinWidthArr([5=>180]);
             $this->pageUtil->setShowNumbers(false);
 
         }else{
             $this->pageUtil->setDataDictArr([4=>'userLevel',6=>'upDown']);
-            $where  = getWhereParam(['a.user_id','b.name'=>'like','b.phone'=>'like','c.status','c.wine_name'=>'like','a.create_time'=>['create_start','create_end']],$this->param);
+            $where  = getWhereParam(['a.user_id','b.name'=>'like','b.phone'=>'like','c.status','c.wine_name'=>'like','a.create_time'=>['create_start','create_end']],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
                 ->join('pin_wine c','a.wine_id = c.id','left')

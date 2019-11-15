@@ -14,6 +14,7 @@ use app\admin\model\SysRoleMenuModel;
 use app\admin\model\SysRoleModel;
 use app\admin\model\SysUserRoleModel;
 use think\App;
+use think\facade\Session;
 
 class Sysrole extends BaseController
 {
@@ -32,7 +33,8 @@ class Sysrole extends BaseController
             $this->pageUtil->setColsMinWidthArr([2=>160]);
         }else{
             $this->pageUtil->setDataDictArr([3=>'status']);
-            $where  = getWhereParam(['name'=>'like'],$this->param);
+            $where  = getWhereParam(['name'=>'like'],$this->post);
+            $where[] = ['id','<>',1];
             $pageData = $this->model::field('id,sort,name,status,remark')
                 ->where($where)
                 ->order('status desc,sort asc')
@@ -108,13 +110,13 @@ class Sysrole extends BaseController
     //获取表单树
     function getAuth(){
         $menu_arr = SysRoleMenuModel::where(['role_id'=>$this->id])->column('menu_id');
-        $menuList = SysMenuModel::getMenuTreeByChecked(0,$menu_arr);
+        $menuList = SysMenuModel::getMenuTreeByChecked(0,$menu_arr,$this->userSession['id'],Session::get('auth')['menuArr']);
         return sucRes($menuList);
     }
 
     //角色列表根据用户id显示选中
     function getRoleListByUser(){
-        $roleList = $this->model::field('id,name')->where(['status'=>1])->select();
+        $roleList = $this->model::field('id,name')->where(['status'=>1])->where('id','<>',1)->select();
         if(!empty($this->param['user_id'])){
             $roleArr = SysUserRoleModel::where(['user_id'=>$this->param['user_id']])->column('role_id');
             foreach($roleList as &$v){

@@ -6,5 +6,5 @@
  */
 
 return [
-    'list_rows' => 10,
+    'list_rows' => 15,
 ];

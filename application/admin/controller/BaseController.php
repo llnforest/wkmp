@@ -59,7 +59,8 @@ class BaseController extends  AuthController
     public function detail(){
         if($this->request->isGet()) {
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
-            if (method_exists($this,"beforeDetail")) $this->beforeDetail($this->data['info']);
+            if (method_exists($this,"beforeDetail")) $this->beforeDetail();
+            $this->data['readonly'] = true;
             return view('detail', $this->data);
         }
     }
@@ -91,6 +92,18 @@ class BaseController extends  AuthController
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
             if(method_exists($this,"beforeEdit")) $this->beforeEdit($this->data['info']);
             return view($template?:'detail',$this->data);
+        }
+    }
+
+    /**
+     * 修改字段接口
+     */
+    public function editField($template = null){
+        if(method_exists($this,"commonOperate")) $this->commonOperate();
+        if($this->request->isPost()){
+            if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
+            if(method_exists($this,"beforeEdit")) $this->beforeEdit($info);
+            return operateResult($info->save($this->param),'edit');
         }
     }
 

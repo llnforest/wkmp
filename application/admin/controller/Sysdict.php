@@ -29,7 +29,7 @@ class Sysdict extends BaseController
             $this->pageUtil->setColsWidthArr([1=>100,5=>250]);
             $this->pageUtil->setColEdit(1);
         }else{
-            $where  = getWhereParam(['dict_name'=>'like','dict_code'=>'like'],$this->param);
+            $where  = getWhereParam(['dict_name'=>'like','dict_code'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,dict_name,dict_code,remark')
                 ->where($where)
                 ->order('sort asc')

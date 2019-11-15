@@ -29,7 +29,7 @@ class Uservip extends BaseController
             $this->pageUtil->setColTemplet(1,"#imgTpl");
         }else{
             $this->pageUtil->setDataDictArr([5=>'userLevel']);
-            $where  = getWhereParam(['name'=>'like','phone'=>'like','status','level','create_time'=>['create_start','create_end'],'join_time'=>['join_start','join_end']],$this->param);
+            $where  = getWhereParam(['name'=>'like','phone'=>'like','status','level','create_time'=>['create_start','create_end'],'join_time'=>['join_start','join_end']],$this->post);
             $where[] = ['level','neq',0];
             $pageData = $this->model::field('id,headimgurl,nickname,name,phone,level,status,balance,total_profit,total_sale_user,total_sale_team,xl_sale_user,xl_sale_team,total_person_num,vip_team_num,tg_team_num,gj_team_num,join_time,last_login_time,create_time')
                 ->where($where)

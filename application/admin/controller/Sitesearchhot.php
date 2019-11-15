@@ -27,7 +27,7 @@ class Sitesearchhot extends BaseController
             $this->pageUtil->setColsWidthArr([1=>100,3=>160,4=>150]);
             $this->pageUtil->setColsMinWidthArr([2=>200]);
         }else{
-            $where  = getWhereParam(['keywords'=>'like'],$this->param);
+            $where  = getWhereParam(['keywords'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,keywords,create_time')
                 ->where($where)
                 ->order('sort asc,create_time desc')

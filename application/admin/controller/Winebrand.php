@@ -30,7 +30,7 @@ class Winebrand extends BaseController
             $this->pageUtil->setColTemplet(4,"#statusTpl");
             $this->pageUtil->setColTemplet(2,"#imgTpl");
         }else{
-            $where  = getWhereParam(['brand_name'=>'like'],$this->param);
+            $where  = getWhereParam(['brand_name'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,img,brand_name,status,create_time')
                 ->where($where)
                 ->order('sort asc,create_time desc')

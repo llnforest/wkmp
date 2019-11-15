@@ -28,7 +28,7 @@ if(!function_exists('errRes')){
      * @param string $msg 提示
      * @return array
      */
-    function errRes($data = [],$msg = 'error'){
+    function errRes($data = [], $msg = 'error'){
         return ['code' => lang('error_code'),'msg' => $msg,'data' => $data];
     }
 }
@@ -52,7 +52,7 @@ if(!function_exists('operateResult')){
      * @param string $url
      * @return array
      */
-    function operateResult($default,$operate = 'add',$url = null){
+    function operateResult($default, $operate = 'add', $url = null){
         if ($default) {
             if($url) return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success'), 'url' => url($url)];
             return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success')];
@@ -69,7 +69,7 @@ if(!function_exists('inputResult')){
      * @param string $operate
      * @return array
      */
-    function inputResult($default,$operate = 'sort'){
+    function inputResult($default, $operate = 'sort'){
         if ($default) {
             return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success')];
         } else {
@@ -85,11 +85,27 @@ if(!function_exists('switchResult')){
      * @param string $operate
      * @return array
      */
-    function switchResult($default,$operate = 'status'){
+    function switchResult($default, $operate = 'status'){
         if ($default) {
             return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success')];
         } else {
             return ['code' => lang('error_code'), 'msg' => lang('sys_'.$operate.'_error')];
+        }
+    }
+}
+
+if(!function_exists('handleResult')){
+    /**
+     * 接口处理结果
+     * @param boolean $default
+     * @param string $msg
+     * @return array
+     */
+    function handleResult($default, $msg = '处理', $data = []){
+        if ($default) {
+            return ['code' => lang('success_code'), 'msg' => $msg.'成功', 'data' => $data];
+        } else {
+            return ['code' => lang('error_code'), 'msg' => $msg.'失败', 'data' => $data];
         }
     }
 }
@@ -144,7 +160,7 @@ if(!function_exists('getWhereParam')){
      * @param int $type
      * @return array
      */
-    function getWhereParam($search,$param){
+    function getWhereParam($search, $param){
         $where = [];
         foreach($search as $k => $v){
             if(is_numeric($k)){

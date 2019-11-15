@@ -155,11 +155,18 @@
 
     //通用的修改排序（第一列）
     function col1(obj){
-        obj.menu_url = "{:str_replace('index','edit',$auth.url)}";
         obj.menu_name = '修改排序';
-        obj.confirm = false;
-        commonAjax(obj,{id:obj.data.col0,sort:obj.value},false,true)
+        editField(obj,{sort:obj.value})
     }
+
+    //通用修改字段值方法
+    function editField(obj,data){
+        obj.confirm = false;
+        obj.menu_url = "{:str_replace('index','editField',$auth.url)}";
+        $.extend(data,{id:obj.data.col0})
+        commonAjax(obj,data,false,true)
+    }
+
 
     //通用批量删除方法
     function delBatch(obj){

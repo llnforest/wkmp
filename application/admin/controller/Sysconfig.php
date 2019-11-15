@@ -30,7 +30,7 @@ class Sysconfig extends BaseController
             $this->pageUtil->setColsEditArr([1=>'text',4=>'text']);
             $this->pageUtil->setShowNumbers(false);
         }else{
-            $where  = getWhereParam(['config_name'=>'like','config_code'=>'like'],$this->param);
+            $where  = getWhereParam(['config_name'=>'like','config_code'=>'like'],$this->post);
             $pageData = $this->model::field('id,sort,config_code,config_name,config_value,units,remark')
                 ->where($where)
                 ->order('sort asc')

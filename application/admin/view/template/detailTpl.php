@@ -25,6 +25,12 @@
         var form = layui.form;
         var layer = layui.layer;
         var $ = layui.jquery;
+
+        {if(isset($readonly) && $readonly)}
+            $("input,textarea,select,radio,checkbox").attr('readonly',true);
+        {/if}
+
+        {if !isset($readonly)}
         //监听提交
         form.on('submit(submitForm)', function(data){
             //监听多图处理
@@ -43,6 +49,7 @@
             submitForm(data);
             return false;
         });
+        {/if}
 
         //关闭自身弹出层
         $("#closeBut").click(function(){

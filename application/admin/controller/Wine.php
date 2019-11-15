@@ -31,7 +31,7 @@ class Wine extends BaseController
             $this->pageUtil->setColTemplet(2,"#statusTpl");
         }else{
             $this->pageUtil->setDataDictArr([3=>'isTrue',7=>'wineStyle',8=>'wineCate',9=>'wineSize']);
-            $where  = getWhereParam(['wine_name'=>'like','brand_id','a.status','is_recommend','wine_style','wine_cate','wine_size'],$this->param);
+            $where  = getWhereParam(['wine_name'=>'like','brand_id','a.status','is_recommend','wine_style','wine_cate','wine_size'],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_wine_brand b','a.brand_id = b.id','left')
                 ->field('a.id,a.sort,a.status,is_recommend,wine_name,a.img,b.brand_name,wine_style,wine_cate,wine_size,mall_price,vip_price,a.create_time,a.update_time')

@@ -29,8 +29,10 @@ class Sysuser extends BaseController
             $this->pageUtil->setColsMinWidthArr([1=>120,2=>120,4=>120]);
             $this->pageUtil->setColsWidthArr([3=>95,5=>150,6=>150,7=>150,8=>160,9=>160,10=>240]);
             $this->pageUtil->setColTemplet(3,"#statusTpl");
+            $this->pageUtil->setToolbarId("listBarTool");
         }else{
-            $where  = getWhereParam(['a.nickname'=>'like','a.name'=>'like','a.phone','a.status'],$this->param);
+            $where  = getWhereParam(['a.nickname'=>'like','a.name'=>'like','a.phone','a.status'],$this->post);
+            $where[] = ['a.id','<>',1];
             $pageData = $this->model::alias('a')
                 ->where($where)
                 ->field('a.id,a.nickname,a.name,a.status,"" as role_name,a.phone,a.email,a.last_login_ip,a.last_login_time,a.create_time')
@@ -40,6 +42,7 @@ class Sysuser extends BaseController
                     $nameArr = SysUserRoleModel::alias('a')
                         ->join('sys_role b','a.role_id = b.id','left')
                         ->where('a.user_id',$item->id)
+                        ->where('a.user_id','<>',1)
                         ->column('b.name');
                     if(!empty($nameArr)) $item->role_name = implode(',',$nameArr);
                 });
