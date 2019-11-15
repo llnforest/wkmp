@@ -23,7 +23,7 @@ class Uservip extends BaseController
     protected function renderPage(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,微信头像,微信昵称,会员姓名,手机号码,会员等级,会员状态,账户余额,总收益,个人销售总额,团队销售总额,个人系列酒销售总额,团队系列酒销售总额,团队总人数,vip团队数,推广团队数,高级团队数,入会时间,最近登录时间,创建时间');
-            $this->pageUtil->setColsWidthArr([1=>100,4=>120,5=>100,6=>100,7=>100,8=>100,9=>140,10=>140,11=>180,12=>180,13=>120,14=>120,15=>120,16=>120,17=>160,18=>160,19=>160,20=>380]);
+            $this->pageUtil->setColsWidthArr([1=>100,4=>120,5=>100,6=>100,7=>100,8=>100,9=>140,10=>140,11=>180,12=>180,13=>120,14=>120,15=>120,16=>120,17=>160,18=>160,19=>160,20=>430]);
             $this->pageUtil->setColsMinWidthArr([2=>150,3=>100]);
             $this->pageUtil->setColTemplet(6,"#statusTpl");
             $this->pageUtil->setColTemplet(1,"#imgTpl");

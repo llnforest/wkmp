@@ -27,7 +27,7 @@ class Orderwine extends BaseController
     protected function renderPage(){
         if($this->request->isGet()){
             $this->page->setHeader('ID,订单编号,用户信息,订单状态,订单状态,订单金额,酒品总额,酒品返佣,快递费用,配送类型,地址说明,配送快递,用户备注,后台备注,下单时间,最后操作时间');
-            $this->pageUtil->setColsWidthArr([1=>160,2=>240,3=>100,5=>100,6=>100,7=>100,8=>100,9=>100,11=>160,14=>160,15=>160,16=>250]);
+            $this->pageUtil->setColsWidthArr([1=>160,2=>240,3=>100,5=>100,6=>100,7=>100,8=>100,9=>100,11=>160,14=>160,15=>160,16=>270]);
             $this->pageUtil->setColsMinWidthArr([10=>300,12=>300,13=>300]);
             $this->pageUtil->setColsHideArr([4]);
             $this->pageUtil->setColsEditArr([13]);

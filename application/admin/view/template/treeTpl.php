@@ -160,7 +160,7 @@
 
             //监听状态操作
             form.on('switch(dataFlag)', function(obj){
-                obj.menu_url = "{:str_replace('index','edit',$switchDataUrl??$auth.url)}";
+                obj.menu_url = "{:str_replace('index','editField',$switchDataUrl??$auth.url)}";
                 obj.menu_name = '变更状态';
                 console.log(obj);
                 commonAjax(obj,{id:this.value,status:obj.elem.checked?1:0},false,true,true);

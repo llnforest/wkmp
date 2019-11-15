@@ -42,7 +42,10 @@ class AuthController extends  Controller
             $this->redirect($login_url);//强制跳转登录界面
         }elseif ($this->data['auth']['url'] != $login_url){//非登录接口权限验证
             $this->data['auth'] = AuthUtil::getUrlAuth(Session::get('auth'),$action_url,Session::get('userInfo'),$this->request);
-            if(!$this->data['auth']) $this->error('您没有访问权限');
+            if(!$this->data['auth']){
+                if($this->request->isPost()) $this->error('您没有操作权限');
+                else $this->error('您没有查看权限');
+            }
         }
 
 

@@ -38,6 +38,10 @@ class AuthUtil
         $where = ['parent_id'=>$parent_id,'menu_type'=>$menu_type,'status'=>1];
         if($btn_type) $where['btn_type'] = $btn_type;
         $btnList = SysMenuModel::where($where)->order('sort asc,id asc')->select();
+        if(in_array(1,$auth['roleArr'])){
+            return json_encode($btnList);
+        }
+
         //判断权限
         foreach($btnList as $k=>$v){
             if(!self::checkAuth($v,$auth)) unset($btnList[$k]);
@@ -51,7 +55,12 @@ class AuthUtil
      * @return array|boolean
      */
     public static function getUrlAuth($auth,$url,$userInfo,$request){
-        $menu = SysMenuModel::where(['menu_url'=>$url])->find();
+        $menu = SysMenuModel::where(['menu_url'=>$url,'status'=>1])->find();
+        //存在菜单但菜单禁用
+        if(empty($menu)){
+            $authMenu = SysMenuModel::where(['menu_url'=>$url])->find();
+            if($authMenu) return false;
+        }
         if(self::checkAuth($menu,$auth,$userInfo,$request)) return ['name'=>$menu['menu_name'],'url'=>$url];
         else return false;
     }
@@ -81,10 +90,18 @@ class AuthUtil
      */
     private static function checkAuth($menuInfo,$auth,$userInfo = '',$request = ''){
         if(empty($menuInfo)) return true;
-        if(in_array($menuInfo['id'],$auth['menuArr']) || in_array(1,$auth['roleArr'])){//有权限
+        //究极权限，不记日志
+        if(in_array(1,$auth['roleArr'])) return true;
+        //判断权限日志
+        if(in_array($menuInfo['id'],$auth['menuArr'])){//有权限
             if($request && $userInfo && $menuInfo['log_level']){//纪录到日志中
+                if($request->isPost()){
+                    $operate = '【操作】';
+                }else{
+                    $operate = '【查看】';
+                }
                 $parentMenuName = SysMenuModel::where(['id'=>$menuInfo['parent_id']])->value('menu_name');
-                $logData = ['user_id'=>$userInfo['id'],'nickname'=>$userInfo['nickname'],'operate_menu'=>$parentMenuName,'operate_name'=>$menuInfo['menu_name'],'ip'=>$request->ip(),'url'=>$request->path()];
+                $logData = ['user_id'=>$userInfo['id'],'nickname'=>$userInfo['nickname'],'operate_menu'=>$parentMenuName,'operate_name'=>$menuInfo['menu_name'].$operate,'ip'=>$request->ip(),'url'=>$request->path()];
                 if($request->isPost()){
                     $param = $request->param();
                     $command = preg_replace('/\{(\w*?)\}/', '{$param[\'\\1\']}', $menuInfo['log_rule']);

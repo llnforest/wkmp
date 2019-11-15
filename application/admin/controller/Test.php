@@ -36,6 +36,17 @@ class Test extends Controller
 
     }
 
+    function test2(){
+        $menu = SysMenuModel::where('menu_url','admin/sysdict/editfield')->find();
+        chromephp::info($menu);
+        if(empty($menu)){
+            echo 0;
+        }else{
+            echo $menu->id;
+        }
+
+    }
+
     function testCache(){
         Cache::tag('a')->set('one',true);
 //        chromephp::info(Cache::get('b.one'));

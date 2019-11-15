@@ -115,4 +115,24 @@ class Sysmenu extends BaseController
         echo 'create success';
     }
 
+    //自动创建菜单(批量删除和修改字段)
+    function createDelMenu(){
+        $controller_name = $this->param['controller'];
+        $sort = $this->param['sort'];
+        $parent_id = $this->param['parent_id'];
+        $pre_url = 'admin/'.$controller_name.'/';
+        //判断是否存在
+        if(!empty($this->model::where(['parent_id'=>$parent_id,'menu_name'=>'批量删除'])->find())) die('already have this menu');
+
+        //批量删除
+        $menuData = ['parent_id'=>$parent_id,'menu_url'=>$pre_url.'delBatch','menu_name'=>'批量删除','menu_type'=>'B','sort'=>$sort.'09','btn_css'=>'#FF5722','btn_func'=>'delBatch','btn_type'=>1,'menu_icon'=>"<i class='layui-icon layui-icon-delete'></i>",'status'=>0];
+        $this->model::create($menuData);
+
+        //修改字段接口
+        $menuData = ['parent_id'=>$parent_id,'menu_url'=>$pre_url.'editField','menu_name'=>'修改字段接口','menu_type'=>'G','sort'=>$sort.'09','status'=>1];
+        $this->model::create($menuData);
+
+        echo 'create success';
+    }
+
 }
