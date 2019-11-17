@@ -31,7 +31,11 @@
     {{# if(d.col0 == 2){ }}
 
     {foreach  $bar as $item}
+    {if $Think.session.userInfo.id != 1}
     {if $item.id == 31}
+    <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
+    {/if}
+    {else}
     <a class="layui-btn layui-btn-xs" style="background-color:{$item.btn_css}" data-url="{$item.menu_url}" lay-event="{$item.btn_func}"> {$item.menu_icon|raw}{$item.menu_name}</a>
     {/if}
     {/foreach}
