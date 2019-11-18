@@ -20,6 +20,6 @@ return [
 
     'upload'        =>[
         'path'      =>  '../public',
-        'img_url'   => 'http://img.99wukong.test'
+        'img_url'   => 'http://admin.99wukong.test'
     ]
 ];
