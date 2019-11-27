@@ -31,9 +31,11 @@
 {/block}
 {block name="jsBody"}
 <script type="text/html" id="combineTpl">
-    {{ d.col6 }}({{ d.col7 }})
+    <span class="layui-tx-blue">{{ d.col6 }}({{ d.col7 }})</span>
 </script>
-
+<script type="text/html" id="combineTpl2">
+    <span class="layui-tx-green">{{ d.col8 }}({{ d.col9 }})</span>
+</script>
 <script>
 
 
