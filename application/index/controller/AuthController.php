@@ -18,7 +18,7 @@ class AuthController extends  Controller
     protected $param;
     protected $post;
     protected $id;
-    protected $userSession;
+    protected $user_id;
 
     public function __construct(App $app = null)
     {
