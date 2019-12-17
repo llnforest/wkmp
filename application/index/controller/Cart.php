@@ -116,7 +116,7 @@ class Cart extends BaseController
      */
     public function delCart(){
         if(empty($this->param['ids'])) return json(errRes([],'参数错误'));
-        $result = UserCartModel::where([['id','in',$this->param['ids'],['user_id','=',$this->user_id]])->delete();
+        $result = UserCartModel::where([['id','in',$this->param['ids']],['user_id','=',$this->user_id]])->delete();
         return operateResult($result,'del');
     }
 
@@ -152,7 +152,7 @@ class Cart extends BaseController
      */
     public function delAddress(){
         if(empty($this->param['ids'])) return json(errRes([],'参数错误'));
-        $result = UserAddressModel::where([['id','in',$this->param['ids'],['user_id','=',$this->user_id]])->delete();
+        $result = UserAddressModel::where([['id','in',$this->param['ids']],['user_id','=',$this->user_id]])->delete();
         return operateResult($result,'del');
     }
 }
