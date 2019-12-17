@@ -57,13 +57,11 @@ class User extends BaseController
             $v['wineList'] = OrderWineGoodsModel::where('order_id',$v['id'])->order('id asc')->select();
             foreach($v['wineList'] as $v_v){
                 $v_v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v_v['img']);
-                $v_v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+                $v_v['wine_size_text'] = DictUtil::getDictName('wineSize',$v_v['wine_size']);
             }
         }
         return json(sucRes($this->data));
     }
-
-
 
 
     //---------------------------------操作API---------------------------------

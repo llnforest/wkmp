@@ -20,6 +20,7 @@ use app\index\model\UserCartModel;
 use app\index\model\UserModel;
 use app\index\model\UserProfitModel;
 use app\index\model\UserSerachModel;
+use app\index\model\WineModel;
 use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
@@ -47,6 +48,50 @@ class Cart extends BaseController
         $this->data['total_money'] = 0;
         foreach($this->data['cartList'] as $v){
             $this->data['total_money'] += $v['mall_price'];
+            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
+            $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+        }
+        return json(sucRes($this->data));
+    }
+
+    /**
+     * 门店列表页面
+     * @return \think\response\Json
+     */
+    public function shop(){
+        $this->data['shopList'] = WineModel::order('create_time desc')->select();
+        foreach($this->data['shopList'] as $v){
+            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
+        }
+        return json(sucRes($this->data));
+    }
+
+    /**
+     * 提交订单页面
+     * @return \think\response\Json
+     */
+    public function order(){
+        if(!$this->request->has('ids')) return json(errRes([],'参数错误'));
+        $this->data['wineList'] = WineModel::where([['status','=',1],['id','in',$this->param['ids']]])->order('id asc')->select();
+        if(count($this->data['wineList']) == 0) return json(errRes([],'未知商品'));
+        foreach($this->data['wineList'] as $v){
+            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
+            $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+        }
+        $this->data['addressInfo'] = UserAddressModel::where('user_id',$this->user_id)->order('create_time desc')->find();
+        return json(sucRes($this->data));
+    }
+
+    /**
+     * 确认付款页面
+     * @return \think\response\Json
+     */
+    public function pay(){
+        if(!$this->request->has('id')) return json(errRes([],'参数错误'));
+        $this->data['orderInfo'] = OrderWineModel::where(['id' => $this->id,'user_id' => $this->user_id])->find();
+        if(empty($this->data['orderInfo'])) return json(errRes([],'未知订单'));
+        $this->data['wineList'] = OrderWineGoodsModel::where('order_id',$this->id)->order('id asc')->select();
+        foreach($this->data['wineList'] as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
             $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
         }
