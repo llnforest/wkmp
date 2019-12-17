@@ -8,15 +8,7 @@
 namespace app\index\controller;
 
 
-use app\index\model\SiteBannerModel;
-use app\index\model\SiteInfoModel;
-use app\index\model\SiteSearchHotModel;
-use app\index\model\SysDictModel;
-use app\index\model\SysDictValueModel;
-use app\index\model\UserCartModel;
-use app\index\model\UserSerachModel;
 use app\index\model\WineBrandModel;
-use app\index\model\WineImgsModel;
 use app\index\model\WineModel;
 use common\dict\DictUtil;
 use think\App;
