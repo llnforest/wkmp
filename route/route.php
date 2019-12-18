@@ -16,7 +16,7 @@ Route::get('think', function () {
 Route::get('hello/:name', 'admin/hello');
 
 //子域名解析
-//\think\facade\Route::domain("api","index");
+\think\facade\Route::domain("api","index");
 //\think\facade\Route::domain("admin","admin");
 return [
 

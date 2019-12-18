@@ -35,14 +35,14 @@ class Index extends BaseController
     public function index(){
         //banner图
         $bannerList = SiteBannerModel::where('status',1)->where('position_id','in',[1,2,3])->order('sort asc')->select();
-        $this->data['bannerList'][] = [];
-        $this->data['labelList'][] = [];
+        $this->data['bannerList'] = [];
+        $this->data['labelList'] = [];
         $this->data['centerBanner'] = [];
         foreach($bannerList as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
             if($v['position_id'] == 1) $this->data['bannerList'][] = $v;
             elseif($v['position_id'] == 2) $this->data['labelList'][] = $v;
-            elseif($v['position_id'] == 3) $this->data['centerBanner'][] = $v;
+            elseif($v['position_id'] == 3) $this->data['centerBanner'] = $v;
         }
         //推荐酒
         $this->data['wineList'] = WineModel::where(['status'=>1,'is_recommend'=>1])->order('sort asc')->limit(6)->select();
@@ -51,7 +51,7 @@ class Index extends BaseController
         }
         //推荐品牌
         $this->data['brandList'] = WineBrandModel::where('status',1)->order('sort asc')->select();
-        foreach($this->data['bannerList'] as &$v){
+        foreach($this->data['brandList'] as &$v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
         }
         //官网

@@ -28,6 +28,7 @@ class Sitebanner extends BaseController
             $this->pageUtil->setColsMinWidthArr([3=>150,5=>150,6=>200]);
             $this->pageUtil->setColTemplet(4,"#imgTpl");
             $this->pageUtil->setColTemplet(2,"#statusTpl");
+            $this->pageUtil->setColsEditArr([6]);
         }else{
             $where  = getWhereParam(['a.title'=>'like','b.position_id'],$this->post);
             $pageData = $this->model::alias('a')

@@ -12,7 +12,7 @@
                 <input class="image" type="hidden" name="img" value="{$info.img??''}" lay-verify="required">
                 <img class="mini-image {$info.img?'':'hidden'}" data-path="__ImagePath__" src="{$info.img?'__ImagePath__'.$info.img:''}">
             </button>
-            <span class="layui-tx-red block">(图片建议大小 252*234)</span>
+            <span class="layui-tx-red block">(图片建议大小 120*120)</span>
         </div>
     </div>
     <div class="layui-form-item">

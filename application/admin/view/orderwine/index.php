@@ -103,7 +103,12 @@
     //修改配送地址
     function col10(obj){
         obj.menu_name = '修改配送地址';
-        editField(obj,{menu_url:obj.value})
+        editField(obj,{address_info:obj.value})
+    }
+    //修改后台备注
+    function col13(obj){
+        obj.menu_name = '修改后台备注';
+        editField(obj,{remark:obj.value})
     }
 
     //发货

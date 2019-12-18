@@ -22,7 +22,11 @@
     <input type="checkbox" name="dataFlag" lay-skin="switch" lay-text="正常|停用" lay-filter="dataFlag" {{ d.col2 == '1' ? 'checked' : '' }} value="{{ d.col0 }}">
 </script>
 <script>
-
-
+    console.log('ok');
+    //修改链接地址
+    function col6(obj){
+        obj.menu_name = '修改链接地址';
+        editField(obj,{'url':obj.value})
+    }
 </script>
 {/block}

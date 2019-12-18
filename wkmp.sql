@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 27/11/2019 17:19:45
+ Date: 18/12/2019 18:58:05
 */
 
 SET NAMES utf8mb4;
@@ -37,12 +37,12 @@ CREATE TABLE `pin_site_banner`  (
 -- ----------------------------
 -- Records of pin_site_banner
 -- ----------------------------
-INSERT INTO `pin_site_banner` VALUES (1, '礼包图一', '/images/banner/20191118\\196720cbb1d654b789272b2dac6e155b.png', '', 1, 1, 0, '2019-11-18 11:07:15', '2019-11-18 11:58:53');
-INSERT INTO `pin_site_banner` VALUES (2, '白酒', '/images/banner/20191118\\4341c32f5348da996ee980df7835f818.png', '', 2, 1, 1, '2019-11-18 11:45:50', '2019-11-18 11:59:06');
-INSERT INTO `pin_site_banner` VALUES (3, '洋酒', '/images/banner/20191118\\5c8abfae2320140dd871ed12788de9cd.png', '', 2, 1, 4, '2019-11-18 11:46:29', '2019-11-18 11:59:32');
-INSERT INTO `pin_site_banner` VALUES (4, '红酒', '/images/banner/20191118\\88c786895db10dc23018a95d09a2f12d.png', '', 2, 1, 2, '2019-11-18 11:46:50', '2019-11-18 11:59:15');
-INSERT INTO `pin_site_banner` VALUES (5, '啤酒', '/images/banner/20191118\\25726521216f4eb1c6e2431a93e5f377.png', '', 2, 1, 3, '2019-11-18 11:47:10', '2019-11-18 11:59:24');
-INSERT INTO `pin_site_banner` VALUES (6, '中间广告位', '/images/banner/20191118\\61475c9e6c582375016cb3ff65fc83ad.png', '', 3, 1, 0, '2019-11-18 11:47:36', '2019-11-18 11:59:49');
+INSERT INTO `pin_site_banner` VALUES (1, '礼包图一', '/images/banner/20191118\\196720cbb1d654b789272b2dac6e155b.png', '/pages/prize/gift', 1, 1, 0, '2019-11-18 11:07:15', '2019-12-18 14:39:33');
+INSERT INTO `pin_site_banner` VALUES (2, '白酒', '/images/banner/20191118\\4341c32f5348da996ee980df7835f818.png', '/pages/cate/cate?wine_cate=1', 2, 1, 1, '2019-11-18 11:45:50', '2019-12-18 15:02:50');
+INSERT INTO `pin_site_banner` VALUES (3, '洋酒', '/images/banner/20191118\\5c8abfae2320140dd871ed12788de9cd.png', '/pages/cate/cate?wine_cate=4', 2, 1, 4, '2019-11-18 11:46:29', '2019-12-18 15:36:32');
+INSERT INTO `pin_site_banner` VALUES (4, '红酒', '/images/banner/20191118\\88c786895db10dc23018a95d09a2f12d.png', '/pages/prize/gift?wine_cate=2', 2, 1, 2, '2019-11-18 11:46:50', '2019-12-18 15:36:15');
+INSERT INTO `pin_site_banner` VALUES (5, '啤酒', '/images/banner/20191118\\25726521216f4eb1c6e2431a93e5f377.png', '/pages/cate/cate?wine_cate=3', 2, 1, 3, '2019-11-18 11:47:10', '2019-12-18 15:36:25');
+INSERT INTO `pin_site_banner` VALUES (6, '中间广告位', '/images/banner/20191118\\61475c9e6c582375016cb3ff65fc83ad.png', '/pages/prize/gift', 3, 1, 0, '2019-11-18 11:47:36', '2019-12-18 14:47:26');
 
 -- ----------------------------
 -- Table structure for pin_site_banner_position
@@ -368,13 +368,14 @@ CREATE TABLE `pin_wine`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pin_wine
 -- ----------------------------
-INSERT INTO `pin_wine` VALUES (1, '五粮液股份 百鸟朝凤醇品 浓香型白酒礼盒装 整箱装', '/images/banner/20191113\\8368495c2f8231bcbcf4a766c716306a.jpg', 1, 1, 4, 6, 598, 448, 0, 1, 0, '2019-11-13 17:49:11', '2019-11-13 18:02:20');
+INSERT INTO `pin_wine` VALUES (1, '五粮液股份 百鸟朝凤醇品 浓香型白酒礼盒装 整箱装', '/images/banner/20191113\\8368495c2f8231bcbcf4a766c716306a.jpg', 1, 1, 4, 6, 598, 448, 0, 1, 1, '2019-11-13 17:49:11', '2019-12-18 15:54:22');
 INSERT INTO `pin_wine` VALUES (2, '五粮液5年浓香型52度', '/images/banner/20191113\\d0e828305347c212ba334b4aafa81951.jpg', 1, 1, 4, 1, 180, 150, 1, 1, 1, '2019-11-13 17:49:11', '2019-11-13 17:58:34');
+INSERT INTO `pin_wine` VALUES (3, '意大利米兰之花原装进口葡萄酒', '/images/wine/20191218\\81a418bbcfb081a6213bbfb3a67fe557.png', 2, 2, 5, 1, 280, 220, 3, 1, 1, '2019-12-18 16:02:03', '2019-12-18 16:02:18');
 
 -- ----------------------------
 -- Table structure for pin_wine_brand
@@ -389,7 +390,7 @@ CREATE TABLE `pin_wine_brand`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品品牌表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品品牌表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pin_wine_brand
@@ -397,7 +398,8 @@ CREATE TABLE `pin_wine_brand`  (
 INSERT INTO `pin_wine_brand` VALUES (1, '贵州茅台', 1, '/images/banner/20191113\\675cb1e9428e6ba9aa3f2aaba37516a5.png', 0, '2019-11-13 14:35:35', '2019-11-13 14:35:35');
 INSERT INTO `pin_wine_brand` VALUES (2, '古井', 1, '/images/banner/20191113\\d53c974bcf18175b7ce26a2b544946d6.png', 0, '2019-11-13 14:36:00', '2019-11-13 14:36:37');
 INSERT INTO `pin_wine_brand` VALUES (3, '洋河', 1, '/images/banner/20191113\\89add48a07b432a05df5a816d9b73c9c.png', 0, '2019-11-13 14:36:30', '2019-11-13 14:36:30');
-INSERT INTO `pin_wine_brand` VALUES (4, '五粮液', 0, '/images/banner/20191113\\e9c66bd41870131468b1df0df6489d12.png', 0, '2019-11-13 14:37:05', '2019-11-13 15:31:57');
+INSERT INTO `pin_wine_brand` VALUES (4, '五粮液', 1, '/images/banner/20191113\\e9c66bd41870131468b1df0df6489d12.png', 0, '2019-11-13 14:37:05', '2019-12-18 16:01:29');
+INSERT INTO `pin_wine_brand` VALUES (5, '米兰之花', 1, '/images/winebrand/20191218\\4c4884965a8a740b0c4950915176247f.png', 0, '2019-12-18 16:01:08', '2019-12-18 16:01:08');
 
 -- ----------------------------
 -- Table structure for pin_wine_imgs
@@ -458,7 +460,7 @@ CREATE TABLE `pin_wine_order`  (
 -- ----------------------------
 -- Records of pin_wine_order
 -- ----------------------------
-INSERT INTO `pin_wine_order` VALUES (2019090112320923, 1, 1, 100, 100, 50, '', 1, '0', '李林-13585788049-安徽省合肥市蜀山区创新大道111号', 0, '', 10, '快点发货', '', '2019-11-15 16:29:05', '2019-11-15 14:45:22');
+INSERT INTO `pin_wine_order` VALUES (2019090112320923, 1, 1, 100, 100, 50, '', 1, '0', '收件地址：收件地址：收件地址：李林-13585788049-安徽省合肥市蜀山区创新大道111号', 0, '', 10, '快点发货', '111', '2019-11-15 16:29:05', '2019-12-18 15:22:18');
 
 -- ----------------------------
 -- Table structure for pin_wine_order_wines
@@ -636,7 +638,7 @@ CREATE TABLE `sys_log`  (
   `log` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统行为日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统行为日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -727,6 +729,7 @@ INSERT INTO `sys_log` VALUES (83, 1, '开发者账号', '系统登录', '登录'
 INSERT INTO `sys_log` VALUES (84, 1, '开发者账号', '系统登录', '登录', '::1', 'admin/index/login', '', '2019-11-18 11:05:51');
 INSERT INTO `sys_log` VALUES (85, 1, '开发者账号', '系统登录', '登录', '::1', 'admin/index/login', '', '2019-11-18 21:03:47');
 INSERT INTO `sys_log` VALUES (86, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-11-27 16:56:49');
+INSERT INTO `sys_log` VALUES (87, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-12-18 11:10:42');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1007,7 +1010,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'lil', 'c2af7e249c93cf53930c99fb83edc1dc', '开发者账号', 1, '19156017290', '', '127.0.0.1', '2019-11-27 16:56:49', NULL, '2019-11-27 16:56:49', NULL);
+INSERT INTO `sys_user` VALUES (1, 'lil', 'c2af7e249c93cf53930c99fb83edc1dc', '开发者账号', 1, '19156017290', '', '127.0.0.1', '2019-12-18 11:10:42', NULL, '2019-12-18 11:10:42', NULL);
 INSERT INTO `sys_user` VALUES (2, 'admin', '14e1b600b1fd579f47433b88e8d85291', '超级管理员', 1, '19156017290', '', '::1', '2019-11-15 23:49:50', NULL, '2019-11-15 23:49:50', NULL);
 INSERT INTO `sys_user` VALUES (3, 'dev', '14e1b600b1fd579f47433b88e8d85291', '测试用户', 0, '13585788049', '', NULL, NULL, '2019-04-25 17:50:42', '2019-04-25 18:39:12', NULL);
 INSERT INTO `sys_user` VALUES (4, 'demo', '14e1b600b1fd579f47433b88e8d85291', 'demo', 1, '1231', '', NULL, NULL, '2019-04-25 17:51:48', '2019-04-25 17:54:57', '2019-04-25 17:54:57');

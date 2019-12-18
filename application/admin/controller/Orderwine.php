@@ -30,7 +30,7 @@ class Orderwine extends BaseController
             $this->pageUtil->setColsWidthArr([1=>160,2=>240,3=>100,5=>100,6=>100,7=>100,8=>100,9=>100,11=>160,14=>160,15=>160,16=>270]);
             $this->pageUtil->setColsMinWidthArr([10=>300,12=>300,13=>300]);
             $this->pageUtil->setColsHideArr([4]);
-            $this->pageUtil->setColsEditArr([13]);
+            $this->pageUtil->setColsEditArr([10,13]);
             $this->pageUtil->setShowNumbers(false);
             $this->pageUtil->setToolbarId("listBarTool");
         }else{
