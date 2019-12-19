@@ -93,14 +93,18 @@ class Index extends BaseController
      * @return \think\response\Json
      */
     public function searchList(){
-        $where[] = ['status','=',1];
-        if(!empty($this->param['keywords'])) $where[] = ['wine_name','like','%'.$this->param['wine_name'].'%'];
-        if(isset($this->param['brand_id'])) $where[] = ['brand_id','=',$this->param['brand_id']];
+        $where[] = ['a.status','=',1];
+        $where[] = ['b.status','=',1];
+        if(!empty($this->param['keywords'])) $where[] = ['a.wine_name|b.brand_name','like','%'.$this->param['keywords'].'%'];
         $page = !empty($this->param['page'])?$this->param['page']:1;
-        $this->data['wineList'] = WineModel::where($where)->order('sort asc')->page($page,Config::get('paginate.list_rows'))->select();
+        $this->data['wineList'] = WineModel::alias('a')
+            ->join('pin_wine_brand b','a.brand_id = b.id','left')
+            ->field('a.*')
+            ->where($where)->order('b.sort asc,a.sort asc')
+            ->page($page,Config::get('paginate.list_rows'))->select();
         foreach($this->data['wineList'] as &$v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
-            $v['wine_size'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+            $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
         }
         return json(sucRes($this->data));
     }
@@ -111,9 +115,9 @@ class Index extends BaseController
      */
     public function search(){
         //最近搜索
-        $this->data['keywordsList'] = UserSerachModel::where(['user_id' => $this->user_id])->order('create_time desc')->limit(10)->select();
+        $this->data['searchList'] = UserSerachModel::where(['user_id' => $this->user_id])->order('create_time desc')->limit(10)->select();
         //热门搜索
-        $this->data['hotList'] = SiteSearchHotModel::order('sort asc')->select();
+        $this->data['hotList'] = SiteSearchHotModel::order('sort asc')->limit(10)->select();
 
         return json(sucRes($this->data));
     }
@@ -136,16 +140,16 @@ class Index extends BaseController
     }
 
     /**
-     * 搜索页面：搜索操作
+     * 搜索页面：增加搜索
      * @return \think\response\Json
      */
-    public function searchOperate(){
+    public function searchAdd(){
         //最近搜索
         $info = UserSerachModel::get(['user_id' => $this->user_id,'keywords' => $this->param['keywords']]);
         if(empty($info)){
-            UserSerachModel::create(['user_id' => $this->user_id,'keywords' => $this->param['keywords']]);
+            $this->data['result'] = UserSerachModel::create(['user_id' => $this->user_id,'keywords' => $this->param['keywords']]);
         }else{
-            $info->save(['create_time' => date('Y-m-d H:i:s',time())]);
+            $this->data['result'] = $info->save(['create_time' => date('Y-m-d H:i:s',time())]);
         }
         return json(sucRes($this->data));
     }
@@ -157,7 +161,7 @@ class Index extends BaseController
     public function searchDel(){
         //最近搜索
         UserSerachModel::where(['user_id' => $this->user_id])->delete();
-        return json(sucRes($this->data));
+        return json(sucRes($this->data,'最近搜索已清空'));
     }
 
 }

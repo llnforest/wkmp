@@ -27,6 +27,7 @@ class AuthController extends  Controller
         $this->param = $this->request->param();
         $this->post = $this->request->post();
         $this->id = isset($this->param['id'])?intval($this->param['id']):0;
+        $this->user_id = 1;
 
 
     }
