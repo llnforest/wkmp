@@ -2,10 +2,8 @@
 
 {extend name="template/detailTpl" /}
 {block name="formBody"}
-    {if !isset($info)}
     <input type="hidden" name="status" value="0"/>
     <input type="hidden" name="is_recommend" value="0"/>
-    {/if}
 
     <div class="layui-form-item">
         <label class="layui-form-label">酒品名称</label>

@@ -55,7 +55,7 @@
             <div class="add-img-btn">
                 <i class="layui-icon">&#xe654;</i>
             </div>
-            <span class="layui-tx-red">(图片建议大小 252*234)</span>
+            <span class="layui-tx-red">(图片建议大小 600*400)</span>
         </div>
     </div>
 

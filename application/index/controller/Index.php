@@ -68,23 +68,29 @@ class Index extends BaseController
      * @return \think\response\Json
      */
     public function detail(){
-        //商品图和详情图
-        $imgList = WineImgsModel::where('wine_id',$this->id)->order('sort asc')->select();
-        $this->data['imgList'] = [];
-        $this->data['detailList'] = [];
-        foreach($imgList as $v){
-            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
-            if($v['type'] == 1) $this->data['imgList'][] = $v;
-            elseif($v['type'] == 2) $this->data['detailList'][] = $v;
-        }
         //酒详情
         $this->data['wineInfo'] = WineModel::alias('a')
             ->join('pin_wine_brand b',['a.brand_id' => 'b.id'],'left')
-            ->where(['a.id'=>$this->id])
+            ->where(['a.id'=>$this->id,'a.status' => 1,'b.status' => 1])
             ->field('a.*,b.brand_name')
             ->find();
-        $this->data['wineInfo']['wine_size'] = DictUtil::getDictName('wineSize',$this->data['wineInfo']['wine_size']);
-        $this->data['wineInfo']['wine_cate'] = DictUtil::getDictName('wineCate',$this->data['wineInfo']['wine_cate']);
+        if(empty($this->data['wineInfo'])) return json(errRes([],'酒品已下架或不存在'));
+        $this->data['wineInfo']['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$this->data['wineInfo']['img']);
+        $this->data['wineInfo']['wine_size_text'] = DictUtil::getDictName('wineSize',$this->data['wineInfo']['wine_size']);
+        $this->data['wineInfo']['wine_cate_text'] = DictUtil::getDictName('wineCate',$this->data['wineInfo']['wine_cate']);
+
+        //商品图和详情图
+        $imgList = WineImgsModel::where('wine_id',$this->id)->order('sort asc')->select();
+        $this->data['jptList'] = [];
+        $this->data['xqtList'] = [];
+        foreach($imgList as $v){
+            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
+            if($v['type'] == 1) $this->data['jptList'][] = $v;
+            elseif($v['type'] == 2) $this->data['xqtList'][] = $v;
+        }
+        $this->data['cart_num'] = UserCartModel::where('user_id',$this->user_id)->count();
+
+
         return json(sucRes($this->data));
     }
 
@@ -134,9 +140,9 @@ class Index extends BaseController
             UserCartModel::create(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']]);
         }else{
             $this->data['num'] = 0;
-            UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->setInc('quantity',1);
+            UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->where('quantity','<',100)->setInc('quantity',1);
         }
-        return json(sucRes($this->data));
+        return json(sucRes($this->data,'加入购物车成功'));
     }
 
     /**

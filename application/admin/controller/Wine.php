@@ -62,7 +62,7 @@ class Wine extends BaseController
             return operateResult(true,'edit');
         }else{
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
-            $this->data['imgList'] = WineImgsModel::where(['type'=>1])->order('sort asc,id asc')->select();
+            $this->data['imgList'] = WineImgsModel::where(['type'=>1,'wine_id' => $this->id])->order('sort asc,id asc')->select();
             return view('detailjpt',$this->data);
         }
     }
@@ -87,7 +87,7 @@ class Wine extends BaseController
             return operateResult(true,'edit');
         }else{
             isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
-            $this->data['imgList'] = WineImgsModel::where(['type'=>2])->order('sort asc,id asc')->select();
+            $this->data['imgList'] = WineImgsModel::where(['type'=>2,'wine_id' => $this->id])->order('sort asc,id asc')->select();
             return view('detailxqt',$this->data);
         }
     }
