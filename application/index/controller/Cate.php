@@ -36,14 +36,15 @@ class Cate extends BaseController
      * @return \think\response\Json
      */
     public function searchList(){
-        $where[] = ['cate_id','=',$this->param['cate_id']];
-        $where[] = ['status','=',1];
-        if(!empty($this->param['keywords'])) $where[] = ['wine_name','like','%'.$this->param['wine_name'].'%'];
-        if(!empty($this->param['min'])) $where[] = ['mall_price','>=',$this->param['min']];
-        if(!empty($this->param['max'])) $where[] = ['mall_price','<',$this->param['max']];
+        $where[] = ['a.wine_cate','=',$this->param['cate_id']];
+        $where[] = ['a.status','=',1];
+        $where[] = ['b.status','=',1];
+        if(!empty($this->param['keywords'])) $where[] = ['a.wine_name|b.brand_name','like','%'.$this->param['wine_name'].'%'];
+        if(!empty($this->param['min'])) $where[] = ['a.mall_price','>=',$this->param['min']];
+        if(!empty($this->param['max'])) $where[] = ['a.mall_price','<',$this->param['max']];
 //        $page = !empty($this->param['page'])?$this->param['page']:1;
         $this->data['brandList'] = WineBrandModel::where(['status' => 1])->order('sort asc')->select();
-        $wineList = WineModel::where($where)->order('sort asc')->select();
+        $wineList = WineModel::alias('a')->join('pin_wine_brand b','a.brand_id = b.id','left')->where($where)->order('a.sort asc')->select();
         $subList = [];
         foreach($wineList as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
