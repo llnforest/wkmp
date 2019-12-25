@@ -44,7 +44,7 @@ class Cate extends BaseController
         if(!empty($this->param['max'])) $where[] = ['a.mall_price','<',$this->param['max']];
 //        $page = !empty($this->param['page'])?$this->param['page']:1;
         $this->data['brandList'] = WineBrandModel::where(['status' => 1])->order('sort asc')->select();
-        $wineList = WineModel::alias('a')->join('pin_wine_brand b','a.brand_id = b.id','left')->where($where)->order('a.sort asc')->select();
+        $wineList = WineModel::alias('a')->join('pin_wine_brand b','a.brand_id = b.id','left')->field('a.*')->where($where)->order('a.sort asc')->select();
         $subList = [];
         foreach($wineList as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
