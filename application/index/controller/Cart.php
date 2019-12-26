@@ -47,7 +47,7 @@ class Cart extends BaseController
             ->select();
         $this->data['total_money'] = 0;
         foreach($this->data['cartList'] as $v){
-            $this->data['total_money'] += $v['mall_price'];
+            $this->data['total_money'] += $v['mall_price']*$v['quantity'];
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
             $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
         }

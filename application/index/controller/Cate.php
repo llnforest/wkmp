@@ -39,7 +39,7 @@ class Cate extends BaseController
         $where[] = ['a.wine_cate','=',$this->param['cate_id']];
         $where[] = ['a.status','=',1];
         $where[] = ['b.status','=',1];
-        if(!empty($this->param['keywords'])) $where[] = ['a.wine_name|b.brand_name','like','%'.$this->param['wine_name'].'%'];
+        if(!empty($this->param['keywords'])) $where[] = ['a.wine_name|b.brand_name','like','%'.$this->param['keywords'].'%'];
         if(!empty($this->param['min'])) $where[] = ['a.mall_price','>=',$this->param['min']];
         if(!empty($this->param['max'])) $where[] = ['a.mall_price','<',$this->param['max']];
 //        $page = !empty($this->param['page'])?$this->param['page']:1;
