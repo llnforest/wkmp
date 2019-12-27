@@ -37,7 +37,16 @@ class User extends BaseController
      */
     public function user(){
         $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
-        $this->data['userInfo']['user_type'] = DictUtil::getDictName('userType',$this->data['userInfo']['type']);
+        $this->data['userInfo']['user_level_text'] = DictUtil::getDictName('userLevel',$this->data['userInfo']['level']);
+        return json(sucRes($this->data));
+    }
+
+    /**
+     * 未支付订单数量
+     * @return \think\response\Json
+     */
+    public function payNum(){
+        $this->data['payNum'] = OrderWineModel::where(['id'=>$this->user_id,'status'=>0])->count();
         return json(sucRes($this->data));
     }
 
