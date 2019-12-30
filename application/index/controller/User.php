@@ -81,8 +81,11 @@ class User extends BaseController
     public function editUser(){
         if(empty($this->param['name']) || empty($this->param['phone'])) return json(errRes([],'参数错误'));
         $userInfo = UserModel::get($this->user_id);
+        if($userInfo['phone'] == $this->param['phone']) return json(errRes([],'手机号码未修改'));
+        $isExists = UserModel::where(['phone' => $this->param['phone']])->find();
+        if(!empty($isExists)) return json(errRes([],'该手机号码已注册'));
         $userInfo->save(['name' => $this->param['name'],'phone' => $this->param['phone']]);
-        return json(sucRes($this->data));
+        return json(sucRes($this->data,'信息保存成功'));
     }
 
 }
