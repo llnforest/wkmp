@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 24/12/2019 17:42:09
+ Date: 31/12/2019 18:44:31
 */
 
 SET NAMES utf8mb4;
@@ -199,7 +199,7 @@ CREATE TABLE `pin_user`  (
 -- ----------------------------
 -- Records of pin_user
 -- ----------------------------
-INSERT INTO `pin_user` VALUES (1, '李林', 0, '13585788049', NULL, '佰聲', 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIw7WIp3ic5UdfciaRDWd1TW7DfGJNVh0ukyHGURu2xvSpQL2acRCETQPMkrIq3uHO9w6Y42xBmhAicQ/132', 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, '2019-11-12 14:21:50', '2019-11-12 14:21:07', '2019-11-14 13:37:16');
+INSERT INTO `pin_user` VALUES (1, '李林', 0, '13585788049', NULL, '佰聲', 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIw7WIp3ic5UdfciaRDWd1TW7DfGJNVh0ukyHGURu2xvSpQL2acRCETQPMkrIq3uHO9w6Y42xBmhAicQ/132', 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, '2019-11-12 14:21:50', '2019-11-12 14:21:07', '2019-12-31 16:53:57');
 INSERT INTO `pin_user` VALUES (10, '黄伟峰', 10, '15788888881', NULL, '我洗澡不用沐浴露', 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKtCIuExiaazc1F8FgfP9d7UwO7p9OIWIMyM4WjIwsPOzYeR9zkgP5k6KhAicQTT1hmQt6mFBLYmPlA/132', 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, '2019-11-14 14:21:47', '2019-11-14 14:21:22', '2019-11-14 14:04:48');
 INSERT INTO `pin_user` VALUES (11, '刘默默', 0, '13866666666', NULL, '白色季后海', 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erGzOr2Xib8tlZyoukqx3vh3rPjKLANUV7FsQweIMX6dLapic4f8ZDK9DS5ZearXbc0AxpVQgfBKs1Q/132', 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, '2019-11-14 14:21:43', '2019-11-14 14:21:29', '2019-11-14 13:39:45');
 INSERT INTO `pin_user` VALUES (12, '王康', 0, '13655555555', NULL, '坐在坟头遇见鬼', 'http://thirdwx.qlogo.cn/mmopen/vi_32/VkqVrPHyw1ZnJh1sReIfjLPo5Aoos1hFWqZvggEBwG3RXaBUQ4Y7RZQiafBzKiaXOx9Il3IyNm5w53rgWqk3zI8A/132', 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, '2019-11-14 14:21:40', '2019-11-14 14:21:37', '2019-11-14 13:41:31');
@@ -214,17 +214,20 @@ CREATE TABLE `pin_user_address`  (
   `contact_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系人',
   `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系方式',
   `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系地址',
+  `is_default` tinyint(3) NOT NULL DEFAULT 1 COMMENT '是否默认地址 isTrue 1是 0否',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '名品用户地址表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '名品用户地址表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pin_user_address
 -- ----------------------------
-INSERT INTO `pin_user_address` VALUES (1, 1, '李林', '13585788049', '安徽省合肥市蜀山区创新大道111号', '2019-11-14 16:58:21', '2019-11-14 16:58:23');
-INSERT INTO `pin_user_address` VALUES (2, 10, '黄伟峰', '13500000000', '安徽省合肥市经开区繁华大道1234号', '2019-11-14 16:59:23', '2019-11-14 17:17:09');
+INSERT INTO `pin_user_address` VALUES (1, 1, '李林', '13585788049', '安徽省合肥市蜀山区创新大道111号', 0, '2019-11-14 16:58:21', '2019-11-14 16:58:23');
+INSERT INTO `pin_user_address` VALUES (2, 10, '黄伟峰', '13500000000', '安徽省合肥市经开区繁华大道1234号', 1, '2019-11-14 16:59:23', '2019-11-14 17:17:09');
+INSERT INTO `pin_user_address` VALUES (5, 1, '李林', '13585788049', '安徽省合肥市蜀山区创新大道111号', 0, '2019-11-14 16:58:21', '2019-11-14 16:58:23');
+INSERT INTO `pin_user_address` VALUES (6, 1, '李林', '13585788049', '上海浦东新区卢佳璐', 1, '2019-12-31 18:37:12', '2019-12-31 18:37:12');
 
 -- ----------------------------
 -- Table structure for pin_user_cart
@@ -317,7 +320,7 @@ CREATE TABLE `pin_user_search`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品个人搜索表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '酒品个人搜索表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pin_user_search
@@ -329,7 +332,9 @@ INSERT INTO `pin_user_search` VALUES (7, 1, '百草香', '2019-12-19 14:00:08');
 INSERT INTO `pin_user_search` VALUES (8, 1, '古井', '2019-12-20 09:25:43');
 INSERT INTO `pin_user_search` VALUES (9, 1, '古井五年', '2019-12-19 14:03:27');
 INSERT INTO `pin_user_search` VALUES (10, 1, '皖酒', '2019-12-19 14:07:10');
-INSERT INTO `pin_user_search` VALUES (11, 1, '五粮液', '2019-12-20 10:18:35');
+INSERT INTO `pin_user_search` VALUES (11, 1, '五粮液', '2019-12-26 14:34:17');
+INSERT INTO `pin_user_search` VALUES (12, 1, '1 21', '2019-12-26 14:31:22');
+INSERT INTO `pin_user_search` VALUES (13, 1, '13212', '2019-12-26 14:33:34');
 
 -- ----------------------------
 -- Table structure for pin_user_take
@@ -659,7 +664,7 @@ CREATE TABLE `sys_log`  (
   `log` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统行为日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统行为日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -755,6 +760,7 @@ INSERT INTO `sys_log` VALUES (88, 1, '开发者账号', '系统登录', '登录'
 INSERT INTO `sys_log` VALUES (89, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-12-19 17:49:48');
 INSERT INTO `sys_log` VALUES (90, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-12-20 14:27:48');
 INSERT INTO `sys_log` VALUES (91, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-12-24 15:55:14');
+INSERT INTO `sys_log` VALUES (92, 1, '开发者账号', '系统登录', '登录', '127.0.0.1', 'admin/index/login', '', '2019-12-31 18:38:53');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1035,7 +1041,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'lil', 'c2af7e249c93cf53930c99fb83edc1dc', '开发者账号', 1, '19156017290', '', '127.0.0.1', '2019-12-24 15:55:14', NULL, '2019-12-24 15:55:14', NULL);
+INSERT INTO `sys_user` VALUES (1, 'lil', 'c2af7e249c93cf53930c99fb83edc1dc', '开发者账号', 1, '19156017290', '', '127.0.0.1', '2019-12-31 18:38:53', NULL, '2019-12-31 18:38:53', NULL);
 INSERT INTO `sys_user` VALUES (2, 'admin', '14e1b600b1fd579f47433b88e8d85291', '超级管理员', 1, '19156017290', '', '::1', '2019-11-15 23:49:50', NULL, '2019-11-15 23:49:50', NULL);
 INSERT INTO `sys_user` VALUES (3, 'dev', '14e1b600b1fd579f47433b88e8d85291', '测试用户', 0, '13585788049', '', NULL, NULL, '2019-04-25 17:50:42', '2019-04-25 18:39:12', NULL);
 INSERT INTO `sys_user` VALUES (4, 'demo', '14e1b600b1fd579f47433b88e8d85291', 'demo', 1, '1231', '', NULL, NULL, '2019-04-25 17:51:48', '2019-04-25 17:54:57', '2019-04-25 17:54:57');

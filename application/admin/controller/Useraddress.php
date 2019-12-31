@@ -29,16 +29,16 @@ class Useraddress extends BaseController
                 $this->data['phone'] = $userInfo->phone;
                 $this->data['user_id'] = $userInfo->id;
             }
-            $this->page->setHeader('ID,用户ID,会员姓名,手机号码,会员等级,联系人名,联系电话,收货地址,创建时间');
-            $this->pageUtil->setColsWidthArr([1=>80,2=>120,3=>120,4=>100,5=>120,6=>120,8=>160,9=>150]);
+            $this->page->setHeader('ID,用户ID,会员姓名,手机号码,会员等级,联系人名,联系电话,收货地址,默认,创建时间');
+            $this->pageUtil->setColsWidthArr([1=>80,2=>120,3=>120,4=>100,5=>120,6=>120,8=>70,9=>160,10=>150]);
             $this->pageUtil->setColsMinWidthArr([7=>300]);
 
         }else{
-            $this->pageUtil->setDataDictArr([4=>'userLevel']);
+            $this->pageUtil->setDataDictArr([4=>'userLevel',8=>'isTrue']);
             $where  = getWhereParam(['a.user_id','b.name'=>'like','b.phone'=>'like','a.contact_name'=>'like','a.contact_phone'=>'like','a.address'=>'like','a.create_time'=>['create_start','create_end']],$this->post);
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
-                ->field('a.id,a.user_id,b.name,b.phone,b.level,a.contact_name,a.contact_phone,a.address,a.create_time')
+                ->field('a.id,a.user_id,b.name,b.phone,b.level,a.contact_name,a.contact_phone,a.address,a.is_default,a.create_time')
                 ->where($where)
                 ->order('a.create_time desc')
                 ->paginate($this->param['limit']?:"");

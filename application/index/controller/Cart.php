@@ -117,7 +117,7 @@ class Cart extends BaseController
     public function delCart(){
         if(empty($this->param['ids'])) return json(errRes([],'参数错误'));
         $result = UserCartModel::where([['id','in',$this->param['ids']],['user_id','=',$this->user_id]])->delete();
-        return operateResult($result,'del');
+        return json(operateResult($result,'del'));
     }
 
     /**
@@ -132,7 +132,7 @@ class Cart extends BaseController
         }else{
             $result = UserCartModel::where(['id'=>$this->param['id'],'user_id' => $this->user_id])->where('quantity','>',0)->setDec('quantity');
         }
-        return operateResult($result,'edit');
+        return json(operateResult($result,'edit'));
     }
 
     /**
@@ -140,10 +140,10 @@ class Cart extends BaseController
      * @return \think\response\Json
      */
     public function addAddress(){
-        //type 1增 2减
-        if(!$this->request->has('contact_name','contact_phone','address')) return json(errRes([],'参数错误'));
+        if(!$this->request->has('contact_name') || !$this->request->has('contact_phone') || !$this->request->has('address')) return json(errRes([],'参数错误'));
+        UserAddressModel::where(['user_id' => $this->user_id])->update(['is_default' => 0]);
         $result = UserAddressModel::create(['contact_name' => $this->param['contact_name'],'contact_phone' => $this->param['contact_phone'],'address' => $this->param['address'],'user_id' => $this->user_id]);
-        return operateResult($result,'add');
+        return json(operateResult($result,'add'));
     }
 
     /**
@@ -151,9 +151,25 @@ class Cart extends BaseController
      * @return \think\response\Json
      */
     public function delAddress(){
-        if(empty($this->param['ids'])) return json(errRes([],'参数错误'));
-        $result = UserAddressModel::where([['id','in',$this->param['ids']],['user_id','=',$this->user_id]])->delete();
-        return operateResult($result,'del');
+        if(empty($this->param['id'])) return json(errRes([],'参数错误'));
+        $result = UserAddressModel::where([['id','=',$this->param['id']],['user_id','=',$this->user_id]])->delete();
+        $isExistsDefault = UserAddressModel::get(['user_id' => $this->user_id,'is_default' => 1]);
+        if(empty($isExistsDefault)){
+            $isExists = UserAddressModel::get(['user_id' => $this->user_id]);
+            if(!empty($isExists)) $isExists->save(['is_default' => 1]);
+        }
+        return json(operateResult($result,'del'));
+    }
+    /**
+     * 设置默认项
+     * @return \think\response\Json
+     */
+    public function setAddressDefault(){
+        if(empty($this->param['id'])) return json(errRes([],'参数错误'));
+        UserAddressModel::where(['user_id' => $this->user_id])->update(['is_default' => 0]);
+        $result = UserAddressModel::where([['id','=',$this->param['id']],['user_id','=',$this->user_id]])->update(['is_default' => 1]);
+
+        return json(sucRes($result,'默认地址修改成功'));
     }
 }
 
