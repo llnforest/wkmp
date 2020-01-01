@@ -13,6 +13,8 @@ use app\index\model\OrderWineModel;
 use app\index\model\SiteBannerModel;
 use app\index\model\SiteInfoModel;
 use app\index\model\SiteSearchHotModel;
+use app\index\model\SiteShopModel;
+use app\index\model\SysConfigModel;
 use app\index\model\SysDictModel;
 use app\index\model\SysDictValueModel;
 use app\index\model\UserAddressModel;
@@ -45,9 +47,10 @@ class Cart extends BaseController
             ->field('a.*,b.wine_name,b.img,b.wine_style,b.wine_cate,b.brand_id,b.wine_size,b.mall_price,b.vip_price')
             ->order('a.create_time desc')
             ->select();
-        $this->data['total_money'] = 0;
+        $this->data['total_money'] = $this->data['vip_money'] = 0;
         foreach($this->data['cartList'] as $v){
             $this->data['total_money'] += $v['mall_price']*$v['quantity'];
+            $this->data['vip_money'] += $v['vip_price']*$v['quantity'];
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
             $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
         }
@@ -59,7 +62,7 @@ class Cart extends BaseController
      * @return \think\response\Json
      */
     public function shop(){
-        $this->data['shopList'] = WineModel::order('create_time desc')->select();
+        $this->data['shopList'] = SiteShopModel::order('sort asc,create_time desc')->select();
         foreach($this->data['shopList'] as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
         }
@@ -71,14 +74,33 @@ class Cart extends BaseController
      * @return \think\response\Json
      */
     public function order(){
-        if(!$this->request->has('ids')) return json(errRes([],'参数错误'));
-        $this->data['wineList'] = WineModel::where([['status','=',1],['id','in',$this->param['ids']]])->order('id asc')->select();
-        if(count($this->data['wineList']) == 0) return json(errRes([],'未知商品'));
+        if(!$this->request->has('ids') || !$this->request->has('type')) return json(errRes([],'参数错误'));
+        if($this->param['type'] == 0){
+            $this->data['wineList'] = WineModel::alias('a')
+                ->leftJoin('pin_wine_brand b','a.brand_id = b.id')
+                ->field('a.*')
+                ->where([['a.status','=',1],['b.status','=',1],['a.id','in',$this->param['ids']]])->order('a.sort asc')->select();
+
+        }else{
+            $this->data['wineList'] = WineModel::alias('a')
+                ->leftJoin('pin_wine_brand b','a.brand_id = b.id')
+                ->leftJoin('pin_user_cart c','c.user_id = '.$this->user_id.' and a.id = c.wine_id')
+                ->field('a.*,b.quantity')
+                ->where([['a.status','=',1],['b.status','=',1],['a.id','in',$this->param['ids']]])->order('a.sort asc')->select();
+        }
+        $this->data['count'] = 0;
+        $this->data['total_money'] = 0;
+        $this->data['vip_money'] = 0;
         foreach($this->data['wineList'] as $v){
+            if(!isset($v['quantity'])) $v['quantity'] = 1;
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
             $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+            $this->data['count'] += $v['quantity'];
+            $this->data['total_money'] += $v['quantity']*$v['mall_price'];
+            $this->data['vip_money'] += $v['quantity']*$v['vip_price'];
         }
-        $this->data['addressInfo'] = UserAddressModel::where('user_id',$this->user_id)->order('create_time desc')->find();
+        $this->data['perExpress'] = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
+        $this->data['baseExpress'] = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
         return json(sucRes($this->data));
     }
 
@@ -90,6 +112,17 @@ class Cart extends BaseController
         if(!$this->request->has('id')) return json(errRes([],'参数错误'));
         $this->data['orderInfo'] = OrderWineModel::where(['id' => $this->id,'user_id' => $this->user_id])->find();
         if(empty($this->data['orderInfo'])) return json(errRes([],'未知订单'));
+        $this->data['orderInfo']['express_type_text'] = DictUtil::getDictName('expressType',$this->data['orderInfo']['express_type']);
+        if($this->data['orderInfo']['express_type'] == 1){
+            $addressArr = explode('-',$this->data['orderInfo']['address_info']);
+        }else{
+            $addressArr = explode('-',$this->data['orderInfo']['shop_info']);
+        }
+        $this->data['orderInfo']['address_name'] = $addressArr[0];
+        $this->data['orderInfo']['address_phone'] = isset($addressArr[1]) ? $addressArr[1] : '';
+        unset($addressArr[0]);
+        if(isset($addressArr[1])) unset($addressArr[1]);
+        $this->data['orderInfo']['address_address'] = implode('',$addressArr);
         $this->data['wineList'] = OrderWineGoodsModel::where('order_id',$this->id)->order('id asc')->select();
         foreach($this->data['wineList'] as $v){
             $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
@@ -99,14 +132,22 @@ class Cart extends BaseController
     }
 
     /**
-     * 地址列表
-     * @return \think\response\Json
-     */
+ * 地址列表
+ * @return \think\response\Json
+ */
     public function address(){
         $this->data['addressList'] = UserAddressModel::where('user_id',$this->user_id)->order('create_time desc')->select();
         return json(sucRes($this->data));
     }
 
+    /**
+     * 获取默认地址
+     * @return \think\response\Json
+     */
+    public function getDefaultAddress(){
+        $this->data['addressInfo'] = UserAddressModel::where(['user_id' => $this->user_id])->order('is_default desc,create_time desc')->find();
+        return json(sucRes($this->data));
+    }
 
 
     //---------------------------------操作API---------------------------------
@@ -170,6 +211,17 @@ class Cart extends BaseController
         $result = UserAddressModel::where([['id','=',$this->param['id']],['user_id','=',$this->user_id]])->update(['is_default' => 1]);
 
         return json(sucRes($result,'默认地址修改成功'));
+    }
+    /**
+     * 下单
+     * @return \think\response\Json
+     */
+    public function makeOrder(){
+        if(!$this->request->has('wineList') || !$this->request->has('shop_id') || !$this->request->has('express_type') || !$this->request->has('user_remark') || !$this->request->has('address_id')) return json(errRes([],'参数错误'));
+
+
+
+        return json(sucRes(['id' => '2019090112320923'],'下单成功'));
     }
 }
 

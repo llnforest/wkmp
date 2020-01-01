@@ -37,6 +37,7 @@ class User extends BaseController
      */
     public function user(){
         $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
+//        $this->data['userInfo']['level'] = 0;
         $this->data['userInfo']['user_level_text'] = DictUtil::getDictName('userLevel',$this->data['userInfo']['level']);
         return json(sucRes($this->data));
     }

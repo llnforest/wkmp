@@ -25,7 +25,7 @@ class Prize extends BaseController
     }
 
     /**
-     * 奖励中心
+     * 奖励中心（未使用）
      * @return \think\response\Json
      */
     public function prize(){
@@ -38,12 +38,11 @@ class Prize extends BaseController
      * 提现记录
      * @return \think\response\Json
      */
-    public function takelist(){
-        $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
+    public function takeList(){
         $page = !empty($this->param['page'])?$this->param['page']:1;
         $this->data['takeList'] = UserTakeModel::where(['user_id' => $this->user_id])->page($page,Config::get('paginate.list_rows'))->select();
         foreach($this->data['takeList'] as &$v){
-            $v['take_status'] = DictUtil::getDictName('takeStatus',$v['status']);
+            $v['status_text'] = DictUtil::getDictName('takeStatus',$v['status']);
         }
         return json(sucRes($this->data));
     }
@@ -53,15 +52,16 @@ class Prize extends BaseController
      * @return \think\response\Json
      */
     public function profit(){
-        $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
+//        $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
         $page = !empty($this->param['page'])?$this->param['page']:1;
-        $this->data['profitList'] = UserProfitModel::where(['a.user_id' => $this->user_id])
+        $this->data['profitList'] = UserProfitModel::alias('a')
+            ->where(['a.user_id' => $this->user_id])
             ->join('pin_user b','a.child_id = b.id','left')
-            ->join('pin_user c','c.from_id = b.id','left')
-            ->field('a.*,b.name as team_name,b.phone as team_phone,c.name as from_name,c.phone as from_phone')
+            ->join('pin_user c','a.from_id = c.id','left')
+            ->field('a.*,b.headimgurl,b.level,b.name as team_name,b.phone as team_phone,c.name as from_name,c.phone as from_phone')
             ->page($page,Config::get('paginate.list_rows'))->select();
-        foreach($this->data['takeList'] as &$v){
-            $v['profit_type'] = DictUtil::getDictName('profitType',$v['type']);
+        foreach($this->data['profitList'] as &$v){
+            $v['type_text'] = DictUtil::getDictName('profitType',$v['type']);
         }
         return json(sucRes($this->data));
     }
@@ -71,11 +71,13 @@ class Prize extends BaseController
      * @return \think\response\Json
      */
     public function team(){
-        $this->data['userInfo'] = UserModel::where('id',$this->user_id)->find();
-        $where = ['parent_id' => $this->id];
-        $page = !empty($this->param['page'])?$this->param['page']:1;
+        $userInfo = UserModel::where('id',$this->user_id)->find();
+        $where = ['parent_id' => $this->user_id];
         $where['level'] = isset($this->param['level']) ? $this->param['level'] : 1;
-        $this->data['teamList'] = UserModel::where($where)->page($page,Config::get('paginate.list_rows'))->select();
+        $this->data['teamList'] = UserModel::where($where)->select()->toArray();
+        if($userInfo['level'] == $where['level']){
+            array_unshift($this->data['teamList'],$userInfo);
+        }
         return json(sucRes($this->data));
     }
 
@@ -90,7 +92,8 @@ class Prize extends BaseController
                                 ->field('b.*')
                                 ->order('b.sort asc')
                                 ->select();
-        foreach($this->data['giftList'] as &$v){
+        foreach($this->data['giftList'] as $k=>&$v){
+            if($k == 0) $this->data['selected'] = $v['id'];
             $v['remark'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['remark']);
         }
         return json(sucRes($this->data));
@@ -99,7 +102,15 @@ class Prize extends BaseController
 
 
     //---------------------------------操作API---------------------------------
-
+    /**
+     * 立即开通
+     * @return \think\response\Json
+     */
+    public function goBuy(){
+        if(!$this->request->has('gift_id') || !$this->request->has('phone')) return json(errRes([],'参数错误'));
+        $result = '';
+        return json(operateResult($result,'del'));
+    }
 
 }
 
