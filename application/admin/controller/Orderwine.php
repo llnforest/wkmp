@@ -70,7 +70,7 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if($info->status == 0) $result = $info->save(['status' => 1]);
+            if($info->status == 0) $result = $info->save(['status' => 1,'pay_time' => date('Y-m-d H:i:s',time())]);
             return handleResult($result,'支付');
         }
     }
@@ -82,7 +82,7 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if($info->status == 1) $result = $info->save(['status' => 2]);
+            if($info->status == 1) $result = $info->save(['status' => 2,'send_time' => date('Y-m-d H:i:s',time())]);
             return handleResult($result,'发货');
         }
     }
@@ -94,7 +94,7 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if($info->status == 2) $result = $info->save(['status' => 4]);
+            if($info->status == 2) $result = $info->save(['status' => 4,'success_time' => date('Y-m-d H:i:s',time())]);
             return handleResult($result,'完成交易');
         }
     }
@@ -106,7 +106,7 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if(!in_array($info->status,[3,4])) $result = $info->save(['status' => 3]);
+            if(!in_array($info->status,[3,4])) $result = $info->save(['status' => 3,'cancel_time' => date('Y-m-d H:i:s',time())]);
             return handleResult($result,'取消交易');
         }
     }

@@ -173,7 +173,11 @@ return [
     'sys_page_nodata'        => '还没有数据哦！',
     'sys_no_permission'      => '您没有访问权限！',
     'sys_cache_clear'        => '缓存清除成功',
+
     'sms_data_error'         => '验证码错误',
     'sms_check_success'      => '验证码正确',
-    'sms_check_phone_error'      => '手机号码错误',
+    'sms_check_phone_error'  => '手机号码格式错误',
+    'sms_phone_num_error'    => '今日短信发送次数已达上限',
+    'sms_phone_time_error'   => '短信发送过于频繁，请稍后重试',
+    'sms_phone_send_again'   => '发送失败，请稍后重试',
 ];
