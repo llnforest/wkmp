@@ -47,7 +47,7 @@ class User extends BaseController
      * @return \think\response\Json
      */
     public function payNum(){
-        $this->data['payNum'] = OrderWineModel::where(['id'=>$this->user_id,'status'=>0])->count();
+        $this->data['payNum'] = OrderWineModel::where(['user_id'=>$this->user_id,'status'=>0])->count();
         return json(sucRes($this->data));
     }
 
@@ -58,10 +58,10 @@ class User extends BaseController
     public function orderlist(){
         $page = !empty($this->param['page'])?$this->param['page']:1;
         $where[] = ['user_id','=',$this->user_id];
-        if(isset($this->post['status'])){
+        if(isset($this->post['status']) && $this->post['status'] != 100){
             $where[] = ['status','in',$this->post['status']];
         }
-        $this->data['orderList'] = OrderWineModel::where($where)->page($page,Config::get('paginate.list_rows'))->select();
+        $this->data['orderList'] = OrderWineModel::where($where)->order('update_time desc')->page($page,Config::get('paginate.list_rows'))->select();
         foreach($this->data['orderList'] as $v){
             $v['status_text'] = DictUtil::getDictName('orderStatus',$v['status']);
             $v['wineList'] = OrderWineGoodsModel::where('order_id',$v['id'])->order('id asc')->select();
@@ -73,6 +73,33 @@ class User extends BaseController
         return json(sucRes($this->data));
     }
 
+    /**
+     * 订单详情页面
+     * @return \think\response\Json
+     */
+    public function orderDetail(){
+        if(!$this->request->has('id')) return json(errRes([],'参数错误'));
+        $this->data['orderInfo'] = OrderWineModel::where(['id' => $this->id,'user_id' => $this->user_id])->find();
+        if(empty($this->data['orderInfo'])) return json(errRes([],'未知订单'));
+        $this->data['orderInfo']['express_type_text'] = DictUtil::getDictName('expressType',$this->data['orderInfo']['express_type']);
+        if($this->data['orderInfo']['express_type'] == 1){
+            $addressArr = explode('-',$this->data['orderInfo']['address_info']);
+        }else{
+            $addressArr = explode('-',$this->data['orderInfo']['shop_info']);
+        }
+        $this->data['orderInfo']['address_name'] = $addressArr[0];
+        $this->data['orderInfo']['address_phone'] = isset($addressArr[1]) ? $addressArr[1] : '';
+        unset($addressArr[0]);
+        if(isset($addressArr[1])) unset($addressArr[1]);
+        $this->data['orderInfo']['address_address'] = implode('',$addressArr);
+        $this->data['orderInfo']['status_text'] = DictUtil::getDictName('orderStatus',$this->data['orderInfo']['status']);
+        $this->data['wineList'] = OrderWineGoodsModel::where('order_id',$this->id)->order('id asc')->select();
+        foreach($this->data['wineList'] as $v){
+            $v['img'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['img']);
+            $v['wine_size_text'] = DictUtil::getDictName('wineSize',$v['wine_size']);
+        }
+        return json(sucRes($this->data));
+    }
 
     //---------------------------------操作API---------------------------------
     /**
@@ -85,8 +112,20 @@ class User extends BaseController
         if($userInfo['phone'] == $this->param['phone']) return json(errRes([],'手机号码未修改'));
         $isExists = UserModel::where(['phone' => $this->param['phone']])->find();
         if(!empty($isExists)) return json(errRes([],'该手机号码已注册'));
-        $userInfo->save(['name' => $this->param['name'],'phone' => $this->param['phone']]);
-        return json(sucRes($this->data,'信息保存成功'));
+        $result = $userInfo->save(['name' => $this->param['name'],'phone' => $this->param['phone']]);
+        return json(operateResult($result,'信息保存'));
+    }
+
+    /**
+     * 取消订单
+     * @return \think\response\Json
+     */
+    public function cancelOrder(){
+        if(empty($this->param['id'])) return json(errRes([],'参数错误'));
+        $userInfo = OrderWineModel::get(['user_id' => $this->user_id,'id' => $this->id,'status' => 0]);
+        if(empty($userInfo)) return json(errRes([],'参数错误'));
+        $result = $userInfo->save(['status' => 3,'cancel_time' => date('Y-m-d',time())]);
+        return json(operateResult($result,'取消订单'));
     }
 
 }

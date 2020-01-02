@@ -137,12 +137,12 @@ class Index extends BaseController
         $cartInfo = UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->find();
         if(empty($cartInfo)){
             $this->data['num'] = 1;
-            UserCartModel::create(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']]);
+            $result = UserCartModel::create(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']]);
         }else{
             $this->data['num'] = 0;
-            UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->where('quantity','<',100)->setInc('quantity',1);
+            $result = UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->where('quantity','<',100)->setInc('quantity',1);
         }
-        return json(sucRes($this->data,'加入购物车成功'));
+        return json(operateResult($result,'加入购物车'));
     }
 
     /**
@@ -166,8 +166,8 @@ class Index extends BaseController
      */
     public function searchDel(){
         //最近搜索
-        UserSerachModel::where(['user_id' => $this->user_id])->delete();
-        return json(sucRes($this->data,'最近搜索已清空'));
+        $result = UserSerachModel::where(['user_id' => $this->user_id])->delete();
+        return json(operateResult($result,'最近搜索清空'));
     }
 
 }

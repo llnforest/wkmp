@@ -48,16 +48,16 @@ if(!function_exists('operateResult')){
     /**
      * 操作结果
      * @param boolean $default
-     * @param string $operate
+     * @param string $operate 或msg
      * @param string $url
      * @return array
      */
-    function operateResult($default, $operate = 'add', $url = null){
+    function operateResult($default, $operate = 'do', $url = null){
         if ($default) {
-            if($url) return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success'), 'url' => url($url)];
-            return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success')];
+            if($url) return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success') == 'sys_'.$operate.'_success' ? $operate.'成功':lang('sys_'.$operate.'_success'), 'url' => url($url)];
+            return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success') == 'sys_'.$operate.'_success' ? $operate.'成功':lang('sys_'.$operate.'_success')];
         } else {
-            return ['code' => lang('error_code'), 'msg' => lang('sys_'.$operate.'_error')];
+            return ['code' => lang('error_code'), 'msg' => lang('sys_'.$operate.'_error') == 'sys_'.$operate.'_error' ? $operate.'失败':lang('sys_'.$operate.'_error')];
         }
     }
 }

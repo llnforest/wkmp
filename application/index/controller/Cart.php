@@ -210,7 +210,7 @@ class Cart extends BaseController
         UserAddressModel::where(['user_id' => $this->user_id])->update(['is_default' => 0]);
         $result = UserAddressModel::where([['id','=',$this->param['id']],['user_id','=',$this->user_id]])->update(['is_default' => 1]);
 
-        return json(sucRes($result,'默认地址修改成功'));
+        return json(operateResult($result,'默认地址修改'));
     }
     /**
      * 下单
@@ -221,7 +221,7 @@ class Cart extends BaseController
 
 
 
-        return json(sucRes(['id' => '2019090112320923'],'下单成功'));
+        return json(operateResult(['id' => '2019090112320923'],'下单'));
     }
 }
 
