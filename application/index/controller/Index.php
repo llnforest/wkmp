@@ -20,7 +20,7 @@ use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
 
-class Index extends BaseController
+class Index extends AuthController
 {
     protected $data;
     function __construct(App $app = null)

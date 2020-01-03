@@ -16,7 +16,7 @@ use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
 
-class Prize extends BaseController
+class Prize extends AuthController
 {
     protected $data;
     function __construct(App $app = null)

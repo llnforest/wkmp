@@ -196,7 +196,7 @@ class Domain extends RuleGroup
      * @access protected
      * @param  Request   $request
      * @param  string    $url URL地址
-     * @param  string    $controller 控制器名 （支持带模块名 admin/user ）
+     * @param  string    $controller 控制器名 （支持带模块名 index/user ）
      * @return ControllerDispatch
      */
     protected function bindToController($request, $url, $controller)

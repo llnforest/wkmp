@@ -53,7 +53,7 @@ return [
         // 默认的空模块名
         'empty_module'           => '',
         // 默认模块名
-        'default_module'         => 'admin',
+        'default_module'         => 'index',
         // 是否支持多模块
         'app_multi_module'       => true,
         // 禁止访问模块
@@ -61,7 +61,7 @@ return [
         // 默认控制器名
         'default_controller'     => 'Index',
         // 默认操作名
-        'default_action'         => 'admin',
+        'default_action'         => 'index',
         // 是否自动转换URL中的控制器和操作名
         'url_convert'            => true,
         // 默认的访问控制器层

@@ -19,7 +19,6 @@ return [
     'Type error'                                                => '类型错误',
     'Fatal error'                                               => '致命错误',
     'syntax error'                                              => '语法错误',
-
     // 框架核心错误提示
     'dispatch type not support'                                 => '不支持的调度类型',
     'method param miss'                                         => '方法参数错误',
@@ -73,7 +72,6 @@ return [
     'route pattern error'                                       => '路由变量规则定义错误',
     'route behavior will not support'                           => '路由行为废弃（使用中间件替代）',
     'closure not support cache(true)'                           => '使用闭包查询不支持cache(true)，请指定缓存Key',
-
     // 上传错误信息
     'unknown upload error'                                      => '未知上传错误！',
     'file write error'                                          => '文件写入失败！',
@@ -89,7 +87,6 @@ return [
     'mimetype to upload is not allowed'                         => '上传文件MIME类型不允许！',
     'filesize not match'                                        => '上传文件大小不符！',
     'directory {:path} creation failed'                         => '目录 {:path} 创建失败！',
-
     'The middleware must return Response instance'              => '中间件方法必须返回Response对象实例',
     'The queue was exhausted, with no response returned'        => '中间件队列为空',
     // Validate Error Message
@@ -141,12 +138,10 @@ return [
     'invalid Request method'                                    => '无效的请求类型',
     'invalid token'                                             => '令牌数据无效',
     'not conform to the rules'                                  => '规则错误',
-
     //2.0版系统提示
     //错误码
     'success_code'          => 0,
     'error_code'            => 1,
-
     //系统提示
     'sys_close'              => '系统维护升级中，请稍候再试！',
     'sys_error'              => '网络异常，请稍后再试！',
@@ -173,7 +168,6 @@ return [
     'sys_page_nodata'        => '还没有数据哦！',
     'sys_no_permission'      => '您没有访问权限！',
     'sys_cache_clear'        => '缓存清除成功',
-
     'sms_data_error'         => '验证码错误',
     'sms_check_success'      => '验证码正确',
     'sms_check_phone_error'  => '手机号码格式错误',

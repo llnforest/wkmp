@@ -2,10 +2,10 @@
 
 /**
  * 用法：
- * class admin
+ * class index
  * {
  *     use \traits\controller\Jump;
- *     public function admin(){
+ *     public function index(){
  *         $this->error();
  *         $this->redirect();
  *     }
@@ -83,7 +83,7 @@ trait Jump
         }
 
         $result = [
-            'code' => 1,
+            'code' => 0,
             'msg'  => $msg,
             'data' => $data,
             'url'  => $url,

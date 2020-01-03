@@ -387,7 +387,7 @@ class App extends Container
             } elseif ($this->config('app.auto_bind_module')) {
                 // 入口自动绑定
                 $name = pathinfo($this->request->baseFile(), PATHINFO_FILENAME);
-                if ($name && 'admin' != $name && is_dir($this->appPath . $name)) {
+                if ($name && 'index' != $name && is_dir($this->appPath . $name)) {
                     $this->route->bind($name);
                 }
             }

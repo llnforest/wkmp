@@ -9,13 +9,14 @@ namespace app\index\controller;
 
 
 
+use app\index\model\UserModel;
 use common\sms\SendMsg;
 use think\App;
 use think\facade\Cache;
 use think\facade\Config;
 use think\Validate;
 
-class Sms extends BaseController
+class Sms extends AuthController
 {
     protected $data;
     function __construct(App $app = null)
@@ -32,6 +33,8 @@ class Sms extends BaseController
         $validate = new Validate($roleValidate);
         if(!$validate->check($this->param))  return errRes('',$validate->getError());
         $phone = $this->param['phone'];
+        $userInfo = UserModel::get($this->user_id);
+        if($userInfo['phone'] == $phone) return json(errRes([],'手机号码未修改'));
         //判断发送的时间间隔
         $valCache = Cache::get(Config::get('app.sms.sms_pre').$phone);
         $time = isset($valCache['time'])?$valCache['time']:0;

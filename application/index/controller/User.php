@@ -10,20 +10,12 @@ namespace app\index\controller;
 
 use app\index\model\OrderWineGoodsModel;
 use app\index\model\OrderWineModel;
-use app\index\model\SiteBannerModel;
-use app\index\model\SiteInfoModel;
-use app\index\model\SiteSearchHotModel;
-use app\index\model\SysDictModel;
-use app\index\model\SysDictValueModel;
-use app\index\model\UserCartModel;
 use app\index\model\UserModel;
-use app\index\model\UserProfitModel;
-use app\index\model\UserSerachModel;
 use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
 
-class User extends BaseController
+class User extends AuthController
 {
     protected $data;
     function __construct(App $app = null)
@@ -107,9 +99,12 @@ class User extends BaseController
      * @return \think\response\Json
      */
     public function editUser(){
-        if(empty($this->param['name']) || empty($this->param['phone'])) return json(errRes([],'参数错误'));
+        if(empty($this->param['name']) || empty($this->param['phone'])|| empty($this->param['code'])) return json(errRes([],'参数错误'));
         $userInfo = UserModel::get($this->user_id);
         if($userInfo['phone'] == $this->param['phone']) return json(errRes([],'手机号码未修改'));
+        //判断是否发送
+        $checkResult = Sms::checkSms($this->param['phone'],$this->param['code']);
+        if($checkResult['code'] != lang('success_code')) return json($checkResult);
         $isExists = UserModel::where(['phone' => $this->param['phone']])->find();
         if(!empty($isExists)) return json(errRes([],'该手机号码已注册'));
         $result = $userInfo->save(['name' => $this->param['name'],'phone' => $this->param['phone']]);

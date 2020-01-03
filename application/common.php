@@ -55,9 +55,9 @@ if(!function_exists('operateResult')){
     function operateResult($default, $operate = 'do', $url = null){
         if ($default) {
             if($url) return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success') == 'sys_'.$operate.'_success' ? $operate.'成功':lang('sys_'.$operate.'_success'), 'url' => url($url)];
-            return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success') == 'sys_'.$operate.'_success' ? $operate.'成功':lang('sys_'.$operate.'_success')];
+            return ['code' => lang('success_code'), 'msg' => lang('sys_'.$operate.'_success') == 'sys_'.$operate.'_success' ? $operate.'成功':lang('sys_'.$operate.'_success'),'data' => $default];
         } else {
-            return ['code' => lang('error_code'), 'msg' => lang('sys_'.$operate.'_error') == 'sys_'.$operate.'_error' ? $operate.'失败':lang('sys_'.$operate.'_error')];
+            return ['code' => lang('error_code'), 'msg' => lang('sys_'.$operate.'_error') == 'sys_'.$operate.'_error' ? $operate.'失败':lang('sys_'.$operate.'_error'),'data' => $default];
         }
     }
 }

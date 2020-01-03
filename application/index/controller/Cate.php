@@ -14,7 +14,7 @@ use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
 
-class Cate extends BaseController
+class Cate extends AuthController
 {
     protected $data;
     function __construct(App $app = null)

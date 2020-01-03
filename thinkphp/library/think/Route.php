@@ -26,7 +26,7 @@ class Route
      * @var array
      */
     protected $rest = [
-        'admin'  => ['get', '', 'admin'],
+        'index'  => ['get', '', 'index'],
         'create' => ['get', '/create', 'create'],
         'edit'   => ['get', '/<id>/edit', 'edit'],
         'read'   => ['get', '/<id>', 'read'],

@@ -18,15 +18,15 @@ return [
     'app_debug'              => true,
 
     //上传路径配置
-    'upload'        =>[
+    'upload'        => [
         'path'      =>  '../public',
         'img_url'   => 'http://admin.99wukong.test'
     ],
     //短信配置
-    'sms'                   => [
-        'user_id'   => '97',
-        'account'   => 'ynkj',
-        'password'  => 'ynkj123',
+    'sms'          => [
+        'user_id'   => '530',
+        'account'   => 'wkmp',
+        'password'  => 'wkmp.147',
         'send_time' => '',
         'sms_code_count'    => 10,
         'sms_code_time'   => 60,
@@ -34,5 +34,15 @@ return [
         'sms_code_pre'   => 'sms_code_pre_',
         'sms_code_random'   => 'BVCXa1.4jdPPksMndkE3_oO0*',
 
+    ],
+    //微信配置
+    'wechat'        => [
+        'appid'             => '',
+        'secret'            => ''
+    ],
+    //token配置
+    'token'        => [
+        'expire'             => 7200,
+        'key'                => 'Hkd90Kwkdmd-dkajdk+kdsj.KlsaadjoO0'
     ],
 ];

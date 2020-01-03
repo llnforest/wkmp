@@ -8,26 +8,24 @@
 namespace app\index\controller;
 
 
+use Firebase\JWT\JWT;
 use think\App;
-use think\Controller;
+use think\facade\Config;
 
-class AuthController extends  Controller
+class AuthController extends  BaseController
 {
-    protected $data;
-    protected $request;
-    protected $param;
-    protected $post;
-    protected $id;
+
     protected $user_id;
 
     public function __construct(App $app = null)
     {
         parent::__construct($app);
-        $this->request = $app->request;
-        $this->param = $this->request->param();
-        $this->post = $this->request->post();
-        $this->id = isset($this->param['id'])?$this->param['id']:0;
-        $this->user_id = 1;
+        if(!empty($this->param['token'])){
+            $token = JWT::decode($this->param['token'],Config::get('app.token.key'),['HS256']);
+            $this->user_id = $token['user_id'];
+        }else{
+            $this->user_id = 1;
+        }
 
 
     }

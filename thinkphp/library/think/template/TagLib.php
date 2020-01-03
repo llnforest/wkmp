@@ -332,6 +332,7 @@ class TagLib
             // 不以$开头并且也不是常量，自动补上$前缀
             $name = '$' . $name;
         }
+
         $this->tpl->parseVar($name);
         $this->tpl->parseVarFunction($name, false);
 

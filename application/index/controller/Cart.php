@@ -10,24 +10,16 @@ namespace app\index\controller;
 
 use app\index\model\OrderWineGoodsModel;
 use app\index\model\OrderWineModel;
-use app\index\model\SiteBannerModel;
-use app\index\model\SiteInfoModel;
-use app\index\model\SiteSearchHotModel;
 use app\index\model\SiteShopModel;
 use app\index\model\SysConfigModel;
-use app\index\model\SysDictModel;
-use app\index\model\SysDictValueModel;
 use app\index\model\UserAddressModel;
 use app\index\model\UserCartModel;
-use app\index\model\UserModel;
-use app\index\model\UserProfitModel;
-use app\index\model\UserSerachModel;
 use app\index\model\WineModel;
 use common\dict\DictUtil;
 use think\App;
 use think\facade\Config;
 
-class Cart extends BaseController
+class Cart extends AuthController
 {
     protected $data;
     function __construct(App $app = null)

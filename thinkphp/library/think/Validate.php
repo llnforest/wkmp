@@ -54,61 +54,58 @@ class Validate
      * @var array
      */
     protected static $typeMsg = [
-        'require'     => ':attribute不能为空',
+        'require'     => ':attribute require',
         'must'        => ':attribute must',
         'number'      => ':attribute must be numeric',
-        'integer'     => ':attribute请填写整数',
-        'float'       => ':attribute必须是浮点数',
-        'boolean'     => ':attribute必须是布尔值',
-        'email'       => ':attribute格式不符',
-        'mobile'       => ':attribute格式不符',
-        'array'       => ':attribute必须是数组',
-        'accepted'    => ':attribute必须是yes、on或者1',
-        'date'        => ':attribute格式不符合',
-        'file'        => ':attribute不是有效的上传文件',
-        'image'       => ':attribute不是有效的图像文件',
-        'alpha'       => ':attribute只能是字母',
-        'alphaNum'    => ':attribute只能是字母和数字',
-        'alphaDash'   => ':attribute只能是字母、数字和下划线_及破折号-',
-        'activeUrl'   => ':attribute不是有效的域名或者IP',
-        'chs'         => ':attribute只能是汉字',
-        'chsAlpha'    => ':attribute只能是汉字、字母',
-        'chsAlphaNum' => ':attribute只能是汉字、字母和数字',
-        'chsDash'     => ':attribute只能是汉字、字母、数字和下划线_及破折号-',
-        'url'         => ':attribute不是有效的URL地址',
-        'ip'          => ':attribute不是有效的IP地址',
-        'dateFormat'  => ':attribute必须使用日期格式 :rule',
-        'in'          => ':attribute必须在 :rule 范围内',
-        'notIn'       => ':attribute不能在 :rule 范围内',
-        'between'     => ':attribute只能在 :1 - :2 之间',
-        'notBetween'  => ':attribute不能在 :1 - :2 之间',
-        'length'      => ':attribute长度不符合要求 :rule',
-        'max'         => ':attribute长度不能超过 :rule',
-        'min'         => ':attribute长度不能小于 :rule',
-        'after'       => ':attribute日期不能小于 :rule',
-        'before'      => ':attribute日期不能超过 :rule',
+        'integer'     => ':attribute must be integer',
+        'float'       => ':attribute must be float',
+        'boolean'     => ':attribute must be bool',
+        'email'       => ':attribute not a valid email address',
+        'mobile'      => ':attribute not a valid mobile',
+        'array'       => ':attribute must be a array',
+        'accepted'    => ':attribute must be yes,on or 1',
+        'date'        => ':attribute not a valid datetime',
+        'file'        => ':attribute not a valid file',
+        'image'       => ':attribute not a valid image',
+        'alpha'       => ':attribute must be alpha',
+        'alphaNum'    => ':attribute must be alpha-numeric',
+        'alphaDash'   => ':attribute must be alpha-numeric, dash, underscore',
+        'activeUrl'   => ':attribute not a valid domain or ip',
+        'chs'         => ':attribute must be chinese',
+        'chsAlpha'    => ':attribute must be chinese or alpha',
+        'chsAlphaNum' => ':attribute must be chinese,alpha-numeric',
+        'chsDash'     => ':attribute must be chinese,alpha-numeric,underscore, dash',
+        'url'         => ':attribute not a valid url',
+        'ip'          => ':attribute not a valid ip',
+        'dateFormat'  => ':attribute must be dateFormat of :rule',
+        'in'          => ':attribute must be in :rule',
+        'notIn'       => ':attribute be notin :rule',
+        'between'     => ':attribute must between :1 - :2',
+        'notBetween'  => ':attribute not between :1 - :2',
+        'length'      => 'size of :attribute must be :rule',
+        'max'         => 'max size of :attribute must be :rule',
+        'min'         => 'min size of :attribute must be :rule',
+        'after'       => ':attribute cannot be less than :rule',
+        'before'      => ':attribute cannot exceed :rule',
         'afterWith'   => ':attribute cannot be less than :rule',
         'beforeWith'  => ':attribute cannot exceed :rule',
-        'expire'      => '不在有效期内 :rule',
-        'allowIp'     => '不允许的IP访问',
-        'denyIp'      => '禁止的IP访问',
-        'confirm'     => ':attribute和确认字段:2不一致',
-        'different'   => ':attribute和比较字段:2不能相同',
-        'egt'         => ':attribute必须大于等于 :rule',
-        'gt'          => ':attribute必须大于 :rule',
-        'elt'         => ':attribute必须小于等于 :rule',
-        'lt'          => ':attribute必须小于 :rule',
-        'eq'          => ':attribute必须等于 :rule',
-        'unique'      => ':attribute已存在',
-        'regex'       => ':attribute不符合指定规则',
-        'method'      => '无效的请求类型',
-        'token'       => '令牌数据无效',
-        'fileSize'    => '上传文件大小不符',
-        'fileExt'     => '上传文件后缀不符',
-        'fileMime'    => '上传文件类型不符',
-        'identify'    => ':attribute格式错误',
-        'contact'     => ':attribute格式错误',
-        'name'        => ':attribute只能在 :1 - :2 个汉字之间'
+        'expire'      => ':attribute not within :rule',
+        'allowIp'     => 'access IP is not allowed',
+        'denyIp'      => 'access IP denied',
+        'confirm'     => ':attribute out of accord with :2',
+        'different'   => ':attribute cannot be same with :2',
+        'egt'         => ':attribute must greater than or equal :rule',
+        'gt'          => ':attribute must greater than :rule',
+        'elt'         => ':attribute must less than or equal :rule',
+        'lt'          => ':attribute must less than :rule',
+        'eq'          => ':attribute must equal :rule',
+        'unique'      => ':attribute has exists',
+        'regex'       => ':attribute not conform to the rules',
+        'method'      => 'invalid Request method',
+        'token'       => 'invalid token',
+        'fileSize'    => 'filesize not match',
+        'fileExt'     => 'extensions to upload is not allowed',
+        'fileMime'    => 'mimetype to upload is not allowed',
     ];
 
     /**
@@ -780,12 +777,6 @@ class Validate
             case 'token':
                 $result = $this->token($value, '__token__', $data);
                 break;
-            case 'identify':
-                $result = preg_match('#(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)#',$value) ? true : false;
-                break;
-            case 'contact':
-                $result =  preg_match('#(^(0[0-9]{2,3}-)?([2-9][0-9]{6,7})$)|(^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,3,6,7,8]{1}\d{8}$|^18[\d]{9}$)#', $value) ? true : false;
-                break;
             default:
                 if (isset(self::$type[$rule])) {
                     // 注册的验证规则
@@ -1419,23 +1410,6 @@ class Validate
         $session->delete($rule);
 
         return false;
-    }
-
-    /**
-     * name
-     * @access protected
-     * @param mixed     $value  字段值
-     * @param mixed     $rule  验证规则
-     * @return bool
-     */
-    protected function name($value, $rule)
-    {
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
-        list($min, $max) = $rule;
-        $length = mb_strlen((string) $value);
-        return $length >= $min * 3 && $length <= $max * 3;
     }
 
     // 获取错误信息
