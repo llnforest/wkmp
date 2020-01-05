@@ -8,14 +8,11 @@
 namespace app\admin\controller;
 
 
-use app\admin\model\SysUserModel;
-use chromephp\chromephp;
 use common\auth\AuthUtil;
 use common\request\RequestUtil;
 use think\App;
 use think\Controller;
 use think\facade\Session;
-use think\response\Redirect;
 
 class AuthController extends  Controller
 {

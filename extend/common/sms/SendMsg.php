@@ -45,7 +45,11 @@ class SendMsg{
                 break;
             //发送下单付款通知
             case 2:
-                $template = "【悟空名品】您有一个新的已付款订单，请注意查看！";
+                $template = "【悟空名品】您有一个新的已付款订单，订单编号：[0]，请注意查看！";
+                break;
+            //发送下单付款通知
+            case 3:
+                $template = "【悟空名品】商城增加了一位新会员,订单编号：[0]，请注意查看！";
                 break;
             default:
                 break;
