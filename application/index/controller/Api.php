@@ -33,6 +33,7 @@ class Api extends BaseController
         if(empty($user)){
             $user = UserModel::create(['openid'=>$json['openid']]);
         }
+        $this->data['user'] = $user;
 
 
         $tokenInfo = [
@@ -45,9 +46,9 @@ class Api extends BaseController
         ];
 
 
-        $this->data['token'] = JWT::encode($tokenInfo,Config::get('app.token.key'),'HS256');
+        $this->data['user']['token'] = JWT::encode($tokenInfo,Config::get('app.token.key'),'HS256');
 
-        return operateResult($this->data['token'],'授权登陆');
+        return operateResult($this->data['user'],'授权登陆');
     }
 
 }
