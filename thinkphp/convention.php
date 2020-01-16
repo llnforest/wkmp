@@ -53,7 +53,7 @@ return [
         // 默认的空模块名
         'empty_module'           => '',
         // 默认模块名
-        'default_module'         => 'index',
+        'default_module'         => 'admin',
         // 是否支持多模块
         'app_multi_module'       => true,
         // 禁止访问模块
