@@ -37,9 +37,9 @@ return [
     ],
     //微信配置
     'wechat'        => [
-        'appid'             => '',
+        'appid'             => 'wx9e86511465aa9905',
+        'appsecret'            => 'd709dac1f0b64e14199eb0efdee1d448',
         'mch_id'            => '',
-        'secret'            => '',
         'key'               => '',
         'create_order_url'      => 'https://api.mch.weixin.qq.com/pay/unifiedorder',//统一下单url
         'notify_wine_url'        => 'http://api.99wukong.test/index/wxpay/payorderwinenotify',//商品支付通知

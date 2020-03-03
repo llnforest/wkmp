@@ -25,7 +25,7 @@ class Api extends BaseController
     public function getToken(){
         $param = $this->param;
         if(empty($param['code'])) return json(errRes([],'请传入参数code'));
-        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.Config::get('app.wechat.appid').'&secret='.Config::get('app.wechat.secret').'&js_code='.$param['code'].'&grant_type=authorization_code';
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.Config::get('app.wechat.appid').'&secret='.Config::get('app.wechat.appsecret').'&js_code='.$param['code'].'&grant_type=authorization_code';
         $info = file_get_contents($url);//发送HTTPs请求并获取返回的数据，推荐使用curl
         $json = json_decode($info,true);//对json数据解码
         if(empty($json['openid']))  return json(errRes([],'参数code错误'));
