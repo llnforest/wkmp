@@ -95,6 +95,15 @@ class User extends AuthController
 
     //---------------------------------操作API---------------------------------
     /**
+     * 更新微信资料
+     * @return \think\response\Json
+     */
+    public function updateWx(){
+        UserModel::where(['id' => $this->user_id])->update(['nickname' => $this->param['nickname'],'headimgurl' => $this->param['headimgurl']]);
+        return json(sucRes([],'更新成功'));
+    }
+
+    /**
      * 修改个人信息
      * @return \think\response\Json
      */

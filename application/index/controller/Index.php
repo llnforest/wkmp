@@ -142,7 +142,7 @@ class Index extends AuthController
             $this->data['num'] = 0;
             $result = UserCartModel::where(['user_id' => $this->user_id,'wine_id' => $this->param['wine_id']])->where('quantity','<',100)->setInc('quantity',1);
         }
-        return json(operateResult($result,'加入购物车'));
+        return json(sucRes($this->data,'加入购物车成功'));
     }
 
     /**

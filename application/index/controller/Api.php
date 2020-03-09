@@ -31,7 +31,7 @@ class Api extends BaseController
         if(empty($json['openid']))  return json(errRes([],'参数code错误'));
         $user = UserModel::get(['openid'=>$json['openid']]);
         if(empty($user)){
-            $user = UserModel::create(['openid'=>$json['openid']]);
+            UserModel::create(['openid'=>$json['openid']]);
         }
         $this->data['user'] = $user;
 
