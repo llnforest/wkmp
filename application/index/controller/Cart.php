@@ -14,8 +14,10 @@ use app\index\model\SiteShopModel;
 use app\index\model\SysConfigModel;
 use app\index\model\UserAddressModel;
 use app\index\model\UserCartModel;
+use app\index\model\UserModel;
 use app\index\model\WineModel;
 use common\dict\DictUtil;
+use common\utils\MakeId;
 use think\App;
 use think\facade\Config;
 
@@ -74,11 +76,11 @@ class Cart extends AuthController
                 ->where([['a.status','=',1],['b.status','=',1],['a.id','in',$this->param['ids']]])->order('a.sort asc')->select();
 
         }else{
-            $this->data['wineList'] = WineModel::alias('a')
-                ->leftJoin('pin_wine_brand b','a.brand_id = b.id')
-                ->leftJoin('pin_user_cart c','c.user_id = '.$this->user_id.' and a.id = c.wine_id')
-                ->field('a.*,b.quantity')
-                ->where([['a.status','=',1],['b.status','=',1],['a.id','in',$this->param['ids']]])->order('a.sort asc')->select();
+            $this->data['wineList'] = UserCartModel::alias('a')
+                ->leftJoin('pin_wine b','a.wine_id = b.id')
+                ->leftJoin('pin_wine_brand c','b.brand_id = c.id')
+                ->field('a.quantity,b.*')
+                ->where([['a.user_id','=',$this->user_id],['c.status','=',1],['b.status','=',1],['a.id','in',$this->param['ids']]])->order('b.sort asc')->select();
         }
         $this->data['count'] = 0;
         $this->data['total_money'] = 0;
@@ -211,10 +213,81 @@ class Cart extends AuthController
      */
     public function makeOrder(){
         if(!$this->request->has('wineList') || !$this->request->has('shop_id') || !$this->request->has('express_type') || !$this->request->has('user_remark') || !$this->request->has('address_id')) return json(errRes([],'参数错误'));
+        $userInfo = UserModel::get(['id' => $this->user_id,'status' => 1]);
+        if(empty($userInfo))  return json(errRes([],'您的账号异常，请联系客服'));
+
+        //订单基本信息
+        $order_data = [
+            'id' => MakeId::makeOrder(),
+            'user_id' => $this->user_id,
+            'status' => 0,
+            'express_type' => $this->param['express_type'],
+            'user_remark' => $this->param['user_remark']
+        ];
 
 
+        $quantity = 0;
+        $vip_wine_money = 0;
+        $mall_wine_money = 0;
+        //分析酒品数据
+        $wine_data = json_decode($this->param['wineList'],true);
+        $wineIds = [];
+        foreach($wine_data as $v){
+            $wineInfo = WineModel::alias('a')
+                ->leftJoin('pin_wine_brand b','a.brand_id = b.id')
+                ->where(['a.status' => 1,'a.id' => $v['id'],'b.id' => 1])
+                ->field('a.*')
+                ->find();
+            if(!empty($wineInfo)){
+                OrderWineGoodsModel::create([
+                   'user_id' => $this->user_id,
+                   'order_id' => $order_data['id'],
+                   'wine_id' => $wineInfo['id'],
+                   'wine_name' => $wineInfo['wine_name'],
+                   'img' => $wineInfo['img'],
+                   'quantity' => $v['quantity'],
+                   'mall_price' => $wineInfo['mall_price'],
+                   'vip_price' => $wineInfo['vip_price'],
+                   'wine_style' => $wineInfo['wine_style'],
+                   'wine_size' => $wineInfo['wine_size']
+                ]);
+                $quantity += $v['quantity'];
+                $mall_wine_money += $wineInfo['mall_price']*$v['quantity'];
+                $vip_wine_money += $wineInfo['vip_price']*$v['quantity'];
+            }
+            $wineIds[] = $v['id'];
+        }
 
-        return json(operateResult(['id' => '2019090112320923'],'下单'));
+        //区分快递还是自提
+        if($order_data['express_type'] == 1){//物流快递
+            $order_data['address_id'] = $this->param['address_id'];
+            $addressInfo = UserAddressModel::get($order_data['address_id']);
+            $order_data['address_info'] = $addressInfo['contact_name'].'-'.$addressInfo['contact_phone'].'-'.$addressInfo['address'];
+            $perExpress = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
+            $baseExpress = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
+            $exress_money = $perExpress * $quantity + $baseExpress;
+        }else{//门店自提
+            $order_data['shop_id'] = $this->param['shop_id'];
+            $shopInfo = SiteShopModel::get($order_data['shop_id']);
+            $order_data['shop_info'] = $shopInfo['shop_name'].'-'.$shopInfo['phone'].'-'.$shopInfo['address'];
+            $exress_money = 0;
+        }
+        //计算价格
+        $order_data['mall_wine_money'] = $mall_wine_money;
+        $order_data['vip_wine_money'] = $vip_wine_money;
+
+        if($userInfo['level'] == 0){
+            $order_data['total_money'] = $mall_wine_money + $exress_money;
+        }else{
+            $order_data['total_money'] = $vip_wine_money + $exress_money;
+        }
+
+        //创建订单
+        OrderWineModel::create($order_data);
+        //删除购物车
+        UserCartModel::where(['user_id' => $this->user_id,'wine_id' => ['in',$wineIds]])->delete();
+
+        return json(operateResult(['id' => $order_data['id']],'下单'));
     }
 }
 
