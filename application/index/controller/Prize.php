@@ -93,7 +93,7 @@ class Prize extends AuthController
                                 ->order('b.sort asc')
                                 ->select();
         foreach($this->data['giftList'] as $k=>&$v){
-            if($k == 0) $this->data['selected'] = $v['id'];
+            if($k == 0) $this->data['selected'] = $v['val_code'];
             $v['remark'] = Config::get('app.upload.img_url').str_replace('\\','/',$v['remark']);
         }
         return json(sucRes($this->data));

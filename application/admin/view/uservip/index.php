@@ -64,6 +64,11 @@
         var data = obj.data;
         window.location.href='__ADMINPATH__' +obj.menu_url+"/user_id/"+data.col0;
     }
+    //查看下级按钮
+    function showChildren(obj){
+        var data = obj.data;
+        window.location.href='__ADMINPATH__' +obj.menu_url+"/user_id/"+data.col0;
+    }
 
 </script>
 {/block}

@@ -8,6 +8,7 @@
 namespace app\index\controller;
 
 
+use app\index\model\OrderGiftModel;
 use app\index\model\OrderWineGoodsModel;
 use app\index\model\OrderWineModel;
 use app\index\model\SiteShopModel;
@@ -208,7 +209,7 @@ class Cart extends AuthController
     }
 
     /**
-     * 下单
+     * 下单(酒品)
      * @return \think\response\Json
      */
     public function makeOrder(){
@@ -235,7 +236,7 @@ class Cart extends AuthController
         foreach($wine_data as $v){
             $wineInfo = WineModel::alias('a')
                 ->leftJoin('pin_wine_brand b','a.brand_id = b.id')
-                ->where(['a.status' => 1,'a.id' => $v['id'],'b.id' => 1])
+                ->where(['a.status' => 1,'a.id' => $v['id'],'b.status' => 1])
                 ->field('a.*')
                 ->find();
             if(!empty($wineInfo)){
@@ -265,29 +266,63 @@ class Cart extends AuthController
             $order_data['address_info'] = $addressInfo['contact_name'].'-'.$addressInfo['contact_phone'].'-'.$addressInfo['address'];
             $perExpress = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
             $baseExpress = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
-            $exress_money = $perExpress * $quantity + $baseExpress;
+            $order_data['express_price'] = $perExpress * $quantity + $baseExpress;
         }else{//门店自提
             $order_data['shop_id'] = $this->param['shop_id'];
             $shopInfo = SiteShopModel::get($order_data['shop_id']);
             $order_data['shop_info'] = $shopInfo['shop_name'].'-'.$shopInfo['phone'].'-'.$shopInfo['address'];
-            $exress_money = 0;
+            $order_data['express_price'] = 0;
         }
         //计算价格
         $order_data['mall_wine_money'] = $mall_wine_money;
         $order_data['vip_wine_money'] = $vip_wine_money;
 
         if($userInfo['level'] == 0){
-            $order_data['total_money'] = $mall_wine_money + $exress_money;
+            $order_data['total_money'] = $mall_wine_money + $order_data['express_price'];
         }else{
-            $order_data['total_money'] = $vip_wine_money + $exress_money;
+            $order_data['total_money'] = $vip_wine_money + $order_data['express_price'];
         }
-
         //创建订单
         OrderWineModel::create($order_data);
         //删除购物车
-        UserCartModel::where(['user_id' => $this->user_id,'wine_id' => ['in',$wineIds]])->delete();
+        UserCartModel::where([['user_id','=',$this->user_id],['wine_id','in',$wineIds]])->delete();
 
         return json(operateResult(['id' => $order_data['id']],'下单'));
+    }
+
+    /**
+     * 下单(礼包)
+     * @return \think\response\Json
+     */
+    public function makeOrderGift(){
+        if(!$this->request->has('gift_type') || !$this->request->has('phone')) return json(errRes([],'参数错误'));
+        $userInfo = UserModel::get(['id' => $this->user_id,'status' => 1]);
+        if(empty($userInfo))  return json(errRes([],'您的账号异常，请联系客服'));
+        //判断上级邀请人
+        if($this->param['phone'] == SysConfigModel::where(['config_code' => 'superApplyCode'])->value('config_value')){
+            $from_id = 0;
+        }else{
+            $from_id = UserModel::where([['phone','=',$this->param['phone']],['level','neq',0],['status','=',1]])->value('id');
+            if(empty($from_id)) return json(errRes([],'您输入的邀请码非会员手机号'));
+        }
+
+        //订单基本信息
+        $order_data = [
+            'gift_type' => $this->param['gift_type'],
+            'status' => 0,
+            'total_money' => SysConfigModel::where(['config_code' => 'saleGiftPrice'])->value('config_value'),
+            'contact_name' => $userInfo['name'],
+            'contact_phone' => $userInfo['phone'],
+            'from_id' => $from_id,
+            'user_id' => $this->user_id
+        ];
+        $order_id = OrderGiftModel::where($order_data)->value('id');
+        if(empty($order_id)){//未下过单或下单信息修改
+            $order_id = MakeId::makeOrder();
+            $order_data['id'] = $order_id;
+            OrderGiftModel::create($order_data);
+        }
+        return json(operateResult(['id' => $order_id],'下单'));
     }
 }
 

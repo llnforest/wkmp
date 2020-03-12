@@ -23,7 +23,7 @@ class AuthController extends  BaseController
         if(!empty($this->param['token'])){
             $token = JWT::decode($this->param['token'],Config::get('app.token.key'),['HS256']);
             $this->user_id = $token->user_id;
-//            $this->user_id = 1;
+            $this->user_id = 1;
         }else{
             $this->user_id = 1;
         }

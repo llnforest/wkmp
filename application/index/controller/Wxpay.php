@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use app\index\model\OrderGiftModel;
 use app\index\model\OrderWineModel;
+use app\index\model\SysConfigModel;
 use app\index\model\UserModel;
 use common\sms\SendMsg;
 use common\wechat\Tools;
@@ -12,8 +13,8 @@ use think\facade\Config;
 use think\Request;
 
 class Wxpay extends  Controller {
-    private $request;
-    private $obj;
+    protected $request;
+    protected $obj;
 
     //构造函数
     public function __construct(App $app = null){
@@ -75,6 +76,7 @@ class Wxpay extends  Controller {
 
             //付款短信通知
             $content = SendMsg::getTemplate(2,['[0]' => $data['out_trade_no']]);
+            $phone = SysConfigModel::where(['config_code' => 'orderMsgPhone'])->value('config_value');
             $result = SendMsg::send($phone,$content);
             exit(Tools::arrayToXml($result));
         }
@@ -91,10 +93,15 @@ class Wxpay extends  Controller {
                 $order->save(['remark'=>'该笔订单于'.date('Y-m-d H:i:s',time()).'被重复支付，交易ID：'.$data['transaction_id'].'【系统提示】']);
             }else{
                 $order->save(['status'=>1,'transaction_id'=>$data['transaction_id'],'pay_time'=>date('Y-m-d H:i:s',time())]);
+                //佣金分销
+
+
+
             }
 
             //付款短信通知
             $content = SendMsg::getTemplate(3,['[0]' => $data['out_trade_no']]);
+            $phone = SysConfigModel::where(['config_code' => 'orderMsgPhone'])->value('config_value');
             $result = SendMsg::send($phone,$content);
             exit(Tools::arrayToXml($result));
         }
