@@ -34,7 +34,7 @@
     }
 
     //发送ajax请求
-    function sendAjax(obj,data,refresh,fail){
+    function sendAjax(obj,data,refresh,fail,sucFuc){
         $.ajax({
             url: '__ADMINPATH__'+obj.menu_url,
             type:"POST",
@@ -47,12 +47,17 @@
                 layer.closeAll('loading');
             },
             success: function(d){
-                if(d.code == '0'){
-                    layer.msg(obj.menu_name+"成功",{offset:offsetTop});
-                    initFunc(refresh);
+                if(sucFuc){
+
                 }else{
-                    layer.msg(d.msg,{offset:offsetTop});
-                    initFunc(fail);
+                    if(d.code == '0'){
+                        layer.msg(obj.menu_name+"成功",{offset:offsetTop});
+                        initFunc(refresh);
+                    }else{
+                        layer.msg(d.msg,{offset:offsetTop});
+                        initFunc(fail);
+                    }
+
                 }
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){

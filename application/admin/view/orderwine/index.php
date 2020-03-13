@@ -141,7 +141,7 @@
 
             },function(index){
                 console.log(2);
-                
+
             });
         }
     }
