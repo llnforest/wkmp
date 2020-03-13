@@ -118,8 +118,34 @@
 
     //发货
     function setSend(obj){
-        commonAjax(obj,{id:obj.data.col0});
+        sendConfirm(obj,{id:obj.data.col0});
     }
+
+    function sendConfirm(obj,data,refresh,fail,cancel){
+        refresh = refresh == false ? false: true;
+        fail = fail || false;
+        if(obj.confirm == false){
+            sendAjax(obj,data,refresh,fail);
+        }else{
+            var index = layer.confirm('请选择该订单（'+data.id+'）发货的方式？',{
+                btn:['代叫达达','快递发货','直接发货','取消发货'],
+                area:['440px','180px'],
+                btn4:function(index,layero){
+                    console.log(4)
+                },
+                btn3:function(index,layero){
+                    console.log(3)
+                }
+            },function(index,layero){
+                console.log(1);
+
+            },function(index){
+                console.log(2);
+                
+            });
+        }
+    }
+
     //完成
     function setSuccess(obj){
         commonAjax(obj,{id:obj.data.col0});

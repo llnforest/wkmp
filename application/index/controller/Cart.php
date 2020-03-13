@@ -263,14 +263,14 @@ class Cart extends AuthController
         if($order_data['express_type'] == 1){//物流快递
             $order_data['address_id'] = $this->param['address_id'];
             $addressInfo = UserAddressModel::get($order_data['address_id']);
-            $order_data['address_info'] = $addressInfo['contact_name'].'-'.$addressInfo['contact_phone'].'-'.$addressInfo['address'];
+            $order_data['address_info'] = $addressInfo['contact_name'].'--'.$addressInfo['contact_phone'].'--'.$addressInfo['address'];
             $perExpress = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
             $baseExpress = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
             $order_data['express_price'] = $perExpress * $quantity + $baseExpress;
         }else{//门店自提
             $order_data['shop_id'] = $this->param['shop_id'];
             $shopInfo = SiteShopModel::get($order_data['shop_id']);
-            $order_data['shop_info'] = $shopInfo['shop_name'].'-'.$shopInfo['phone'].'-'.$shopInfo['address'];
+            $order_data['shop_info'] = $shopInfo['shop_name'].'--'.$shopInfo['phone'].'--'.$shopInfo['address'];
             $order_data['express_price'] = 0;
         }
         //计算价格

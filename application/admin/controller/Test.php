@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use app\admin\model\SysDictModel;
 use app\admin\model\SysMenuModel;
 use chromephp\chromephp;
+use common\dada\DadaApi;
 use common\dict\DictUtil;
 use think\App;
 use think\Controller;
@@ -23,6 +24,17 @@ use think\facade\Session;
 
 class Test extends Controller
 {
+    /**
+     * 达达回调接口
+     */
+    function dadaCallBack(){
+
+    }
+
+    function data(){
+        DadaApi::queryDeliverFee();
+    }
+
 
     function test1(){
         $value = SysDictModel::where(['id'=>1])->value('dict_name');

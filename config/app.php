@@ -39,11 +39,15 @@ return [
     'wechat'        => [
         'appid'             => 'wx9e86511465aa9905',
         'appsecret'            => 'd709dac1f0b64e14199eb0efdee1d448',
+
         'mch_id'            => '1564870861',
         'key'               => '923ksdKdjskI9sksdjfsdjksK823Ojk1',
+
         'create_order_url'      => 'https://api.mch.weixin.qq.com/pay/unifiedorder',//统一下单url
         'notify_wine_url'        => 'http://api.99wukong.test/index/wxpay/payorderwinenotify',//商品支付通知
         'notify_gift_url'        => 'http://api.99wukong.test/index/wxpay/payordergiftnotify',//会员支付通知
+
+        'dada_callback_url'      => 'http://admin.99wukong.test/index/test/dadacallback',//达达回调接口
     ],
     //token配置
     'token'        => [
