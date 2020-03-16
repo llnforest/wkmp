@@ -128,4 +128,7 @@ class BaseController extends  AuthController
             return operateResult($this->model::where('id','in',$this->param['ids'])->delete(),'del');
         }
     }
+    public function test1(){
+        echo 1;
+    }
 }

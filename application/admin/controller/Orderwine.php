@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use app\admin\model\OrderWineGoodsModel;
 use app\admin\model\OrderWineModel;
 use app\admin\model\SiteExressModel;
+use app\admin\model\SiteShopModel;
 use app\admin\model\UserModel;
 use common\dict\DictUtil;
 use think\App;
@@ -124,7 +125,48 @@ class Orderwine extends BaseController
             $v['wine_style'] = DictUtil::getDictNameColor('wineStyle',$v['wine_style']);
             $v['wine_size'] = DictUtil::getDictNameColor('wineSize',$v['wine_size']);
         }
+    }
 
+    //修改字段
+    public function editField($template = null){
+        if(method_exists($this,"commonOperate")) $this->commonOperate();
+        if($this->request->isPost()){
+            if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
+            if(method_exists($this,"beforeEdit")) $this->beforeEdit($info);
+            if($this->request->has('address_info')){
+                if($info['express_type'] == 1){//快递
+                    $this->param['address_info'] = ltrim($this->param['address_info'],'收件地址');
+                    $this->param['address_info'] = ltrim($this->param['address_info'],'：');
+                }else{//自提
+                    $this->param['shop_info'] = ltrim($this->param['address_info'],'自提门店');
+                    $this->param['shop_info'] = ltrim($this->param['shop_info'],'：');
+                    unset($this->param['address_info']);
+                }
+            }
+            return operateResult($info->save($this->param),'edit');
+
+        }
+    }
+
+    /**
+     * 达达叫单
+     * @return array
+     */
+    public function makeOrderForDada(){
+        if($this->param['type'] == 0){//获取快递物流的相关信息
+            $data['shopList'] = SiteShopModel::order('sort asc')->select();
+            $addressInfo = $this->model::where(['id' => $this->param['id']])->value('address_info');
+            $data['user_phone'] = '';
+            $data['user_name'] = '';
+            $data['user_address'] = '';
+            if(!empty($addressInfo)){
+                $address = explode('--',$addressInfo);
+                if(isset($address[0])) $data['user_phone'] = $address[0];
+                if(isset($address[1])) $data['user_name'] = $address[1];
+                if(isset($address[2])) $data['user_address'] = $address[2];
+            }
+            return sucRes($data);
+        }
     }
 
 

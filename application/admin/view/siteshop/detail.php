@@ -35,10 +35,15 @@
     <div class="layui-form-item">
         <label class="layui-form-label">排序号码</label>
         <div class="layui-input-block">
+            <input type="text" name="shop_no" value="{$info.shop_no??''}" placeholder="请输入门店编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序号码</label>
+        <div class="layui-input-block">
             <input type="text" name="sort" value="{$info.sort??''}" placeholder="请输入排序号码" class="layui-input">
         </div>
     </div>
-
 {/block}
 
 {block name="jsBody"}

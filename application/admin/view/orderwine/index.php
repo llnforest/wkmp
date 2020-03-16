@@ -2,7 +2,16 @@
 
 {extend name="template/listTpl" /}
 
-{block name="headBody"}{/block}
+{block name="headBody"}
+<style>
+    .layui-layer-dialog .layui-form-label{
+        width:auto;
+    }
+    .layui-layer-dialog .layui-input-block {
+        margin-left: 100px;
+    }
+</style>
+{/block}
 {block name="queryBody"}
 <div class="layui-inline">
     <label class="layui-form-label">订单编号</label>
@@ -102,7 +111,7 @@
 <script>
     //修改配送地址
     function col10(obj){
-        obj.menu_name = '修改配送地址';
+        obj.menu_name = '修改地址说明';
         editField(obj,{address_info:obj.value})
     }
     //修改后台备注
@@ -131,15 +140,74 @@
                 btn:['代叫达达','快递发货','直接发货','取消发货'],
                 area:['440px','180px'],
                 btn4:function(index,layero){
-                    console.log(4)
+                    //取消发货
                 },
                 btn3:function(index,layero){
-                    console.log(3)
+                    //直接发货
+                    commonAjax(obj,data);
                 }
             },function(index,layero){
-                console.log(1);
+
+                sendAjax(
+                    {menu_url:'admin/orderwine/makeorderfordada'},{type:0,id:data.id},true,false,function (d){
+                        if(d.code == '0'){
+                            layer.confirm(
+                                '<form class="layui-form">'+
+                                '<div class="layui-form-item">'+
+                                '{tag:select label="取件地址" name="shop_no" sql="select shop_name,shop_no from pin_site_shop order by sort asc,create_time desc"  value="$shop_no" verify="required"/}'+
+                                '</div>'+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人姓名</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_name" value="'+d.data.user_name+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人姓名" class="layui-input" >'+
+                            '</div>' +
+                            '</div>' +
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人电话</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_phone" value="'+d.data.user_phone+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人电话" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人地址</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_address" value="'+d.data.user_address+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人地址" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+                                '</form>',
+                                {
+                                    btn:['查看达达费用','取消'],
+                                    area:['440px','370px'],
+                                    title:'订单（'+data.id+'）地址信息'
+                                },
+                                function(index){
+                                    //查看达达费用
+
+                                },
+                                function(index){
+                                    //取消
+                                }
+                            );
+
+                                layui.use(['form'],function(){
+                                    var form = layui.form;
+                                    form.render('select');
+                                })
+
+                        }else{
+                            layer.msg(d.msg,{offset:offsetTop});
+                            initFunc(false);
+                        }
+
+                    }
+                );
+                //代叫达达
 
             },function(index){
+                //快递发货
+
                 console.log(2);
 
             });

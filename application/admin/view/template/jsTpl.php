@@ -48,7 +48,7 @@
             },
             success: function(d){
                 if(sucFuc){
-
+                    sucFuc(d);
                 }else{
                     if(d.code == '0'){
                         layer.msg(obj.menu_name+"成功",{offset:offsetTop});
