@@ -62,7 +62,7 @@
     </tr>
     <tr>
         <td>快递费用</td>
-        <td>{$info.express_price??''}元</td>
+        <td>{$info.express_price??''}元{if $info.express != '' }（<span class="layui-tx-green">实际：{$info.true_express_price}元</span>）{/if}</td>
         <td>酒品返佣</td>
         <td>{$user.level >0 ?$info.mall_wine_money - $info.vip_wine_money : 0}元</td>
     </tr>
@@ -70,7 +70,7 @@
         <td>配送类型</td>
         <td>{$info.express_type_text|raw}</td>
         <td>快递信息</td>
-        <td>{$info.express != 0?$express.exprss.'('.$info.express.')' : ''}</td>
+        <td>{$info.express != ''?$express.express.'（'.$info.express.'）' : ''}</td>
     </tr>
     <tr>
         <td>{$info.express_type == 1?'寄件地址' : '取件门店'}</td>

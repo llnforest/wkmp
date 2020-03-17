@@ -74,7 +74,6 @@ class DadaRequestClient{
         //2.字符串拼接
         $args = "";
         foreach ($data as $key => $value) {
-            echo $key;echo $value;
             $args.=$key.$value;
         }
         $args = $config->app_secret . $args . $config->app_secret;
@@ -114,7 +113,7 @@ class DadaRequestClient{
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 
         $resp = curl_exec($curl);
-        var_dump( curl_error($curl) );//如果在执行curl的过程中出现异常，可以打开此开关查看异常内容。
+//        var_dump( curl_error($curl) );//如果在执行curl的过程中出现异常，可以打开此开关查看异常内容。
         $info = curl_getinfo($curl);
         curl_close($curl);
         if (isset($info['http_code']) && $info['http_code'] == 200) {

@@ -137,7 +137,7 @@
             sendAjax(obj,data,refresh,fail);
         }else{
             var index = layer.confirm('请选择该订单（'+data.id+'）发货的方式？',{
-                btn:['代叫达达','快递发货','直接发货','取消发货'],
+                btn:['达达叫单','快递发货','直接发货','取消发货'],
                 area:['440px','180px'],
                 btn4:function(index,layero){
                     //取消发货
@@ -147,7 +147,7 @@
                     commonAjax(obj,data);
                 }
             },function(index,layero){
-
+                //代叫达达
                 sendAjax(
                     {menu_url:'admin/orderwine/makeorderfordada'},{type:0,id:data.id},true,false,function (d){
                         if(d.code == '0'){
@@ -174,26 +174,61 @@
                                 '<label class="layui-form-label" >收件人地址</label>'+
                                 '<div class="layui-input-block">'+
                                 '<input type="text" name="user_address" value="'+d.data.user_address+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人地址" class="layui-input" >'+
+                                '<input type="hidden" name="price" value="'+d.data.price+'" autocomplete="off" placeholder="请输入收件人地址" class="layui-input" >'+
                                 '</div>' +
                                 '</div>' +
+                                '<button class="layui-btn layui-hide submit" lay-submit lay-filter="submit">提交</button>'+
                                 '</form>',
                                 {
                                     btn:['查看达达费用','取消'],
                                     area:['440px','370px'],
-                                    title:'订单（'+data.id+'）地址信息'
+                                    title:'订单（'+data.id+'）发货信息'
                                 },
                                 function(index){
                                     //查看达达费用
-
+                                    $(".submit").click();
                                 },
                                 function(index){
                                     //取消
+
                                 }
                             );
 
                                 layui.use(['form'],function(){
                                     var form = layui.form;
                                     form.render('select');
+                                    //监听提交
+                                    form.on('submit(submit)', function(d){
+                                        // submitForm(data);
+                                        console.log(d);
+                                        d.field.type = 1;
+                                        d.field.id = data.id;
+
+                                        sendAjax(
+                                            {menu_url:'admin/orderwine/makeorderfordada'},d.field,true,false,function (d){
+                                                console.log(d);
+                                                if(d.code == 0){
+                                                    layer.confirm('配送路程<span class="layui-tx-green">'+d.result.distance+'</span>米,配送费用<span class="layui-tx-green">'+d.result.fee+'</span>元',
+                                                        {
+                                                            btn:['确认达达下单','取消'],
+                                                            title:'确认订单（'+data.id+'）达达配送信息'
+                                                        },
+                                                        function(index){
+                                                            //达达下单
+                                                            sendAjax({menu_url:'admin/orderwine/makeorderfordada'},{type:2,fee:d.result.fee,id:data.id,delivery_no:d.result.deliveryNo},true,false)
+                                                        },
+                                                        function(index){
+                                                            //取消
+
+                                                        }
+                                                    )
+                                                }else{
+                                                    layer.alert('<span class="layui-tx-red">'+d.msg+'</span>'+(d.hasOwnProperty('result') && d.result.hasOwnProperty('distance') && d.result.hasOwnProperty('fee') ? '：配送路程<span class="layui-tx-green">'+d.result.distance+'</span>米,配送费用<span class="layui-tx-green">'+d.result.fee+'</span>元':'')+'（错误码：<span class="layui-tx-red">'+d.code+'</span>）')
+                                                }
+                                            });
+                                        return false;
+                                    });
+
                                 })
 
                         }else{
@@ -207,8 +242,92 @@
 
             },function(index){
                 //快递发货
+//代叫达达
+                sendAjax(
+                    {menu_url:'admin/orderwine/makeorderforexpress'},{type:0,id:data.id},true,false,function (d){
+                        if(d.code == '0'){
+                            layer.confirm(
+                                '<form class="layui-form">'+
+                                '<div class="layui-form-item">'+
+                                '{tag:select label="发货快递" name="express_id" sql="select express,id from pin_site_express order by id asc"  value="$express_id" verify="required"/}'+
+                                '</div>'+
 
-                console.log(2);
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >快递单号</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="express" value="" autocomplete="off" lay-verify="required" placeholder="请输入快递单号" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >快递费用</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="true_express_price" value="" autocomplete="off" lay-verify="required" placeholder="请输入快递费用" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+
+
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人姓名</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_name" value="'+d.data.user_name+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人姓名" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人电话</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_phone" value="'+d.data.user_phone+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人电话" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="layui-form-item">'+
+                                '<label class="layui-form-label" >收件人地址</label>'+
+                                '<div class="layui-input-block">'+
+                                '<input type="text" name="user_address" value="'+d.data.user_address+'" autocomplete="off" lay-verify="required" placeholder="请输入收件人地址" class="layui-input" >'+
+                                '<input type="hidden" name="price" value="'+d.data.price+'" autocomplete="off" placeholder="请输入收件人地址" class="layui-input" >'+
+                                '</div>' +
+                                '</div>' +
+                                '<button class="layui-btn layui-hide submitExpress" lay-submit lay-filter="submitExpress">提交</button>'+
+                                '</form>',
+                                {
+                                    btn:['确认快递发货','取消'],
+                                    area:['440px','450px'],
+                                    title:'订单（'+data.id+'）发货信息'
+                                },
+                                function(index){
+                                    //查看达达费用
+                                    $(".submitExpress").click();
+                                },
+                                function(index){
+                                    //取消
+
+                                }
+                            );
+
+                            layui.use(['form'],function(){
+                                var form = layui.form;
+                                form.render('select');
+                                //监听提交
+                                form.on('submit(submitExpress)', function(d){
+                                    console.log('ok');
+                                    d.field.type = 1;
+                                    d.field.id = data.id;
+                                    commonAjax({menu_url:'admin/orderwine/makeorderforexpress',menu_name:'快递发货',confirm:true},d.field);
+
+                                    return false;
+                                });
+
+                            })
+
+                        }else{
+                            layer.msg(d.msg,{offset:offsetTop});
+                            initFunc(false);
+                        }
+
+                    }
+                );
 
             });
         }

@@ -18,20 +18,20 @@ class DadaApi
     /**
      * 查询订单价格
      */
-    public static function queryDeliverFee(){
+    public static function queryDeliverFee($data){
         //*********************1.配置项*************************
         $config = new Config(true);
 
         //*********************2.实例化一个model*************************
         $model = new OrderModel();
-        $model->setShopNo('wukong001');	// 第三方门店编号
-        $model->setOriginId('2017051628647459');			// 第三方订单号
+        $model->setShopNo($data['shop_no']);	// 第三方门店编号
+        $model->setOriginId($data['id']);			// 第三方订单号
         $model->setCityCode('0551');						// 城市code(可以参照城市code接口)
-        $model->setCargoPrice(1000);
+        $model->setCargoPrice($data['price']);
         $model->setIsPrepay(0);
-        $model->setReceiverName('测试');
-        $model->setReceiverAddress('合肥市蜀山区之心城');
-        $model->setReceiverPhone('13585849321');
+        $model->setReceiverName($data['user_name']);
+        $model->setReceiverAddress($data['user_address']);
+        $model->setReceiverPhone($data['user_phone']);
         $model->setCallback(\think\facade\Config::get('app.wechat.dada_callback_url'));// 回调url, 每次订单状态变更会通知该url(参照回调接口)
 
         $url = UrlConfig::QUERY_DELIVER_FEE;
@@ -40,7 +40,6 @@ class DadaApi
         //***********************4.实例化客户端请求************************
         $dada_client = new DadaRequestClient($config, $api);
         $resp = $dada_client->makeRequest();
-        var_dump($resp);
         return $resp;
     }
 
@@ -60,7 +59,6 @@ class DadaApi
         //***********************4.实例化客户端请求************************
         $dada_client = new DadaRequestClient($config, $api);
         $resp = $dada_client->makeRequest();
-        var_dump($resp);
         return $resp;
     }
 
