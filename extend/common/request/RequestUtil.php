@@ -7,7 +7,6 @@
 namespace common\request;
 
 
-use chromephp\chromephp;
 
 class RequestUtil
 {
