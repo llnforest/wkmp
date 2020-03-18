@@ -17,6 +17,7 @@ use app\admin\model\UserAddressModel;
 use app\admin\model\UserModel;
 use common\dada\DadaApi;
 use common\dict\DictUtil;
+use common\profit\Profit;
 use think\App;
 
 class Orderwine extends BaseController
@@ -74,7 +75,10 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if($info->status == 0) $result = $info->save(['status' => 1,'pay_time' => date('Y-m-d H:i:s',time())]);
+            if($info->status == 0){
+                $result = $info->save(['status' => 1,'pay_time' => date('Y-m-d H:i:s',time())]);
+                Profit::orderSuccessProfit($result['id']);//计算收益
+            }
             return handleResult($result,'支付');
         }
     }

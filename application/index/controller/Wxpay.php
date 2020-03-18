@@ -5,6 +5,7 @@ use app\index\model\OrderGiftModel;
 use app\index\model\OrderWineModel;
 use app\index\model\SysConfigModel;
 use app\index\model\UserModel;
+use common\profit\Profit;
 use common\sms\SendMsg;
 use common\wechat\Tools;
 use think\App;
@@ -93,10 +94,9 @@ class Wxpay extends  Controller {
                 $order->save(['remark'=>'该笔订单于'.date('Y-m-d H:i:s',time()).'被重复支付，交易ID：'.$data['transaction_id'].'【系统提示】']);
             }else{
                 $order->save(['status'=>1,'transaction_id'=>$data['transaction_id'],'pay_time'=>date('Y-m-d H:i:s',time())]);
+                UserModel::where('id',$order['user_id'])->update(['join_time' => date('Y-m-d H:i:s',time())]);
                 //佣金分销
-
-
-
+                Profit::giftProfit($order['id']);//计算收益
             }
 
             //付款短信通知
