@@ -14,6 +14,7 @@ use app\admin\model\SysMenuModel;
 use chromephp\chromephp;
 use common\dada\DadaApi;
 use common\dict\DictUtil;
+use common\profit\Profit;
 use think\App;
 use think\Controller;
 use think\facade\Cache;
@@ -27,8 +28,14 @@ class Test extends Controller
     /**
      * 达达回调接口
      */
-    function dadaCallBack(){
+    function test3(){
+        $cache = Cache::get('sys_config');
+        var_dump($cache);
+        echo $cache['superApplyCode'];
+    }
 
+    function video(){
+        return view('video');
     }
 
     function data(){

@@ -58,12 +58,24 @@
         <td>订单金额</td>
         <td>{$info.total_money??''}元</td>
         <td>酒品总额</td>
-        <td>{$info.mall_wine_money??''}元</td>
+        <td>{$info.common_money + $info.xilie_money}元（{$info.level_text|raw}）</td>
+    </tr>
+    <tr>
+        <td>流通酒总额</td>
+        <td>{$info.common_money??'0'}元</td>
+        <td>系列酒总额</td>
+        <td>{$info.xilie_money??'0'}元</td>
+    </tr>
+    <tr>
+        <td>会员价格</td>
+        <td>{$info.vip_wine_money??'0'}元</td>
+        <td>非会员价格</td>
+        <td>{$info.mall_wine_money??'0'}元</td>
     </tr>
     <tr>
         <td>快递费用</td>
-        <td>{$info.express_price??''}元{if $info.express != '' }（<span class="layui-tx-green">实际：{$info.true_express_price}元</span>）{/if}</td>
-        <td>酒品返佣</td>
+        <td>{$info.express_price??'0'}元{if $info.express != '' }（<span class="layui-tx-green">实际：{$info.true_express_price}元</span>）{/if}</td>
+        <td>会员节省</td>
         <td>{$user.level >0 ?$info.mall_wine_money - $info.vip_wine_money : 0}元</td>
     </tr>
     <tr>

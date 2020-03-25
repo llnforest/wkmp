@@ -103,14 +103,13 @@ class Prize extends AuthController
 
     //---------------------------------操作API---------------------------------
     /**
-     * 立即开通
+     * 获取礼包页面用户信息
      * @return \think\response\Json
      */
-    public function goBuy(){
-        if(!$this->request->has('gift_id') || !$this->request->has('phone')) return json(errRes([],'参数错误'));
-        $result = '';
-        return json(operateResult($result,'del'));
+    public function getGiftUserInfo(){
+        $this->data['userInfo'] = UserModel::where(['id' => $this->user_id,'status' => 1, 'level' => 0])->find();
+        $this->data['userInfo']['parent_phone'] = UserModel::where(['id' => $this->data['userInfo']['parent_id'],'status' => 1])->value('phone');
+        return json(sucRes($this->data));
     }
-
 }
 

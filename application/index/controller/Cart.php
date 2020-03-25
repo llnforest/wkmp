@@ -18,6 +18,7 @@ use app\index\model\UserCartModel;
 use app\index\model\UserModel;
 use app\index\model\WineModel;
 use common\dict\DictUtil;
+use common\utils\ConfigCache;
 use common\utils\MakeId;
 use think\App;
 use think\facade\Config;
@@ -94,8 +95,8 @@ class Cart extends AuthController
             $this->data['total_money'] += $v['quantity']*$v['mall_price'];
             $this->data['vip_money'] += $v['quantity']*$v['vip_price'];
         }
-        $this->data['perExpress'] = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
-        $this->data['baseExpress'] = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
+        $this->data['perExpress'] = ConfigCache::get('winePerExpressPrice');
+        $this->data['baseExpress'] = ConfigCache::get('wineStartExpressPrice');
         return json(sucRes($this->data));
     }
 
@@ -221,6 +222,7 @@ class Cart extends AuthController
         $order_data = [
             'id' => MakeId::makeOrder(),
             'user_id' => $this->user_id,
+            'level' => $userInfo['level'],
             'status' => 0,
             'express_type' => $this->param['express_type'],
             'user_remark' => $this->param['user_remark']
@@ -230,6 +232,9 @@ class Cart extends AuthController
         $quantity = 0;
         $vip_wine_money = 0;
         $mall_wine_money = 0;
+        $common_money = 0;
+        $xilie_money = 0;
+
         //分析酒品数据
         $wine_data = json_decode($this->param['wineList'],true);
         $wineIds = [];
@@ -255,6 +260,19 @@ class Cart extends AuthController
                 $quantity += $v['quantity'];
                 $mall_wine_money += $wineInfo['mall_price']*$v['quantity'];
                 $vip_wine_money += $wineInfo['vip_price']*$v['quantity'];
+                if($wineInfo['wine_style'] == 1){//流通酒
+                    if($userInfo['level'] == 0){
+                        $common_money += $wineInfo['mall_price']*$v['quantity'];
+                    }else{
+                        $common_money += $wineInfo['vip_price']*$v['quantity'];
+                    }
+                }else{//系列酒
+                    if($userInfo['level'] == 0){
+                        $xilie_money += $wineInfo['mall_price']*$v['quantity'];
+                    }else{
+                        $xilie_money += $wineInfo['vip_price']*$v['quantity'];
+                    }
+                }
             }
             $wineIds[] = $v['id'];
         }
@@ -264,8 +282,8 @@ class Cart extends AuthController
             $order_data['address_id'] = $this->param['address_id'];
             $addressInfo = UserAddressModel::get($order_data['address_id']);
             $order_data['address_info'] = $addressInfo['contact_name'].'--'.$addressInfo['contact_phone'].'--'.$addressInfo['address'];
-            $perExpress = SysConfigModel::where(['config_code' => 'winePerExpressPrice'])->value('config_value');
-            $baseExpress = SysConfigModel::where(['config_code' => 'wineStartExpreePrice'])->value('config_value');
+            $perExpress = ConfigCache::get('winePerExpressPrice');
+            $baseExpress = ConfigCache::get('wineStartExpressPrice');
             $order_data['express_price'] = $perExpress * $quantity + $baseExpress;
         }else{//门店自提
             $order_data['shop_id'] = $this->param['shop_id'];
@@ -276,6 +294,8 @@ class Cart extends AuthController
         //计算价格
         $order_data['mall_wine_money'] = $mall_wine_money;
         $order_data['vip_wine_money'] = $vip_wine_money;
+        $order_data['common_money'] = $common_money;
+        $order_data['xilie_money'] = $xilie_money;
 
         if($userInfo['level'] == 0){
             $order_data['total_money'] = $mall_wine_money + $order_data['express_price'];
@@ -299,7 +319,7 @@ class Cart extends AuthController
         $userInfo = UserModel::get(['id' => $this->user_id,'status' => 1]);
         if(empty($userInfo))  return json(errRes([],'您的账号异常，请联系客服'));
         //判断上级邀请人
-        if($this->param['phone'] == SysConfigModel::where(['config_code' => 'superApplyCode'])->value('config_value')){
+        if($this->param['phone'] == ConfigCache::get('superApplyCode')){
             $from_id = 0;
         }else{
             $from_id = UserModel::where([['phone','=',$this->param['phone']],['level','neq',0],['status','=',1]])->value('id');
@@ -310,7 +330,7 @@ class Cart extends AuthController
         $order_data = [
             'gift_type' => $this->param['gift_type'],
             'status' => 0,
-            'total_money' => SysConfigModel::where(['config_code' => 'saleGiftPrice'])->value('config_value'),
+            'total_money' => ConfigCache::get('saleGiftPrice'),
             'contact_name' => $userInfo['name'],
             'contact_phone' => $userInfo['phone'],
             'from_id' => $from_id,

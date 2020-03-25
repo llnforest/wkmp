@@ -30,7 +30,7 @@ class Orderwine extends BaseController
     //分页渲染处理
     protected function renderPage(){
         if($this->request->isGet()){
-            $this->page->setHeader('ID,订单编号,用户信息,订单状态,订单状态,订单金额,酒品总额,酒品返佣,快递费用,配送类型,地址说明,配送快递,用户备注,后台备注,下单时间,最后操作时间');
+            $this->page->setHeader('ID,订单编号,用户信息,订单状态,订单状态,订单金额,酒品总额,会员节省,快递费用,配送类型,地址说明,配送快递,用户备注,后台备注,下单时间,最后操作时间');
             $this->pageUtil->setColsWidthArr([1=>160,2=>240,3=>100,5=>100,6=>100,7=>100,8=>100,9=>100,11=>220,14=>160,15=>160,16=>270]);
             $this->pageUtil->setColsMinWidthArr([10=>500,12=>300,13=>300]);
             $this->pageUtil->setColsHideArr([4]);
@@ -43,7 +43,7 @@ class Orderwine extends BaseController
             $pageData = $this->model::alias('a')
                 ->join('pin_user b','a.user_id = b.id','left')
                 ->join('pin_site_express c','a.express_id = c.id','left')
-                ->field('a.id,a.id as order_id,b.name,b.phone,b.level,a.status,a.status as order_status,a.total_money,mall_wine_money,vip_wine_money,express_price,express_type,a.address_info,shop_info,c.express as express_name,a.express,a.true_express_price,user_remark,a.remark,a.create_time,a.update_time')
+                ->field('a.id,a.id as order_id,b.name,b.phone,a.level,a.status,a.status as order_status,a.total_money,mall_wine_money,vip_wine_money,express_price,express_type,a.address_info,shop_info,c.express as express_name,a.express,a.true_express_price,user_remark,a.remark,a.create_time,a.update_time')
                 ->where($where)
                 ->order('a.create_time desc')
                 ->paginate($this->param['limit']?:"")
@@ -51,7 +51,7 @@ class Orderwine extends BaseController
                     if($item['level'] > 0){
                         $item['vip_wine_money'] = $item['mall_wine_money'] - $item['vip_wine_money'];
                     }else{
-                        $item['vip_wine_money'] = '';
+                        $item['vip_wine_money'] = 0;
                     }
                     $item['name'] = $item['name'].'-'.$item['phone'].'-'.DictUtil::getDictNameColor('userLevel',$item['level']);
                     $item['address_info'] = $item['express_type'] == 1 ? '收件地址：'.$item['address_info'] : '自提门店：'.$item['shop_info'];
@@ -102,7 +102,10 @@ class Orderwine extends BaseController
         if($this->request->isPost()){
             $result = false;
             if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
-            if($info->status == 2) $result = $info->save(['status' => 4,'success_time' => date('Y-m-d H:i:s',time())]);
+            if($info->status == 2){
+                $result = $info->save(['status' => 4,'success_time' => date('Y-m-d H:i:s',time())]);
+                Profit::orderSuccessProfit($info);
+            }
             return handleResult($result,'完成交易');
         }
     }
@@ -123,6 +126,7 @@ class Orderwine extends BaseController
     public function beforeDetail(){
         $this->data['info']['status_text'] = DictUtil::getDictNameColor('orderStatus',$this->data['info']['status']);
         $this->data['info']['express_type_text'] = DictUtil::getDictNameColor('expressType',$this->data['info']['express_type']);
+        $this->data['info']['level_text'] = DictUtil::getDictNameColor('userLevel',$this->data['info']['level']);
         $this->data['user'] = UserModel::get($this->data['info']['user_id']);
         $this->data['user']['level_text'] = DictUtil::getDictNameColor('userLevel',$this->data['user']['level']);
         $this->data['express'] = SiteExressModel::get($this->data['info']['express_id']);

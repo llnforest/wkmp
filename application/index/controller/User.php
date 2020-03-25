@@ -126,10 +126,28 @@ class User extends AuthController
      */
     public function cancelOrder(){
         if(empty($this->param['id'])) return json(errRes([],'参数错误'));
-        $userInfo = OrderWineModel::get(['user_id' => $this->user_id,'id' => $this->id,'status' => 0]);
-        if(empty($userInfo)) return json(errRes([],'参数错误'));
-        $result = $userInfo->save(['status' => 3,'cancel_time' => date('Y-m-d',time())]);
+        $orderInfo = OrderWineModel::get(['user_id' => $this->user_id,'id' => $this->id,'status' => 0]);
+        if(empty($orderInfo)) return json(errRes([],'参数错误'));
+        $result = $orderInfo->save(['status' => 3,'cancel_time' => date('Y-m-d',time())]);
         return json(operateResult($result,'取消订单'));
+    }
+
+    /**
+     * 分享更改用户parent_id
+     * @return \think\response\Json
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function renderParentId(){
+        if(empty($this->param['share_id'])) return json(errRes([],'参数错误'));
+        $userInfo = UserModel::where(['id' => $this->user_id,'status' => 1 ,'level' => 0,'parent_id' => 0])-find();
+        $parentInfo = UserModel::where([['id','=',$this->param['share_id']],['status','=', 1] ,['level','>',0]])-find();
+        if(!empty($userInfo) && !empty($parentInfo)){
+            UserModel::where('id' ,$this->user_id)->update(['parent_id' => $this->param['share_id']]);
+            return json(sucRes());
+        }
+        return json(sucRes([],'不符合条件'));
+
     }
 
 }

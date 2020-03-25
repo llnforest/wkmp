@@ -9,6 +9,7 @@ namespace app\index\controller;
 
 
 use app\index\model\UserModel;
+use common\profit\Profit;
 use Firebase\JWT\JWT;
 use think\App;
 use think\facade\Config;
@@ -49,6 +50,10 @@ class Api extends BaseController
         $this->data['user']['token'] = JWT::encode($tokenInfo,Config::get('app.token.key'),'HS256');
 
         return json(operateResult($this->data['user'],'授权登陆'));
+    }
+
+    public function updateUserLevel(){
+        Profit::updateLevelEveryDay();
     }
 
 }

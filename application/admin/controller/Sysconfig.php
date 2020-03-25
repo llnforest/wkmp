@@ -11,6 +11,7 @@ namespace app\admin\controller;
 
 use app\admin\model\SysConfigModel;
 use app\admin\model\SysDictValueModel;
+use common\utils\ConfigCache;
 use think\App;
 use think\facade\Cache;
 
@@ -39,8 +40,8 @@ class Sysconfig extends BaseController
         }
     }
 
-    //添加前判断
-    function beforeAdd(){
+    //添加
+    function add($template = null){
         if($this->request->isPost()){
             $dict = $this->model::where(['config_code'=>$this->param['config_code']])->find();
             if(!empty($dict)){
@@ -48,11 +49,16 @@ class Sysconfig extends BaseController
                 $result['msg'] .= '：该配置编码已存在';
                 die(json_encode($result,JSON_UNESCAPED_UNICODE));
             };
+            $result = $this->model::create($this->param);
+            if($result) ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
+            return operateResult($result,'add');
+        }else{
+            return view($template?:'detail',$this->data);
         }
     }
 
-    //添加前判断
-    function beforeEdit($data){
+    //修改
+    function edit($template = null){
         if($this->request->isPost() && isset($this->param['dict_code'])){
             $dict = $this->model::where([['id','neq',$this->id]])->where(['config_code'=>$this->param['config_code']])->find();
             if(!empty($dict)){
@@ -60,13 +66,53 @@ class Sysconfig extends BaseController
                 $result['msg'] .= '：该配置编码已存在';
                 die(json_encode($result,JSON_UNESCAPED_UNICODE));
             };
+            if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
+            $result = $info->save($this->param);
+            if($result) ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
+            return operateResult($result,'edit');
+        }else{
+            isset($this->param['id']) && $this->data['info'] = $this->model::get($this->id);
+            return view($template?:'detail',$this->data);
+        }
+    }
+
+    //修改字段接口
+    public function editField($template = null){
+        if($this->request->isPost()){
+            if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
+            $result = $info->save($this->param);
+            if($result && $this->request->has('config_code')) ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
+            return operateResult($result,'edit');
+        }
+    }
+
+    //删除接口
+    public function del(){
+        if($this->request->isPost()){
+            if(!isset($this->param['id']) || empty($info = $this->model::get($this->id))) return paramRes();
+            $result = $info->delete();
+            if($result) ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
+            return operateResult($result,'del');
+        }
+    }
+
+    //批量删除接口
+    public function delBatch(){
+        if($this->request->isPost()){
+            if(!isset($this->param['ids'])) return paramRes();
+            $result = $this->model::where('id','in',$this->param['ids'])->delete();
+            if($result) ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
+            return operateResult($result,'del');
         }
     }
 
     //清除缓存
     public function clearCache(){
         Cache::clear();
+        ConfigCache::setConfigCache($this->model::column('config_value','config_code'));
         return operateResult(true,'cache_clear');
     }
+
+
 
 }

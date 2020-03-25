@@ -3,15 +3,14 @@ namespace app\index\controller;
 
 use app\index\model\OrderGiftModel;
 use app\index\model\OrderWineModel;
-use app\index\model\SysConfigModel;
 use app\index\model\UserModel;
 use common\profit\Profit;
 use common\sms\SendMsg;
+use common\utils\ConfigCache;
 use common\wechat\Tools;
 use think\App;
 use think\Controller;
 use think\facade\Config;
-use think\Request;
 
 class Wxpay extends  Controller {
     protected $request;
@@ -77,7 +76,7 @@ class Wxpay extends  Controller {
 
             //付款短信通知
             $content = SendMsg::getTemplate(2,['[0]' => $data['out_trade_no']]);
-            $phone = SysConfigModel::where(['config_code' => 'orderMsgPhone'])->value('config_value');
+            $phone = ConfigCache::get('orderMsgPhone');
             $result = SendMsg::send($phone,$content);
             exit(Tools::arrayToXml($result));
         }
@@ -101,7 +100,7 @@ class Wxpay extends  Controller {
 
             //付款短信通知
             $content = SendMsg::getTemplate(3,['[0]' => $data['out_trade_no']]);
-            $phone = SysConfigModel::where(['config_code' => 'orderMsgPhone'])->value('config_value');
+            $phone = ConfigCache::get('orderMsgPhone');
             $result = SendMsg::send($phone,$content);
             exit(Tools::arrayToXml($result));
         }
