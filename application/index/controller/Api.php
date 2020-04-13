@@ -27,7 +27,8 @@ class Api extends BaseController
         $param = $this->param;
         if(empty($param['code'])) return json(errRes([],'请传入参数code'));
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.Config::get('app.wechat.appid').'&secret='.Config::get('app.wechat.appsecret').'&js_code='.$param['code'].'&grant_type=authorization_code';
-        $info = file_get_contents($url);//发送HTTPs请求并获取返回的数据，推荐使用curl
+//        $info = file_get_contents($url);//发送HTTPs请求并获取返回的数据，推荐使用curl
+        $info = $this->http_post($url);
         $json = json_decode($info,true);//对json数据解码
         if(empty($json['openid']))  return json(errRes([],'参数code错误'));
         $user = UserModel::get(['openid'=>$json['openid']]);
@@ -52,8 +53,52 @@ class Api extends BaseController
         return json(operateResult($this->data['user'],'授权登陆'));
     }
 
+    /**
+     * 每日更新用户等级接口
+     */
     public function updateUserLevel(){
         Profit::updateLevelEveryDay();
+    }
+
+    /**
+     * POST 请求
+     * @param string $url
+     * @param array $param
+     * @param boolean $post_file 是否文件上传
+     * @return string content
+     */
+    private function http_post($url, $param = [], $header = '', $post_file=false)
+    {
+        $oCurl = curl_init();
+        if(stripos($url,"https://")!==FALSE){
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
+        }
+        if (PHP_VERSION_ID >= 50500 && class_exists('\CURLFile')) {
+            $is_curlFile = true;
+        } else {
+            $is_curlFile = false;
+            if (defined('CURLOPT_SAFE_UPLOAD')) {
+                curl_setopt($oCurl, CURLOPT_SAFE_UPLOAD, false);
+            }
+        }
+        curl_setopt($oCurl, CURLOPT_URL, $url);
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, true );
+        if($header){
+            curl_setopt($oCurl, CURLOPT_HTTPHEADER, $header);
+        }
+        curl_setopt($oCurl, CURLOPT_POST,true);
+        curl_setopt($oCurl, CURLOPT_POSTFIELDS, json_encode($param));
+//        curl_setopt($oCurl, CURLOPT_POSTFIELDS,$strPOST);
+        $sContent = curl_exec($oCurl);
+        $aStatus = curl_getinfo($oCurl);
+        curl_close($oCurl);
+        if(intval($aStatus["http_code"])==200){
+            return $sContent;
+        }else{
+            return false;
+        }
     }
 
 }
