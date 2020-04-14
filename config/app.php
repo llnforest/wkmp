@@ -20,7 +20,7 @@ return [
     //上传路径配置
     'upload'        => [
         'path'      =>  '../public',
-        'img_url'   => 'http://admin.99wukong.test'
+        'img_url'   => 'https://admin.99wukong.cn'
     ],
     //短信配置
     'sms'          => [
