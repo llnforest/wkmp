@@ -9,6 +9,7 @@ namespace app\index\controller;
 
 
 
+use think\App;
 use think\Controller;
 
 class Demo extends Controller {
@@ -34,9 +35,9 @@ class Demo extends Controller {
     public static $checkChannelAnd = [];
     public static $errMsg = '';
 
-    public function __construct(\think\Request $request)
+    function __construct(App $app = null)
     {
-        parent::__construct($request);
+        parent::__construct($app);
     }
 
 
@@ -52,11 +53,11 @@ class Demo extends Controller {
         elseif($type == 6) $param = ['userName' =>'18860439141','passWord' => 'gaowei123'];
         elseif($type == 7) $param = ['userName' =>'13067982019','passWord' => 'gaowei123'];
         else $param = ['userName' =>'15256950064','passWord' => 'zjb99999'];
-        
+
         $param = ['userName' =>'13067982019','passWord' => 'gaowei123'];
         $header = ['Accept:application/json,text/plain, */*','Accept-Encoding:gzip, deflate, br','Accept-Language:zh-CN,zh;q=0.8','Content-Type:application/json;charset=UTF-8','Platform:web','Connection:keep-alive','app:PJT','Host:sjapi.aihuishou.com','Origin:https://pai.aihuishou.com','Referer:https://sj.aihuishou.com/dist/index.html','User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36'];
 //        $result = json_decode($this->http_post($url, $param, $header),true);
-        $result = $this->httpRequest($url, 'POST',json_encode($param,JSON_UNESCAPED_UNICODE), $header,1);
+        $result = $this->httpRequest($url, 'POST',json_encode($param,JSON_UNESCAPED_UNICODE), $header);
         var_dump($result);
         if($result['code'] != 200) die('登录失败！'.$result['resultMessage']);
         self::$token = $result['data']['accessToken'];
